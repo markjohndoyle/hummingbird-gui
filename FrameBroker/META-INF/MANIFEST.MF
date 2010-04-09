@@ -6,6 +6,9 @@ Bundle-Version: 1.0.0.alpha
 Bundle-Activator: framebroker.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- camel_core_2.2.0;bundle-version="1.0.0"
+ org.apache.camel.camel-core;bundle-version="2.2.0",
+ org.apache.camel.camel-jms;bundle-version="2.2.0",
+ org.apache.activemq.activemq-core;bundle-version="5.3.0",
+ org.apache.activemq.activemq-camel;bundle-version="5.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

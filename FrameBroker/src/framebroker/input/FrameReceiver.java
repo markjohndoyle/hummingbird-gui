@@ -7,7 +7,7 @@ import org.apache.camel.*;
 public class FrameReceiver extends Observable implements Processor{
 	
 	@Override
-	public void process(Exchange arg0) throws Exception {
+	public void process(Exchange exchange) throws Exception {
 		// TODO Auto-generated method stub
 	}
 
