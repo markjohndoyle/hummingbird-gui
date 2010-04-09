@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="hummingbirdmcscore.HummingbirdCoreApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="MCS Perspective"
+            class="hummingbirdmcscore.Perspective"
+            id="HummingbirdMcsCore.perspective">
+         <description>
+            Default view.
+         </description>
+      </perspective>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="HummingbirdMcsCore.application"
+            name="Hummingbird - Mission Control System">
+         <property
+               name="windowImages"
+               value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="framebroker.views.FrameViewer"
+            id="framebroker.views.FrameViewer"
+            name="Frame Viewer"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
