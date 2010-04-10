@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FrameBroker
-Bundle-SymbolicName: FrameBroker; singleton:=true
+Bundle-SymbolicName: com.logica.hummingbird.FrameBroker;singleton:=true
 Bundle-Version: 1.0.0.alpha
 Bundle-Activator: framebroker.Activator
 Require-Bundle: org.eclipse.ui,
