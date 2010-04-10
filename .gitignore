@@ -7,3 +7,5 @@ FrameBroker/bin/
 FrameBroker/bin/**
 **/bin/**
 **.*/bin/*
+FrameBroker/bin/framebroker/Activator.class
+FrameBroker/bin/framebroker/Activator.class
