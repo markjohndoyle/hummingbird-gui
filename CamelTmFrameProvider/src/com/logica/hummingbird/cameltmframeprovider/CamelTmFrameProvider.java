@@ -22,4 +22,9 @@ public class CamelTmFrameProvider implements IFrameProvider {
 		return null;
 	}
 
+	@Override
+	public String getFrameProviderName() {
+		return "Camel";
+	}
+
 }

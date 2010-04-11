@@ -1,5 +1,6 @@
-package hummingbirdmcscore.views;
+package com.logica.hummingbird.framebroker.views;
 
+import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -10,6 +11,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+import org.eclipse.core.runtime.IAdaptable;
 
 
 /**
@@ -30,14 +32,15 @@ import org.eclipse.swt.SWT;
  * <p>
  */
 
-public class SampleView extends ViewPart {
+public class FrameViewer extends ViewPart {
 
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "hummingbirdmcscore.views.SampleView";
+	public static final String ID = "framebroker.views.FrameViewer";
 
-	private TableViewer viewer;
+	private TreeViewer viewer;
+	private DrillDownAdapter drillDownAdapter;
 	private Action action1;
 	private Action action2;
 	private Action doubleClickAction;
@@ -52,34 +55,132 @@ public class SampleView extends ViewPart {
 	 * (like Task List, for example).
 	 */
 	 
-	class ViewContentProvider implements IStructuredContentProvider {
+	class TreeObject implements IAdaptable {
+		private String name;
+		private TreeParent parent;
+		
+		public TreeObject(String name) {
+			this.name = name;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setParent(TreeParent parent) {
+			this.parent = parent;
+		}
+		public TreeParent getParent() {
+			return parent;
+		}
+		public String toString() {
+			return getName();
+		}
+		public Object getAdapter(Class key) {
+			return null;
+		}
+	}
+	
+	class TreeParent extends TreeObject {
+		private ArrayList children;
+		public TreeParent(String name) {
+			super(name);
+			children = new ArrayList();
+		}
+		public void addChild(TreeObject child) {
+			children.add(child);
+			child.setParent(this);
+		}
+		public void removeChild(TreeObject child) {
+			children.remove(child);
+			child.setParent(null);
+		}
+		public TreeObject [] getChildren() {
+			return (TreeObject [])children.toArray(new TreeObject[children.size()]);
+		}
+		public boolean hasChildren() {
+			return children.size()>0;
+		}
+	}
+
+	class ViewContentProvider implements IStructuredContentProvider, 
+										   ITreeContentProvider {
+		private TreeParent invisibleRoot;
+
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			return new String[] { "One", "Two", "Three" };
+			if (parent.equals(getViewSite())) {
+				if (invisibleRoot==null) initialize();
+				return getChildren(invisibleRoot);
+			}
+			return getChildren(parent);
+		}
+		public Object getParent(Object child) {
+			if (child instanceof TreeObject) {
+				return ((TreeObject)child).getParent();
+			}
+			return null;
+		}
+		public Object [] getChildren(Object parent) {
+			if (parent instanceof TreeParent) {
+				return ((TreeParent)parent).getChildren();
+			}
+			return new Object[0];
+		}
+		public boolean hasChildren(Object parent) {
+			if (parent instanceof TreeParent)
+				return ((TreeParent)parent).hasChildren();
+			return false;
+		}
+/*
+ * We will set up a dummy model to initialize tree heararchy.
+ * In a real code, you will connect to a real model and
+ * expose its hierarchy.
+ */
+		private void initialize() {
+			TreeObject to1 = new TreeObject("Leaf 1");
+			TreeObject to2 = new TreeObject("Leaf 2");
+			TreeObject to3 = new TreeObject("Leaf 3");
+			TreeParent p1 = new TreeParent("Parent 1");
+			p1.addChild(to1);
+			p1.addChild(to2);
+			p1.addChild(to3);
+			
+			TreeObject to4 = new TreeObject("Leaf 4");
+			TreeParent p2 = new TreeParent("Parent 2");
+			p2.addChild(to4);
+			
+			TreeParent root = new TreeParent("Root");
+			root.addChild(p1);
+			root.addChild(p2);
+			
+			invisibleRoot = new TreeParent("");
+			invisibleRoot.addChild(root);
 		}
 	}
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
-		}
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
+	
+	
+	class ViewLabelProvider extends LabelProvider {
+
+		public String getText(Object obj) {
+			return obj.toString();
 		}
 		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
+			if (obj instanceof TreeParent)
+			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
+			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
 	}
+	
 	class NameSorter extends ViewerSorter {
 	}
 
 	/**
 	 * The constructor.
 	 */
-	public SampleView() {
+	public FrameViewer() {
 	}
 
 	/**
@@ -87,14 +188,15 @@ public class SampleView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "HummingbirdMcsCore.viewer");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "FrameBroker.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -106,7 +208,7 @@ public class SampleView extends ViewPart {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				SampleView.this.fillContextMenu(manager);
+				FrameViewer.this.fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
@@ -129,6 +231,8 @@ public class SampleView extends ViewPart {
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(action1);
 		manager.add(action2);
+		manager.add(new Separator());
+		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
@@ -136,6 +240,8 @@ public class SampleView extends ViewPart {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(action1);
 		manager.add(action2);
+		manager.add(new Separator());
+		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
@@ -177,7 +283,7 @@ public class SampleView extends ViewPart {
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
-			"Sample View",
+			"Frame Viewer",
 			message);
 	}
 

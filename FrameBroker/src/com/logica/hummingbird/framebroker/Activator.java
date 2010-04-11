@@ -1,4 +1,4 @@
-package framebroker;
+package com.logica.hummingbird.framebroker;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

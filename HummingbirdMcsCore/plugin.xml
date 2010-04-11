@@ -37,8 +37,8 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="framebroker.views.FrameViewer"
-            id="framebroker.views.FrameViewer"
+            class="com.logica.hummingbird.framebroker.views.FrameViewer"
+            id="com.logica.hummingbird.framebroker.views.FrameViewer"
             name="Frame Viewer"
             restorable="true">
       </view>

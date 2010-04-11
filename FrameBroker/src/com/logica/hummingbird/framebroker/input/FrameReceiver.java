@@ -1,4 +1,4 @@
-package framebroker.input;
+package com.logica.hummingbird.framebroker.input;
 
 import java.util.List;
 import java.util.Observable;
