@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Frame Broker"
+            id="com.logica.hummingbird.framebrokerviewer">
+      </category>
+      <view
+            name="Frame View"
+            icon="icons/sample.gif"
+            category="com.logica.hummingbird.framebrokerviewer"
+            class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
+            id="com.logica.hummingbird.framebrokerviewer.views.FrameView">
+      </view>
+      <view
+            category="com.logica.hummingbird.framebrokerviewer"
+            class="com.logica.hummingbird.framebrokerviewer.views.ProviderDetailsView"
+            id="com.logica.hummingbird.framebrokerviewer.views.providerDetails"
+            name="TM Provider details"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="com.logica.hummingbird.framebrokerviewer.views.FrameView">
+         </view>
+         <view
+               id="com.logica.hummingbird.framebrokerviewer.views.ProviderDetailsView"
+               minimized="false"
+               ratio="0.1"
+               relationship="top"
+               relative="com.logica.hummingbird.framebrokerviewer.views.FrameView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            class="com.logica.hummingbird.framebrokerviewer.menus.FrameBrokerMenu"
+            locationURI="com.logica.hummingbird.framebrokerviewer.menus.framBrokerMenu">
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.logica.hummingbird.framebrokerviewer.commands.SelectProvider"
+            id="com.logica.hummingbird.framebrokerviewer.commands.selectProvider"
+            name="Select Provider">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.logica.hummingbird.framebrokerviewer.perspectives.DefaultPerspectiveFactory"
+            id="com.logica.hummingbird.framebrokerviewer.perspectives.defaultPerspective"
+            name="Frame Broker default">
+      </perspective>
+   </extension>
+
+</plugin>

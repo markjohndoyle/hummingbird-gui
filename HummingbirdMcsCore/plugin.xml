@@ -14,9 +14,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="MCS Perspective"
-            class="hummingbirdmcscore.Perspective"
-            id="HummingbirdMcsCore.perspective">
+            name="Frame Broker Perspective"
+            class="hummingbirdmcscore.perspectives.FrameBrokerPerspective"
+            id="HummingbirdMcsCore.perspective.FrameBrokerPerspective">
          <description>
             Default view.
          </description>

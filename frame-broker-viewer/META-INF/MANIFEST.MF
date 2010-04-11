@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Frame Broker Viewer
+Bundle-SymbolicName: com.logica.hummingbird.framebrokerviewer; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.logica.hummingbird.framebrokerviewer.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Hummingbird

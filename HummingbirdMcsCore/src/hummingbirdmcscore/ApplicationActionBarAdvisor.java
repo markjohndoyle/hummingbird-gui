@@ -12,7 +12,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IWorkbenchAction exitAction;
 	private IWorkbenchAction aboutAction;
-	private IWorkbenchAction selectFrameBrokerTmProvider;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);

@@ -6,6 +6,6 @@ Bundle-Version: 1.0.0.alpha
 Bundle-Activator: hummingbirdmcscore.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- com.logica.hummingbird.FrameBroker;bundle-version="1.0.0"
+ com.logica.hummingbird.framebrokerviewer;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
