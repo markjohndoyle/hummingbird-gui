@@ -9,6 +9,7 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
  * @author Mark Doyle
+ * TODO implement camel context and route to get messages from a camel supported location.
  *
  */
 public class CamelTmFrameProvider implements IFrameProvider {
