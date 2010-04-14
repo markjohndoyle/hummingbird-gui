@@ -1,4 +1,4 @@
-package hummingbirdmcscore.perspectives;
+package com.logica.hummingbird.hummingbirdmcscore.perspectives;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;

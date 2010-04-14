@@ -1,4 +1,4 @@
-package hummingbirdmcscore;
+package com.logica.hummingbird.hummingbirdmcscore;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;

@@ -1,4 +1,4 @@
-package hummingbirdmcscore;
+package com.logica.hummingbird.hummingbirdmcscore;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.application.ActionBarAdvisor;

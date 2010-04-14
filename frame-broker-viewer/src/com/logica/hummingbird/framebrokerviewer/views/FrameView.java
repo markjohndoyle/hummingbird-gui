@@ -22,8 +22,11 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -31,7 +34,23 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
+import com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider;
+import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
+
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 /**
  * This sample class demonstrates how to plug-in a new
  * workbench view. The view shows data obtained from the
@@ -60,8 +79,10 @@ public class FrameView extends ViewPart {
 	private TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
 	private Action action1;
-	private Action action2;
 	private Action doubleClickAction;
+	private IFrameProvider frameProvider;
+	private Text frameProviderLabel;
+	private Composite TreeContainer;
 
 	/*
 	 * The content provider class is responsible for
@@ -196,6 +217,8 @@ public class FrameView extends ViewPart {
 	 * The constructor.
 	 */
 	public FrameView() {
+		frameProvider = new CamelTmFrameProvider();
+		
 	}
 
 	/**
@@ -203,11 +226,38 @@ public class FrameView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
+		{
+			TreeContainer = new Composite(parent, SWT.NONE);
+			GridLayout TreeContainerLayout = new GridLayout();
+			TreeContainerLayout.makeColumnsEqualWidth = true;
+			TreeContainer.setLayout(TreeContainerLayout);
+			{
+				viewer = new TreeViewer(TreeContainer, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+				viewer.setContentProvider(new ViewContentProvider());
+				viewer.setLabelProvider(new ViewLabelProvider());
+				GridData viewerLData = new GridData();
+				viewerLData.heightHint = 65;
+				viewerLData.grabExcessHorizontalSpace = true;
+				viewerLData.horizontalAlignment = GridData.FILL;
+				viewerLData.grabExcessVerticalSpace = true;
+				viewer.getControl().setLayoutData(viewerLData);
+				viewer.setSorter(new NameSorter());
+				{
+					Menu menu = new Menu(viewer.getTree());
+					viewer.getControl().setMenu(menu);
+				}
+			}
+			{
+				GridData FrameProviderLabelLData = new GridData();
+				FrameProviderLabelLData.horizontalAlignment = GridData.FILL;
+				FrameProviderLabelLData.grabExcessHorizontalSpace = true;
+				frameProviderLabel = new Text(TreeContainer, SWT.NONE);
+				frameProviderLabel.setLayoutData(FrameProviderLabelLData);
+				frameProviderLabel.setEditable(false);
+				frameProviderLabel.setText(frameProvider.getFrameProviderName());
+			}
+		}
 		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
@@ -226,8 +276,6 @@ public class FrameView extends ViewPart {
 				FrameView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
 	}
 
@@ -240,12 +288,10 @@ public class FrameView extends ViewPart {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(action1);
 		manager.add(new Separator());
-		manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(action1);
-		manager.add(action2);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -254,7 +300,6 @@ public class FrameView extends ViewPart {
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(action1);
-		manager.add(action2);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 	}
@@ -262,23 +307,14 @@ public class FrameView extends ViewPart {
 	private void makeActions() {
 		action1 = new Action() {
 			public void run() {
-				showMessage("Action 1 executed");
+				showMessage("Frame provider is " + frameProvider.getFrameProviderName());
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
+		action1.setText("Frame provider");
+		action1.setToolTipText("Show frame provider name");
 		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();

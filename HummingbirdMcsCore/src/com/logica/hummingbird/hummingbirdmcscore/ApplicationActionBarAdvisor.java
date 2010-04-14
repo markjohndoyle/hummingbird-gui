@@ -1,4 +1,4 @@
-package hummingbirdmcscore;
+package com.logica.hummingbird.hummingbirdmcscore;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;

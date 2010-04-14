@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="com.logica.humminbird.HummingbirdMscCore.componentLoggers" name="Component Loggers" schema="schema/com.logica.humminbird.HummingbirdMscCore.componentLoggers.exsd"/>
 
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="hummingbirdmcscore.HummingbirdCoreApplication">
+               class="com.logica.hummingbird.hummingbirdmcscore.HummingbirdCoreApplication">
          </run>
       </application>
    </extension>
@@ -15,7 +16,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             name="Frame Broker Perspective"
-            class="hummingbirdmcscore.perspectives.FrameBrokerPerspective"
+            class="com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective"
             id="HummingbirdMcsCore.perspective.FrameBrokerPerspective">
          <description>
             Default view.
