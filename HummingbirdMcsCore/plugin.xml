@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="com.logica.humminbird.HummingbirdMscCore.componentLoggers" name="Component Loggers" schema="schema/com.logica.humminbird.HummingbirdMscCore.componentLoggers.exsd"/>
 
    <extension
          id="application"
@@ -15,30 +14,32 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Frame Broker Perspective"
             class="com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective"
-            id="HummingbirdMcsCore.perspective.FrameBrokerPerspective">
-         <description>
-            Default view.
-         </description>
+            icon="icons/transmit_blue.png"
+            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective"
+            name="Frame Broker">
       </perspective>
    </extension>
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="HummingbirdMcsCore.application"
+            application="com.logica.hummingbird.HummingbirdMcsCore.application"
             name="Hummingbird - Mission Control System">
          <property
                name="windowImages"
                value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+         </property>
+         <property
+               name="appName"
+               value="Hummingbird - Mission Control System">
          </property>
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="com.logica.hummingbird.framebroker.views.FrameViewer"
+            class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
             id="com.logica.hummingbird.framebroker.views.FrameViewer"
             name="Frame Viewer"
             restorable="true">

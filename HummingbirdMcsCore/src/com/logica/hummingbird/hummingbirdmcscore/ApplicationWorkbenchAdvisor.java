@@ -6,7 +6,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	private static final String DEFAULT_PERSPECTIVE_ID = "HummingbirdMcsCore.perspective.FrameBrokerPerspective";
+	private static final String DEFAULT_PERSPECTIVE_ID = "com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective";
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);

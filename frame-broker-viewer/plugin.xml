@@ -9,38 +9,20 @@
             id="com.logica.hummingbird.framebrokerviewer">
       </category>
       <view
-            name="Frame View"
-            icon="icons/sample.gif"
-            category="com.logica.hummingbird.framebrokerviewer"
-            class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
-            id="com.logica.hummingbird.framebrokerviewer.views.FrameView">
-      </view>
-      <view
             category="com.logica.hummingbird.framebrokerviewer"
             class="com.logica.hummingbird.framebrokerviewer.views.ProviderDetailsView"
             id="com.logica.hummingbird.framebrokerviewer.views.providerDetails"
             name="TM Provider details"
             restorable="true">
       </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.eclipse.jdt.ui.JavaPerspective">
-         <view
-               ratio="0.5"
-               relative="org.eclipse.ui.views.TaskList"
-               relationship="right"
-               id="com.logica.hummingbird.framebrokerviewer.views.FrameView">
-         </view>
-         <view
-               id="com.logica.hummingbird.framebrokerviewer.views.ProviderDetailsView"
-               minimized="false"
-               ratio="0.1"
-               relationship="top"
-               relative="com.logica.hummingbird.framebrokerviewer.views.FrameView">
-         </view>
-      </perspectiveExtension>
+      <view
+            category="com.logica.hummingbird.framebrokerviewer"
+            class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
+            icon="icons/transmit_blue.png"
+            id="com.logica.hummingbird.framebrokerviewer.views.FrameView"
+            name="Frame View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.help.contexts">
