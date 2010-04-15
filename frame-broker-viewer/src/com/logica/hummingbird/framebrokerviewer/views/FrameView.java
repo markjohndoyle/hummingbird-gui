@@ -31,6 +31,8 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.model.BaseWorkbenchContentProvider;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
@@ -93,48 +95,58 @@ public class FrameView extends ViewPart {
 	 * it and always show the same content 
 	 * (like Task List, for example).
 	 */
-	 
+
 	class TreeObject implements IAdaptable {
 		private String name;
 		private TreeParent parent;
-		
+
 		public TreeObject(String name) {
 			this.name = name;
 		}
+
 		public String getName() {
 			return name;
 		}
+
 		public void setParent(TreeParent parent) {
 			this.parent = parent;
 		}
+
 		public TreeParent getParent() {
 			return parent;
 		}
+
 		public String toString() {
 			return getName();
 		}
+
 		public Object getAdapter(Class key) {
 			return null;
 		}
 	}
-	
+
 	class TreeParent extends TreeObject {
 		private ArrayList children;
+
 		public TreeParent(String name) {
 			super(name);
 			children = new ArrayList();
 		}
+
 		public void addChild(TreeObject child) {
 			children.add(child);
 			child.setParent(this);
 		}
+
 		public void removeChild(TreeObject child) {
 			children.remove(child);
 			child.setParent(null);
 		}
+
 		public TreeObject [] getChildren() {
 			return (TreeObject [])children.toArray(new TreeObject[children.size()]);
 		}
+
 		public boolean hasChildren() {
 			return children.size()>0;
 		}
@@ -203,13 +215,15 @@ public class FrameView extends ViewPart {
 		public String getText(Object obj) {
 			return obj.toString();
 		}
+
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			if (obj instanceof TreeParent)
-			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
+				imageKey = ISharedImages.IMG_OBJ_FOLDER;
 			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
 	}
+
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -266,6 +280,30 @@ public class FrameView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+	}
+
+	private void initialise() {
+		MockContainerModel model = new MockContainerModel();
+		MockContainer tmFrame = model.new MockContainer("TmFrame");
+		MockContainer tmFrameHeader = model.new MockContainer("TmFrameHeader");
+		MockContainer tmFramePacket = model.new MockContainer("TmFramePacket");
+		MockContainer tmFrameTail = model.new MockContainer("TmFrameTail");
+
+		MockContainer tmPacketHeader = model.new MockContainer("TmPacketHeader");
+		MockContainer tmPacketBody = model.new MockContainer("TmPacketBody");
+
+		MockParameter parameterA = model.new MockParameter("Parameter A", 32);
+
+		tmPacketBody.addSubContainer(parameterA);
+
+		tmFramePacket.addSubContainer(tmPacketHeader);
+		tmFramePacket.addSubContainer(tmPacketBody);
+
+		tmFrame.addSubContainer(tmFrameHeader);
+		tmFrame.addSubContainer(tmFramePacket);
+		tmFrame.addSubContainer(tmFrameTail);
+
+		model.setContainer(tmFrame);
 	}
 
 	private void hookContextMenu() {
@@ -331,6 +369,7 @@ public class FrameView extends ViewPart {
 			}
 		});
 	}
+
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
