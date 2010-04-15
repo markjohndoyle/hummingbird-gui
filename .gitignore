@@ -1,11 +1,7 @@
 
-FrameBroker/bin
 CamelTmFrameProvider/.classpath
 CamelTmFrameProvider/.settings/org.eclipse.jdt.core.prefs
 CamelTmFrameProvider/.settings/org.eclipse.pde.core.prefs
-FrameBroker/bin/
-FrameBroker/bin/**
-**/bin/**
-**.*/bin/*
-FrameBroker/bin/framebroker/Activator.class
-FrameBroker/bin/framebroker/Activator.class
+Thumbs.db
+bin/
+*.class
