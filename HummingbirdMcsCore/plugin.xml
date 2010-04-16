@@ -14,17 +14,16 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective"
-            icon="icons/transmit_blue.png"
-            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.FrameBrokerPerspective"
-            name="Frame Broker">
+            class="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
+            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.mcs-home-perspective"
+            name="MCS Home">
       </perspective>
    </extension>
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="com.logica.hummingbird.HummingbirdMcsCore.application"
+            application="com.logica.hummingbird.hummingbirdmcscore.application"
             name="Hummingbird - Mission Control System">
          <property
                name="windowImages"
@@ -34,16 +33,57 @@
                name="appName"
                value="Hummingbird - Mission Control System">
          </property>
+         <property
+               name="startupProgressRect"
+               value="5,5,445,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,320,445,20">
+         </property>
+         <property
+               name="aboutText"
+               value="Hummingbird Mission Control System&#x0A;&#x0A;Johannes Klug - Gert Villemos - Mark Doyle">
+         </property>
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <view
-            class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
-            id="com.logica.hummingbird.framebroker.views.FrameViewer"
-            name="Frame Viewer"
-            restorable="true">
-      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="com.logica.hummingbird.hummingbirdmcscore.intro">
+      </intro>
+      <introProductBinding
+            introId="com.logica.hummingbird.hummingbirdmcscore.intro"
+            productId="com.logica.hummingbird.hummingbirdmcscore.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="com.logica.hummingbird.hummingbirdmcscore.introConfigId"
+            introId="com.logica.hummingbird.hummingbirdmcscore.intro">
+         <presentation
+               home-page-id="root">
+            <implementation
+                  kind="html"
+                  os="win32,linux,macosx"
+                  style="content/shared.css">
+            </implementation>
+         </presentation>
+      </config>
    </extension>
 
 </plugin>
