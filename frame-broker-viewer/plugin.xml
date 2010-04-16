@@ -48,9 +48,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.logica.hummingbird.framebrokerviewer.perspectives.DefaultPerspectiveFactory"
+            class="com.logica.hummingbird.framebrokerviewer.perspectives.FrameViewerPerspective"
             icon="icons/transmit_blue.png"
-            id="com.logica.hummingbird.framebrokerviewer.perspectives.defaultPerspective"
+            id="com.logica.hummingbird.framebrokerviewer.perspectives.FrameViewerPerspective"
             name="Frame Broker">
       </perspective>
    </extension>

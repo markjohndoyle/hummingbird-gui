@@ -15,7 +15,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
-            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.mcs-home-perspective"
+            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
             name="MCS Home">
       </perspective>
    </extension>
