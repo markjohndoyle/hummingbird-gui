@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Hummingbird - Mission Control System" uid="com.logica.hummingbird.hummingbirdmcs" id="com.logica.hummingbird.HummingbirdMcsCore.product" application="com.logica.hummingbird.HummingbirdMcsCore.application" version="1.0.0" useFeatures="false" includeLaunchers="true">
+<product name="Hummingbird - Mission Control System" uid="com.logica.hummingbird.hummingbirdmcscore.product" id="com.logica.hummingbird.hummingbirdmcscore.product" application="com.logica.hummingbird.hummingbirdmcscore.application" version="1.0.0" useFeatures="false" includeLaunchers="true">
+
+   <aboutInfo>
+      <text>
+         Hummingbird Mission Control System
+
+Johannes Klug - Gert Villemos - Mark Doyle
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -12,12 +20,29 @@
 
    <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
 
+   <splash
+      startupProgressRect="5,5,445,15"
+      startupMessageRect="7,320,445,20"
+      startupForegroundColor="000000" />
+   <launcher name="Hummingbird MCS">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="com.logica.hummingbird.hummingbirdmcscore.intro"/>
+
+   <vm>
+      <windows>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/OSGi%Minimum-1.0</windows>
+   </vm>
+
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.logica.hummingbird.CamelTmFrameProvider"/>
-      <plugin id="com.logica.hummingbird.HummingbirdMcsCore"/>
       <plugin id="com.logica.hummingbird.TmFrameProvider"/>
       <plugin id="com.logica.hummingbird.framebrokerviewer"/>
+      <plugin id="com.logica.hummingbird.hummingbirdmcscore"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
@@ -26,6 +51,7 @@
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.preferences"/>
@@ -37,6 +63,8 @@
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.forms"/>
+      <plugin id="org.eclipse.ui.intro"/>
       <plugin id="org.eclipse.ui.workbench"/>
    </plugins>
 

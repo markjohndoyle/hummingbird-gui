@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CamelTmFrameProvider
-Bundle-SymbolicName: com.logica.hummingbird.CamelTmFrameProvider
+Bundle-SymbolicName: com.logica.hummingbird.CamelTmFrameProvider; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.logica.hummingbird.cameltmframeprovider.Activator
 Bundle-ActivationPolicy: lazy

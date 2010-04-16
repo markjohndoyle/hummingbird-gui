@@ -1,12 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: HummingbirdMcsCore
-Bundle-SymbolicName: com.logica.hummingbird.HummingbirdMcsCore;singleton:=true
+Bundle-SymbolicName: com.logica.hummingbird.hummingbirdmcscore;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: com.logica.hummingbird.hummingbirdmcscore.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- com.logica.hummingbird.framebrokerviewer;bundle-version="1.0.0"
+ com.logica.hummingbird.framebrokerviewer;bundle-version="1.0.0",
+ org.eclipse.ui.intro;bundle-version="3.3.0",
+ org.eclipse.ui.forms;bundle-version="3.4.0",
+ org.eclipse.ui.forms;bundle-version="3.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.logica.hummingbird.hummingbirdmcscore.componentlogger
