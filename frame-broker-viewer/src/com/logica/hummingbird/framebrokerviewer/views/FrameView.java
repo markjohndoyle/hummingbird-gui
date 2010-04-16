@@ -1,5 +1,6 @@
 package com.logica.hummingbird.framebrokerviewer.views;
-import com.cloudgarden.resource.SWTResourceManager;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -10,12 +11,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.CoolItem;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider;
+import com.logica.hummingbird.framebrokerviewer.Activator;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
+import com.swtdesigner.ResourceManager;
 
 
 /**
@@ -32,13 +37,9 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 */
 public class FrameView extends ViewPart {
 	private Composite mainComposite;
-	private CoolBar coolBar;
 	private TreeViewer frameTreeViewer;
 	
 	IFrameProvider frameProvider;
-	private ToolItem frameProviderButton;
-	private ToolBar toolBar1;
-	private CoolItem frameProviderDetails;
 
 	public FrameView() {
 		frameProvider = new CamelTmFrameProvider();
@@ -68,36 +69,12 @@ public class FrameView extends ViewPart {
 		frameTreeViewerLData.horizontalAlignment = GridData.FILL;
 		frameTreeViewer = new TreeViewer(mainComposite, SWT.NONE);
 		frameTreeViewer.getControl().setLayoutData(frameTreeViewerLData);
-		//END <<  frameTreeViewer
-		//END <<  mainComposite
-		//START >>  coolBar
-		GridData coolBarLData = new GridData();
-		coolBarLData.grabExcessHorizontalSpace = true;
-		coolBarLData.horizontalAlignment = GridData.FILL;
-		coolBarLData.verticalAlignment = GridData.END;
-		coolBar = new CoolBar(parent, SWT.NULL);
-		coolBar.setLayoutData(coolBarLData);
+
+		initializeToolBar();
+
 		
-		//START >>  frameProviderDetails
-		frameProviderDetails = new CoolItem(coolBar, SWT.NONE);
-		frameProviderDetails.setSize(60, 30);
-		//START >>  toolBar1
-		toolBar1 = new ToolBar(coolBar, SWT.NONE);
-		frameProviderDetails.setControl(toolBar1);
-		//START >>  frameProviderButton
-		frameProviderButton = new ToolItem(toolBar1, SWT.NONE);
-		frameProviderButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent evt) {
-				System.out.println("frameProviderButton.widgetSelected, event="+evt);
-				//TODO add your code for frameProviderButton.widgetSelected
-			}
-		});
-		frameProviderButton.setText(frameProvider.getFrameProviderName());
-		//END <<  frameProviderButton
-		//END <<  toolBar1
-		//END <<  frameProviderDetails
-		//END <<  coolBar
-		// TODO Auto-generated method stubs
+		
+		getViewSite().getActionBars().getStatusLineManager().setMessage("Frames provided by the " + frameProvider.getFrameProviderName() + " adapter");
 		
 	}
 
@@ -105,6 +82,9 @@ public class FrameView extends ViewPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	private void initializeToolBar() {
+		IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
 	}
 
 }
