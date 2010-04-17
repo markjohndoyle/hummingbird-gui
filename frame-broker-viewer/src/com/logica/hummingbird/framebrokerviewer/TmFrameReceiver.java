@@ -1,11 +1,11 @@
 /**
- * 
+ * TODO Class is pointless so far.  This could act as a proxy to give multiple views access to the same provider...
+ * I'll have to think on it.  
  */
 package com.logica.hummingbird.framebrokerviewer;
 
 import java.util.List;
 
-import com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
@@ -16,10 +16,12 @@ public class TmFrameReceiver  {
 	
 	IFrameProvider frameProvider;
 
-	public TmFrameReceiver(IFrameProvider provider) {
-		this.frameProvider = provider;
-		IFrameProvider prov = new CamelTmFrameProvider();
-		System.out.println(prov.getFrameProviderName());
+	public TmFrameReceiver() {
+//		this.frameProvider = provider;
+		
+		
+		
+		
 	}
 	
 	public List<Object> getTmMessages() {

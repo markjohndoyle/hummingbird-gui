@@ -1,8 +1,13 @@
 package com.logica.hummingbird.framebrokerviewer;
 
+import java.util.logging.Logger;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
+
+import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -14,6 +19,10 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	
+	private final static Logger LOG = Logger.getLogger(Activator.class.getName());
+
+	private volatile static ServiceTracker frameProviderServices;
 	
 	/**
 	 * The constructor
@@ -28,6 +37,11 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		// Create a service tracker for IFrameProviders.  Used by the Frame viewer to stream in frame data.
+		setFrameProviderServices(new ServiceTracker(context, IFrameProvider.class.getName(), null));
+		getFrameProviderServices().open();
+		System.out.println("Bundle activation stage: frameProviderServices tracking count = " + frameProviderServices.getTrackingCount());
 	}
 
 	/*
@@ -35,6 +49,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		frameProviderServices.close();
 		plugin = null;
 		super.stop(context);
 	}
@@ -57,5 +72,13 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	public static void setFrameProviderServices(ServiceTracker frameProviderServices) {
+		Activator.frameProviderServices = frameProviderServices;
+	}
+
+	public static ServiceTracker getFrameProviderServices() {
+		return frameProviderServices;
 	}
 }

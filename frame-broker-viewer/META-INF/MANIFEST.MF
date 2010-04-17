@@ -6,8 +6,8 @@ Bundle-Version: 1.0.0
 Bundle-Activator: com.logica.hummingbird.framebrokerviewer.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
- com.logica.hummingbird.CamelTmFrameProvider;bundle-version="1.0.0"
+ com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Hummingbird
+Import-Package: com.logica.hummingbird.tmframeprovider

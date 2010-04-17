@@ -1,26 +1,14 @@
 package com.logica.hummingbird.framebrokerviewer.views;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.CoolItem;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider;
 import com.logica.hummingbird.framebrokerviewer.Activator;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
-import com.swtdesigner.ResourceManager;
 
 
 /**
@@ -42,7 +30,12 @@ public class FrameView extends ViewPart {
 	IFrameProvider frameProvider;
 
 	public FrameView() {
-		frameProvider = new CamelTmFrameProvider();
+		System.out.println("Getting Frame provider service");
+		frameProvider = (IFrameProvider) Activator.getFrameProviderServices().getService();
+		
+		System.out.println("Frame view instantiation: frameProviderServices tracking count = " + Activator.getFrameProviderServices().getTrackingCount());
+
+		System.out.println(frameProvider.getFrameProviderName());
 	}
 
 	@Override

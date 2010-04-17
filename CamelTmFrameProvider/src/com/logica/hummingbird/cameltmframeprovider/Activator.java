@@ -12,8 +12,10 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		System.out.println("Registering Camels IFrameProvider service into the context");
 		// Register our implementation as a service so any other OSGi modules can use us.
-		context.registerService(IFrameProvider.class.getName(), new CamelTmFrameProvider(), null);
+		context.registerService(IFrameProvider.class.getName(), new CamelTmFrameProvider("vm://localhost"), null);
+		
 		System.out.println("Camel tm frame provider activated");
 	}
 	
