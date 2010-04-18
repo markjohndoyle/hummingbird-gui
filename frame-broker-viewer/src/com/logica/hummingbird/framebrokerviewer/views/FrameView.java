@@ -5,9 +5,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
+import com.logica.hummingbird.framebroker.Container;
+import com.logica.hummingbird.framebroker.IContainer;
 import com.logica.hummingbird.framebrokerviewer.Activator;
+import com.logica.hummingbird.framebrokerviewer.views.ContainerLabelProvider;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 
@@ -24,10 +28,17 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class FrameView extends ViewPart {
+	private Tree tree;
 	private Composite mainComposite;
 	private TreeViewer frameTreeViewer;
 	
+	/**
+	 * Provides the Frames to the viewers.
+	 */
 	IFrameProvider frameProvider;
+	
+	IContainer frame;
+	
 
 	public FrameView() {
 		System.out.println("Getting Frame provider service");
@@ -35,7 +46,20 @@ public class FrameView extends ViewPart {
 		
 		System.out.println("Frame view instantiation: frameProviderServices tracking count = " + Activator.getFrameProviderServices().getTrackingCount());
 
+		System.out.println("Initialising test mock up data - REMOVE THIS!  FOR TESTING THE VIEW WITHOUT REAL DATA ONLY!");
+		testDataInit();
 		System.out.println(frameProvider.getFrameProviderName());
+	}
+	
+	private void testDataInit() {
+		frame = new Container("Test Frame", "Mock Test Frame", "Mock Frame create for testing");
+		((Container)frame).addContainer(new Container("Test Frame Header", "Mock Test Frame Header", "Mock Frame Header create for testing"));
+		Container framePacket = new Container("Test Frame Packet", "Mock Test Frame Packet", "Mock Frame Packet create for testing");
+		((Container)frame).addContainer(framePacket);
+		((Container)frame).addContainer(new Container("Test Frame Tail", "Mock Test Frame Tail", "Mock Frame Tail create for testing"));
+		
+		framePacket.addContainer(new Container("Test Packet Header", "Mock Test Packet Header", "Mock Packet Header create for testing"));
+		framePacket.addContainer(new Container("Test Packet Body", "Mock Test Packet Body", "Mock Packet Body create for testing"));
 	}
 
 	@Override
@@ -60,13 +84,21 @@ public class FrameView extends ViewPart {
 		frameTreeViewerLData.grabExcessHorizontalSpace = true;
 		frameTreeViewerLData.verticalAlignment = GridData.FILL;
 		frameTreeViewerLData.horizontalAlignment = GridData.FILL;
-		frameTreeViewer = new TreeViewer(mainComposite, SWT.NONE);
+		frameTreeViewer = new TreeViewer(mainComposite, SWT.BORDER);
+		tree = frameTreeViewer.getTree();
+		tree.setHeaderVisible(true);
+		frameTreeViewer.setLabelProvider(new ContainerLabelProvider());
 		frameTreeViewer.getControl().setLayoutData(frameTreeViewerLData);
+		frameTreeViewer.setContentProvider(new ContainerContentProvider());
+		
+		Container treeRoot = new Container("GUI root container", "Mock GUI Container for root", "GUI Container used to put the real data into.  This allows us to \"see\" the Root frame");
+		treeRoot.addContainer(frame);
+		frameTreeViewer.setInput(treeRoot);
+		frameTreeViewer.expandAll();
 
 		initializeToolBar();
 
-		
-		
+		// Set the provider service name in the status bar
 		getViewSite().getActionBars().getStatusLineManager().setMessage("Frames provided by the " + frameProvider.getFrameProviderName() + " adapter");
 		
 	}
