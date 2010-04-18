@@ -5,7 +5,7 @@ import org.osgi.framework.BundleContext;
 
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
-public class Activator implements BundleActivator {
+public class CamelTmFrameProviderService implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)

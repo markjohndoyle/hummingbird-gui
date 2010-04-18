@@ -1,5 +1,7 @@
 package com.logica.hummingbird.framebrokerviewer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -12,22 +14,22 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class FrameBrokerViewerPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.logica.hummingbird.framebrokerviewer";
 
 	// The shared instance
-	private static Activator plugin;
+	private static FrameBrokerViewerPlugin plugin;
 	
-	private final static Logger LOG = Logger.getLogger(Activator.class.getName());
+	private final static Logger LOG = Logger.getLogger(FrameBrokerViewerPlugin.class.getName());
 
 	private volatile static ServiceTracker frameProviderServices;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public FrameBrokerViewerPlugin() {
 	}
 
 	/*
@@ -59,7 +61,7 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static FrameBrokerViewerPlugin getDefault() {
 		return plugin;
 	}
 
@@ -75,7 +77,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	public static void setFrameProviderServices(ServiceTracker frameProviderServices) {
-		Activator.frameProviderServices = frameProviderServices;
+		FrameBrokerViewerPlugin.frameProviderServices = frameProviderServices;
 	}
 
 	public static ServiceTracker getFrameProviderServices() {

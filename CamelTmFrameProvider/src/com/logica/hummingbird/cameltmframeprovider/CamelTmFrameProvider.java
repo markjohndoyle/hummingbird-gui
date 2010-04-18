@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.jms.ConnectionFactory;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import com.logica.hummingbird.framebroker.IContainer;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
@@ -22,11 +22,15 @@ public class CamelTmFrameProvider implements IFrameProvider {
 	
 	ConnectionFactory connectionFactory;
 	CamelContext camelContext;
+
 	
 	public CamelTmFrameProvider(String activeMqBrokerUrl) {
 		camelContext = new DefaultCamelContext();
 //		connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+		
 	}
+	
+
 
 	/* (non-Javadoc)
 	 * @see com.logica.hummingbird.tmframeprovider.IFrameProvider#getTmMessages()
@@ -40,6 +44,12 @@ public class CamelTmFrameProvider implements IFrameProvider {
 	@Override
 	public String getFrameProviderName() {
 		return "Camel";
+	}
+
+	@Override
+	public IContainer getFrame() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.Viewer;
 import com.logica.hummingbird.framebroker.IContainer;
 
 /**
- * @author croc
+ * @author Mark Doyle
  * 
  */
 public class ContainerContentProvider implements ITreeContentProvider {
