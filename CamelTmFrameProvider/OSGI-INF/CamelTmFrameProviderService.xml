@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<component name="CamelTmFrameProviderService">
+	<implementation class="com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider"/>
+	<service>
+		<provide interface="com.logica.hummingbird.tmframeprovider.IFrameProvider"/>
+	</service>
+</component>

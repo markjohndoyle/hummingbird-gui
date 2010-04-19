@@ -1,0 +1,6 @@
+org.eclipse.ui/SHOW_PROGRESS_ON_STARTUP = true
+<<<<<<< HEAD
+org.eclipse.ui/PERSPECTIVE_BAR_EXTRAS=com.logica.hummingbird.hummingbirdmcscore.perspectives.mcs-home-perspective,com.logica.hummingbird.framebrokerviewer.perspectives.frame-viewer-perspective
+=======
+org.eclipse.ui/PERSPECTIVE_BAR_EXTRAS=com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective,com.logica.hummingbird.framebrokerviewer.perspectives.FrameViewerPerspective
+>>>>>>> b5f8d2ebc9a465b73e663c43544ef32335f8d3c9
