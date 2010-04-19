@@ -3,7 +3,7 @@ package com.logica.hummingbird.framebrokerviewer.perspectives;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-public class DefaultPerspectiveFactory implements IPerspectiveFactory {
+public class FrameViewerPerspective implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {

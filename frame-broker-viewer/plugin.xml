@@ -10,13 +10,6 @@
       </category>
       <view
             category="com.logica.hummingbird.framebrokerviewer"
-            class="com.logica.hummingbird.framebrokerviewer.views.ProviderDetailsView"
-            id="com.logica.hummingbird.framebrokerviewer.views.providerDetails"
-            name="TM Provider details"
-            restorable="true">
-      </view>
-      <view
-            category="com.logica.hummingbird.framebrokerviewer"
             class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
             icon="icons/transmit_blue.png"
             id="com.logica.hummingbird.framebrokerviewer.views.FrameView"
@@ -48,9 +41,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.logica.hummingbird.framebrokerviewer.perspectives.DefaultPerspectiveFactory"
+            class="com.logica.hummingbird.framebrokerviewer.perspectives.FrameViewerPerspective"
             icon="icons/transmit_blue.png"
-            id="com.logica.hummingbird.framebrokerviewer.perspectives.defaultPerspective"
+            id="com.logica.hummingbird.framebrokerviewer.perspectives.frame-viewer-perspective"
             name="Frame Broker">
       </perspective>
    </extension>

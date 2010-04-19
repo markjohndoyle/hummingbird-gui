@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TmFrameProvider
-Bundle-SymbolicName: com.logica.hummingbird.TmFrameProvider
+Bundle-SymbolicName: com.logica.hummingbird.TmFrameProvider; singleton:=true
 Bundle-Version: 0.0.1.SNAPSHOT
 Bundle-Activator: com.logica.hummingbird.tmframeprovider.Activator
 Bundle-Vendor: Hummingbird

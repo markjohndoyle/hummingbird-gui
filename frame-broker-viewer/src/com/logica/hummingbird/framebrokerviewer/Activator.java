@@ -4,6 +4,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.swtdesigner.SWTResourceManager;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -36,6 +38,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		SWTResourceManager.dispose();
 		super.stop(context);
 	}
 
