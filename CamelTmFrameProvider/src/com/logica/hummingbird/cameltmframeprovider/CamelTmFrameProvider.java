@@ -22,6 +22,9 @@ public class CamelTmFrameProvider implements IFrameProvider {
 	
 	ConnectionFactory connectionFactory;
 	CamelContext camelContext;
+	
+	public CamelTmFrameProvider() {
+	}
 
 	
 	public CamelTmFrameProvider(String activeMqBrokerUrl) {
