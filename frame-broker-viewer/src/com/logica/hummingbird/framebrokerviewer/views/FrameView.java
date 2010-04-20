@@ -14,9 +14,7 @@ import com.logica.hummingbird.framebroker.parameters.IntegerParameter;
 import com.logica.hummingbird.framebroker.parameters.ParameterType;
 import com.logica.hummingbird.framebroker.parameters.ParameterType.eParameterType;
 import com.logica.hummingbird.framebrokerviewer.FrameBrokerViewerPlugin;
-import com.logica.hummingbird.framebrokerviewer.views.ContainerLabelProvider;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
-import com.swtdesigner.ResourceManager;
 
 
 /**
@@ -43,7 +41,6 @@ public class FrameView extends ViewPart {
 
 		System.out.println("Initialising test mock up data - REMOVE THIS!  FOR TESTING THE VIEW WITHOUT REAL DATA ONLY!");
 		testDataInit();
-		System.out.println(frameProvider.getFrameProviderName());
 	}
 	
 	private void testDataInit() {
@@ -101,7 +98,14 @@ public class FrameView extends ViewPart {
 		initializeToolBar();
 
 		// Set the provider service name in the status bar
-		getViewSite().getActionBars().getStatusLineManager().setMessage("Frames provided by the " + frameProvider.getFrameProviderName() + " adapter");
+		String statusLineMessage = null;
+		if(frameProvider != null) {
+			statusLineMessage = "Frames provided by the " + frameProvider.getFrameProviderName() + " adapter";
+		}
+		else {
+			statusLineMessage = "Warning: No Frame provider services available";
+		}
+		getViewSite().getActionBars().getStatusLineManager().setMessage(statusLineMessage);
 		
 	}
 
