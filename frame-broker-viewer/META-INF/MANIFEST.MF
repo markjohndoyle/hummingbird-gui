@@ -2,13 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Frame Broker Viewer
 Bundle-SymbolicName: com.logica.hummingbird.framebrokerviewer; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.0.1
 Bundle-Activator: com.logica.hummingbird.framebrokerviewer.FrameBrokerViewerPlugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
- com.logica.hummingbird.frame-broker;bundle-version="0.0.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Hummingbird
-
+Export-Package: com.logica.hummingbird.framebrokerviewer,
+ com.logica.hummingbird.framebrokerviewer.commands,
+ com.logica.hummingbird.framebrokerviewer.menus,
+ com.logica.hummingbird.framebrokerviewer.model,
+ com.logica.hummingbird.framebrokerviewer.perspectives,
+ com.logica.hummingbird.framebrokerviewer.views
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.5.0",
+ org.eclipse.ui;bundle-version="3.5.2",
+ com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
+ com.logica.hummingbird.frame-broker;bundle-version="0.0.1"

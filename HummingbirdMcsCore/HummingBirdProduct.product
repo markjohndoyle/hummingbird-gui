@@ -41,8 +41,15 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="com.ibm.icu"/>
       <plugin id="com.logica.hummingbird.CamelTmFrameProvider"/>
       <plugin id="com.logica.hummingbird.TmFrameProvider"/>
+      <plugin id="com.logica.hummingbird.frame-broker"/>
       <plugin id="com.logica.hummingbird.framebrokerviewer"/>
       <plugin id="com.logica.hummingbird.hummingbirdmcscore"/>
+      <plugin id="com.springsource.javax.jms"/>
+      <plugin id="com.springsource.org.apache.kahadb"/>
+      <plugin id="com.springsource.org.apache.log4j"/>
+      <plugin id="org.apache.activemq.activemq-core"/>
+      <plugin id="org.apache.camel.camel-core"/>
+      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
