@@ -8,6 +8,7 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>META-INF/spring/CamelTmFrameProvider.xml</config>
+		<config>META-INF/spring/CamelTmProviderOsgiServices.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
