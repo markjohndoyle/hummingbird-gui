@@ -14,29 +14,33 @@ import com.logica.hummingbird.framebroker.IContainer;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
- * @author Mark Doyle
- * TODO implement camel context and route to get messages from a camel supported location.
- *
+ * @author Mark Doyle TODO implement camel context and route to get messages
+ *         from a camel supported location.
+ * 
  */
 public class CamelTmFrameProvider implements IFrameProvider {
-	
+
 	ConnectionFactory connectionFactory;
 	CamelContext camelContext;
-	
+
 	public CamelTmFrameProvider() {
 	}
 
-	
+	/**
+	 * Creates a frame provider linked to an active mq queue.
+	 * @param activeMqBrokerUrl
+	 */
 	public CamelTmFrameProvider(String activeMqBrokerUrl) {
 		camelContext = new DefaultCamelContext();
-//		connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
-		
+		// connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+
 	}
-	
 
-
-	/* (non-Javadoc)
-	 * @see com.logica.hummingbird.tmframeprovider.IFrameProvider#getTmMessages()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.logica.hummingbird.tmframeprovider.IFrameProvider#getTmMessages()
 	 */
 	@Override
 	public List<Object> getTmMessages() {
