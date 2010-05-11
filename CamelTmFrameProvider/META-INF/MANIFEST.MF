@@ -13,6 +13,11 @@ Require-Bundle: com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
  org.apache.activemq.activemq-core;bundle-version="5.3.0",
  com.logica.hummingbird.frame-broker;bundle-version="0.0.1",
  org.apache.camel.camel-jms;bundle-version="2.2.0"
-Export-Package: com.logica.hummingbird.cameltmframeprovider
+Export-Package: com.logica.hummingbird.cameltmframeprovider;
+  uses:="javax.jms,
+   com.logica.hummingbird.framebroker,
+   org.apache.camel,
+   org.osgi.framework,
+   com.logica.hummingbird.tmframeprovider"
 Bundle-Vendor: Hummingbird
 Service-Component: OSGI-INF/CamelTmFrameProviderService.xml
