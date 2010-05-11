@@ -3,7 +3,7 @@ package com.logica.hummingbird.cameltmframeprovider;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class CamelTmFrameProviderService implements BundleActivator {
+public class CamelTmFrameProviderActivator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
