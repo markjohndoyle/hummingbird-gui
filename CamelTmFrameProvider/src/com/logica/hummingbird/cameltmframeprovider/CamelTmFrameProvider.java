@@ -5,11 +5,6 @@ package com.logica.hummingbird.cameltmframeprovider;
 
 import java.util.List;
 
-import javax.jms.ConnectionFactory;
-
-import org.apache.camel.CamelContext;
-import org.apache.camel.impl.DefaultCamelContext;
-
 import com.logica.hummingbird.framebroker.IContainer;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
@@ -20,20 +15,11 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
  */
 public class CamelTmFrameProvider implements IFrameProvider {
 
-	ConnectionFactory connectionFactory;
-	CamelContext camelContext;
-
 	public CamelTmFrameProvider() {
 	}
 
-	/**
-	 * Creates a frame provider linked to an active mq queue.
-	 * @param activeMqBrokerUrl
-	 */
-	public CamelTmFrameProvider(String activeMqBrokerUrl) {
-		camelContext = new DefaultCamelContext();
-		// connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
-
+	public void testReceive() {
+		System.out.println("Message received!");
 	}
 
 	/*
