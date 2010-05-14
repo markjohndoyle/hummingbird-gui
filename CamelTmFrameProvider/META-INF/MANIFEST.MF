@@ -20,4 +20,3 @@ Export-Package: com.logica.hummingbird.cameltmframeprovider;
    org.osgi.framework,
    com.logica.hummingbird.tmframeprovider"
 Bundle-Vendor: Hummingbird
-Service-Component: OSGI-INF/CamelTmFrameProviderService.xml

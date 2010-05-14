@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!-- NO LONGER USED SINCE THIS IS NOW A SPRING DYNAMIC MODULE-->
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="CamelTmFrameProviderService">
-	<implementation class="com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider"/>
-	<service>
-		<provide interface="com.logica.hummingbird.tmframeprovider.IFrameProvider"/>
-	</service>
-</scr:component>
