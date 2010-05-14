@@ -6,6 +6,7 @@
 		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
 
 	<osgi:service
+		id="camelTmFrameProviderService"
 		ref="camelTmFrameProvider"
 		interface="com.logica.hummingbird.tmframeprovider.IFrameProvider">
 	</osgi:service>
