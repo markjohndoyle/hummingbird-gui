@@ -1,7 +1,5 @@
 package com.logica.hummingbird.framebrokerviewer;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Logger;
 
 import org.eclipse.jface.resource.ImageDescriptor;

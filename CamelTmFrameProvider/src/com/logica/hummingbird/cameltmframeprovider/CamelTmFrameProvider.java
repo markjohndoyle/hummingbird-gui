@@ -16,6 +16,7 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 public class CamelTmFrameProvider implements IFrameProvider {
 
 	public CamelTmFrameProvider() {
+		System.out.println("Constructing camel provider class - Spring container must be alive!");
 	}
 
 	public void testReceive() {
