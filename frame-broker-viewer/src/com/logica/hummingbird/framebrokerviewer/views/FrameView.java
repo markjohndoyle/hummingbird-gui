@@ -1,10 +1,14 @@
 package com.logica.hummingbird.framebrokerviewer.views;
+
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
@@ -21,8 +25,10 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
  * @author Mark Doyle
 */
 public class FrameView extends ViewPart {
+	public final static String VIEW_ID = "com.logica.hummingbird.framebrokerviewer.views.FrameView";
+	
 	private Tree tree;
-	private Composite mainComposite;
+	private SashForm mainComposite;
 	private TreeViewer frameTreeViewer;
 	
 	/**
@@ -35,6 +41,7 @@ public class FrameView extends ViewPart {
 
 	public FrameView() {
 		System.out.println("Getting Frame provider service");
+		
 		frameProvider = (IFrameProvider) FrameBrokerViewerPlugin.getFrameProviderServices().getService();
 		
 		System.out.println("Frame view instantiation: frameProviderServices tracking count = " + FrameBrokerViewerPlugin.getFrameProviderServices().getTrackingCount());
@@ -67,8 +74,28 @@ public class FrameView extends ViewPart {
 		parentLayout.makeColumnsEqualWidth = true;
 		parent.setLayout(parentLayout);
 		//START >>  mainComposite
-		mainComposite = new Composite(parent, SWT.NONE);
+		mainComposite = new SashForm(parent, SWT.NONE);
+
+		final Composite composite = new Composite(mainComposite, SWT.NONE);
+		composite.setLayout(new GridLayout());
+		frameTreeViewer = new TreeViewer(composite, SWT.BORDER);
+		tree = frameTreeViewer.getTree();
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tree.setHeaderVisible(true);
+
+		final Composite composite_1 = new Composite(mainComposite, SWT.NONE);
+		composite_1.setLayout(new GridLayout());
+
+		final Group detailsGroup = new Group(composite_1, SWT.NONE);
+		detailsGroup.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true));
+		detailsGroup.setText("Details");
+		detailsGroup.setLayout(new GridLayout());
+
+		final Label label = new Label(detailsGroup, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		label.setText("Label");
 		GridLayout mainCompositeLayout = new GridLayout();
+		mainCompositeLayout.numColumns = 2;
 		mainCompositeLayout.makeColumnsEqualWidth = true;
 		GridData mainCompositeLData = new GridData();
 		mainCompositeLData.verticalAlignment = GridData.FILL;
@@ -77,21 +104,19 @@ public class FrameView extends ViewPart {
 		mainCompositeLData.horizontalAlignment = GridData.FILL;
 		mainComposite.setLayoutData(mainCompositeLData);
 		mainComposite.setLayout(mainCompositeLayout);
+		mainComposite.setWeights(new int[] {239, 239 });
 		GridData frameTreeViewerLData = new GridData();
 		frameTreeViewerLData.grabExcessVerticalSpace = true;
 		frameTreeViewerLData.grabExcessHorizontalSpace = true;
 		frameTreeViewerLData.verticalAlignment = GridData.FILL;
 		frameTreeViewerLData.horizontalAlignment = GridData.FILL;
-		frameTreeViewer = new TreeViewer(mainComposite, SWT.BORDER);
-		tree = frameTreeViewer.getTree();
-		tree.setHeaderVisible(true);
+		
+		Container treeRoot = new Container("GUI root container", "Mock GUI Container for root", "GUI Container used to put the real data into.  This allows us to \"see\" the Root frame");
+		treeRoot.addContainer(frame);
 		
 		frameTreeViewer.getControl().setLayoutData(frameTreeViewerLData);
 		frameTreeViewer.setContentProvider(new ContainerContentProvider());
 		frameTreeViewer.setLabelProvider(new ContainerLabelProvider());
-		
-		Container treeRoot = new Container("GUI root container", "Mock GUI Container for root", "GUI Container used to put the real data into.  This allows us to \"see\" the Root frame");
-		treeRoot.addContainer(frame);
 		frameTreeViewer.setInput(treeRoot);
 		frameTreeViewer.expandAll();
 
@@ -106,6 +131,7 @@ public class FrameView extends ViewPart {
 			statusLineMessage = "Warning: No Frame provider services available";
 		}
 		getViewSite().getActionBars().getStatusLineManager().setMessage(statusLineMessage);
+		createActions();
 		
 	}
 
@@ -117,6 +143,16 @@ public class FrameView extends ViewPart {
 
 	private void initializeToolBar() {
 		IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
+	}
+	private void createActions() {
+	}
+
+	public IFrameProvider getFrameProvider() {
+		return frameProvider;
+	}
+
+	public void setFrameProvider(IFrameProvider frameProvider) {
+		this.frameProvider = frameProvider;
 	}
 
 }

@@ -6,10 +6,10 @@
          point="org.eclipse.ui.views">
       <category
             name="Frame Broker"
-            id="com.logica.hummingbird.framebrokerviewer">
+            id="com.logica.hummingbird.framebrokerviewer.framebroker-views-cat">
       </category>
       <view
-            category="com.logica.hummingbird.framebrokerviewer"
+            category="com.logica.hummingbird.framebrokerviewer.framebroker-views-cat"
             class="com.logica.hummingbird.framebrokerviewer.views.FrameView"
             icon="icons/transmit_blue.png"
             id="com.logica.hummingbird.framebrokerviewer.views.FrameView"
@@ -26,17 +26,41 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            class="com.logica.hummingbird.framebrokerviewer.menus.FrameBrokerMenu"
-            locationURI="com.logica.hummingbird.framebrokerviewer.menus.framBrokerMenu">
+            locationURI="toolbar:com.logica.hummingbird.framebrokerviewer.views.FrameView">
+         <command
+               commandId="com.logica.hummingbird.framebrokerviewer.commands.selectProvider"
+               icon="icons/transmit_edit.png"
+               style="push"
+               tooltip="Select the telemetry frame provider.">
+         </command>
+      </menuContribution>
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Frame Broker"
+               tooltip="Frame Broker configuration">
+            <command
+                  commandId="com.logica.hummingbird.framebrokerviewer.commands.selectProvider"
+                  icon="icons/transmit_edit.png"
+                  style="push"
+                  tooltip="Select the telemetry frame provider.">
+            </command>
+         </menu>
       </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="com.logica.hummingbird.framebrokerviewer.commands.SelectProvider"
+            categoryId="com.logica.hummingbird.framebrokerviewer.framebroker-commands-cat"
+            defaultHandler="com.logica.hummingbird.framebrokerviewer.commands.SelectTmProvider"
+            description="Select the frame provider service you wish to receive frames from."
             id="com.logica.hummingbird.framebrokerviewer.commands.selectProvider"
-            name="Select Provider">
+            name="SelectTmProvider">
       </command>
+      <category
+            id="com.logica.hummingbird.framebrokerviewer.framebroker-commands-cat"
+            name="Frame Broker">
+      </category>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

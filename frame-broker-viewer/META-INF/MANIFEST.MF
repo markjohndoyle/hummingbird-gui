@@ -9,7 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Hummingbird
 Export-Package: com.logica.hummingbird.framebrokerviewer,
  com.logica.hummingbird.framebrokerviewer.commands,
- com.logica.hummingbird.framebrokerviewer.menus,
  com.logica.hummingbird.framebrokerviewer.model,
  com.logica.hummingbird.framebrokerviewer.perspectives,
  com.logica.hummingbird.framebrokerviewer.views
