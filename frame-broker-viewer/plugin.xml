@@ -71,5 +71,13 @@
             name="Frame Broker">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.console.consoleFactories">
+      <consoleFactory
+            class="com.logica.hummingbird.framebrokerviewer.console.FrameBrokerConsoleFactory"
+            icon="icons/transmit.png"
+            label="Frame Broker">
+      </consoleFactory>
+   </extension>
 
 </plugin>

@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.5.0",
  org.eclipse.ui;bundle-version="3.5.2",
  com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
  com.logica.hummingbird.frame-broker;bundle-version="0.0.1",
- com.logica.hummingbird.commons;bundle-version="0.0.1"
+ com.logica.hummingbird.commons;bundle-version="0.0.1",
+ org.eclipse.ui.console;bundle-version="3.4.0"
