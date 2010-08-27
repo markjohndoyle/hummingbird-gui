@@ -21,6 +21,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
    <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
 
    <splash
+      location="com.logica.hummingbird.hummingbirdmcscore"
       startupProgressRect="5,5,445,15"
       startupMessageRect="7,320,445,20"
       startupForegroundColor="000000" />
@@ -34,8 +35,9 @@ Johannes Klug - Gert Villemos - Mark Doyle
    <intro introId="com.logica.hummingbird.hummingbirdmcscore.intro"/>
 
    <vm>
-      <windows>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/OSGi%Minimum-1.0</windows>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -44,12 +46,12 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="com.logica.hummingbird.frame-broker"/>
       <plugin id="com.logica.hummingbird.framebrokerviewer"/>
       <plugin id="com.logica.hummingbird.hummingbirdmcscore"/>
-      <plugin id="com.springsource.javax.jms"/>
-      <plugin id="com.springsource.org.apache.kahadb"/>
-      <plugin id="com.springsource.org.apache.log4j"/>
+      <plugin id="com.springsource.javax.jms" fragment=""/>
+      <plugin id="com.springsource.org.apache.kahadb" fragment=""/>
+      <plugin id="com.springsource.org.apache.log4j" fragment=""/>
       <plugin id="org.apache.activemq.activemq-core"/>
       <plugin id="org.apache.camel.camel-core"/>
-      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.commons.logging" fragment=""/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
