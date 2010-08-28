@@ -1,6 +1,7 @@
+
 CamelTmFrameProvider/.classpath
 CamelTmFrameProvider/.settings/org.eclipse.jdt.core.prefs
 CamelTmFrameProvider/.settings/org.eclipse.pde.core.prefs
 Thumbs.db
-bin/
+bin/*
 *.class
