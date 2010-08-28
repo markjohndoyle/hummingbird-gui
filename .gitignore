@@ -5,3 +5,8 @@ CamelTmFrameProvider/.settings/org.eclipse.pde.core.prefs
 Thumbs.db
 bin/*
 *.class
+PacketBrokerViewer/.classpath
+PacketBrokerViewer/.project
+PacketBrokerViewer/.settings/org.eclipse.jdt.core.prefs
+logging-configuration/bin/log4j.properties
+TmFrameProvider/bin/com/logica/hummingbird/tmframeprovider/IFrameProvider.class
