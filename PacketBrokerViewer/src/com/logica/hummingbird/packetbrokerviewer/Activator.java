@@ -3,6 +3,9 @@ package com.logica.hummingbird.packetbrokerviewer;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
+
+import com.logica.hummingbird.camelpacketprovider.CamelPacketProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -14,6 +17,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	private static ServiceTracker packetProviderServices;
 	
 	/**
 	 * The constructor
@@ -28,6 +33,10 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		setPacketProviderServices(new ServiceTracker(context, CamelPacketProvider.class.getName(), null));
+		getPacketProviderServices().open();
+		System.out.println("Bundle activation stage: frameProviderServices tracking count = " + packetProviderServices.getTrackingCount());
 	}
 
 	/*
@@ -57,5 +66,13 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+	
+	public static void setPacketProviderServices(ServiceTracker frameProviderServices) {
+		plugin.packetProviderServices = frameProviderServices;
+	}
+
+	public static ServiceTracker getPacketProviderServices() {
+		return packetProviderServices;
 	}
 }
