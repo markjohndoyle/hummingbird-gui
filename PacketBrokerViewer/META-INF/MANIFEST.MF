@@ -7,6 +7,7 @@ Bundle-Activator: com.logica.hummingbird.packetbrokerviewer.Activator
 Bundle-Vendor: logica
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- PacketProviderInterface;bundle-version="0.0.1"
+ PacketProviderInterface;bundle-version="0.0.1",
+ org.eclipse.ui.console;bundle-version="3.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

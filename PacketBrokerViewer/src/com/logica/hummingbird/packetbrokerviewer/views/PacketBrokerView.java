@@ -1,17 +1,26 @@
 package com.logica.hummingbird.packetbrokerviewer.views;
 
-import java.util.ArrayList;
-
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.SWT;
-import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.part.ViewPart;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view shows data obtained from the model. The
@@ -31,154 +40,35 @@ public class PacketBrokerView extends ViewPart {
 	 */
 	public static final String ID = "packetbrokerviewer.views.PacketBrokerView";
 
-	private TreeViewer viewer;
-	private DrillDownAdapter drillDownAdapter;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
-
+	  static byte[] srcData = { (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x00, (byte) 0x00,
+	      (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x10, (byte) 0x00, (byte) 0x01,
+	      (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0x11, (byte) 0x11, (byte) 0x00, (byte) 0x22,
+	      (byte) 0x01, (byte) 0x10, (byte) 0x33, (byte) 0x00, (byte) 0x11, (byte) 0x10, (byte) 0x02,
+	      (byte) 0x22, (byte) 0x01, (byte) 0x10, (byte) 0x33, (byte) 0x30, (byte) 0x01, (byte) 0x10,
+	      (byte) 0x22, (byte) 0x22, (byte) 0x01, (byte) 0x10, (byte) 0x33, (byte) 0x33, (byte) 0x01,
+	      (byte) 0x10, (byte) 0x22, (byte) 0x22, (byte) 0x01, (byte) 0x10, (byte) 0x33, (byte) 0x33,
+	      (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+	      (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x11, (byte) 0x11, (byte) 0x01, (byte) 0x10,
+	      (byte) 0x11, (byte) 0x11, (byte) 0x10, (byte) 0x01, (byte) 0x11, (byte) 0x11, (byte) 0x01,
+	      (byte) 0x10, (byte) 0x11, (byte) 0x11, (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+	      (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x10, (byte) 0x44,
+	      (byte) 0x44, (byte) 0x01, (byte) 0x10, (byte) 0x55, (byte) 0x55, (byte) 0x01, (byte) 0x10,
+	      (byte) 0x44, (byte) 0x44, (byte) 0x01, (byte) 0x10, (byte) 0x55, (byte) 0x55, (byte) 0x01,
+	      (byte) 0x10, (byte) 0x04, (byte) 0x44, (byte) 0x01, (byte) 0x10, (byte) 0x55, (byte) 0x50,
+	      (byte) 0x01, (byte) 0x11, (byte) 0x00, (byte) 0x44, (byte) 0x01, (byte) 0x10, (byte) 0x55,
+	      (byte) 0x00, (byte) 0x11, (byte) 0x11, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0x10,
+	      (byte) 0x00, (byte) 0x01, (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x00,
+	      (byte) 0x00, (byte) 0x11, (byte) 0x11, (byte) 0x11, };
+	
+	
 	/*
 	 * The content provider class is responsible for providing objects to the view. It can wrap existing objects in
 	 * adapters or simply return objects as-is. These objects may be sensitive to the current input of the view, or
 	 * ignore it and always show the same content (like Task List, for example).
 	 */
 
-	class TreeObject implements IAdaptable {
-		private String name;
-		private TreeParent parent;
 
-		public TreeObject(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setParent(TreeParent parent) {
-			this.parent = parent;
-		}
-
-		public TreeParent getParent() {
-			return parent;
-		}
-
-		public String toString() {
-			return getName();
-		}
-
-		public Object getAdapter(Class key) {
-			return null;
-		}
-	}
-
-	class TreeParent extends TreeObject {
-		private ArrayList children;
-
-		public TreeParent(String name) {
-			super(name);
-			children = new ArrayList();
-		}
-
-		public void addChild(TreeObject child) {
-			children.add(child);
-			child.setParent(this);
-		}
-
-		public void removeChild(TreeObject child) {
-			children.remove(child);
-			child.setParent(null);
-		}
-
-		public TreeObject[] getChildren() {
-			return (TreeObject[]) children.toArray(new TreeObject[children.size()]);
-		}
-
-		public boolean hasChildren() {
-			return children.size() > 0;
-		}
-	}
-
-	class ViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
-		private TreeParent invisibleRoot;
-
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-
-		public void dispose() {
-		}
-
-		public Object[] getElements(Object parent) {
-			if (parent.equals(getViewSite())) {
-				if (invisibleRoot == null)
-					initialize();
-				return getChildren(invisibleRoot);
-			}
-			return getChildren(parent);
-		}
-
-		public Object getParent(Object child) {
-			if (child instanceof TreeObject) {
-				return ((TreeObject) child).getParent();
-			}
-			return null;
-		}
-
-		public Object[] getChildren(Object parent) {
-			if (parent instanceof TreeParent) {
-				return ((TreeParent) parent).getChildren();
-			}
-			return new Object[0];
-		}
-
-		public boolean hasChildren(Object parent) {
-			if (parent instanceof TreeParent)
-				return ((TreeParent) parent).hasChildren();
-			return false;
-		}
-
-		/*
-		 * We will set up a dummy model to initialize tree heararchy. In a real code, you will connect to a real model
-		 * and expose its hierarchy.
-		 */
-		private void initialize() {
-			TreeObject to1 = new TreeObject("Leaf 1");
-			TreeObject to2 = new TreeObject("Leaf 2");
-			TreeObject to3 = new TreeObject("Leaf 3");
-			TreeParent p1 = new TreeParent("Parent 1");
-			p1.addChild(to1);
-			p1.addChild(to2);
-			p1.addChild(to3);
-
-			TreeObject to4 = new TreeObject("Leaf 4");
-			TreeParent p2 = new TreeParent("Parent 2");
-			p2.addChild(to4);
-
-			TreeParent root = new TreeParent("Root");
-			root.addChild(p1);
-			root.addChild(p2);
-
-			invisibleRoot = new TreeParent("");
-			invisibleRoot.addChild(root);
-		}
-	}
-
-	class ViewLabelProvider extends LabelProvider {
-
-		public String getText(Object obj) {
-			return obj.toString();
-		}
-
-		public Image getImage(Object obj) {
-			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
-			if (obj instanceof TreeParent)
-				imageKey = ISharedImages.IMG_OBJ_FOLDER;
-			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
-		}
-	}
-
-	class NameSorter extends ViewerSorter {
-	}
+	
 
 	/**
 	 * The constructor.
@@ -190,20 +80,56 @@ public class PacketBrokerView extends ViewPart {
 	 * This is a callback that will allow us to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		drillDownAdapter = new DrillDownAdapter(viewer);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "PacketBrokerViewer.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-	}
+//		this.showView("org.eclipse.ui.console.ConsoleView");
+		
+		
+		
+		Display display = parent.getDisplay();
+		
+	    Color white = display.getSystemColor(SWT.COLOR_WHITE);
+	    Color black = display.getSystemColor(SWT.COLOR_BLACK);
+	    Color yellow = display.getSystemColor(SWT.COLOR_YELLOW);
+	    Color red = display.getSystemColor(SWT.COLOR_RED);
+	    Color green = display.getSystemColor(SWT.COLOR_GREEN);
+	    Color blue = display.getSystemColor(SWT.COLOR_BLUE);
+
+	    // Create a source ImageData of depth 4
+	    PaletteData palette = new PaletteData(new RGB[] { black.getRGB(), white.getRGB(),
+	        yellow.getRGB(), red.getRGB(), blue.getRGB(), green.getRGB() });
+	    ImageData sourceData = new ImageData(16, 16, 4, palette, 1, srcData);
+	    
+
+	    Shell shell = parent.getShell();
+	    final Image source = new Image(display, sourceData);
+	    
+	    Label label = new Label(parent,SWT.CENTER);
+	    label.setImage(source);
+	    
+	    
+//	    shell.addPaintListener(new PaintListener() {
+//	      public void paintControl(PaintEvent e) {
+//	        GC gc = e.gc;
+//	        gc.drawImage(source, 20, 20);
+//	      }
+//	    });
+//	    shell.setSize(150, 150);
+//	    shell.open();
+
+//	    while (!shell.isDisposed()) {
+//	      if (!display.readAndDispatch())
+//	        display.sleep();
+//	    }
+//	    source.dispose();
+//	    display.dispose();
+	    
+	  }
+	
 
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
@@ -213,9 +139,6 @@ public class PacketBrokerView extends ViewPart {
 				PacketBrokerView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
 	}
 
 	private void contributeToActionBars() {
@@ -225,70 +148,28 @@ public class PacketBrokerView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
-			}
-		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-
-		action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection) selection).getFirstElement();
-				showMessage("Double-click detected on " + obj.toString());
-			}
-		};
 	}
 
 	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
 	}
 
 	private void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(), "PacketBrokerView", message);
 	}
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		viewer.getControl().setFocus();
 	}
 }

@@ -31,6 +31,7 @@ public class CamelTmFrameProvider implements IFrameProvider {
 		}
 		
 		System.out.println(ex.toString());
+		
 	}
 
 	@Override
