@@ -5,25 +5,25 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.logica.hummingbird.camelpacketprovider.CamelPacketProvider;
+import com.logica.hummingbird.packetprovider.PacketProvider;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class PacketBrokerViewerActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "PacketBrokerViewer"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static PacketBrokerViewerActivator plugin;
 
-	private static ServiceTracker packetProviderServices;
+	private static volatile ServiceTracker packetProviderServices;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public PacketBrokerViewerActivator() {
 	}
 
 	/*
@@ -34,9 +34,9 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		
-		setPacketProviderServices(new ServiceTracker(context, CamelPacketProvider.class.getName(), null));
+		setPacketProviderServices(new ServiceTracker(context, PacketProvider.class.getName(), null));
 		getPacketProviderServices().open();
-		System.out.println("Bundle activation stage: frameProviderServices tracking count = " + packetProviderServices.getTrackingCount());
+		System.out.println("Bundle activation stage: PacketProvider services tracking count = " + packetProviderServices.getTrackingCount());
 	}
 
 	/*
@@ -53,7 +53,7 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static PacketBrokerViewerActivator getDefault() {
 		return plugin;
 	}
 
@@ -69,7 +69,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 	
 	public static void setPacketProviderServices(ServiceTracker frameProviderServices) {
-		plugin.packetProviderServices = frameProviderServices;
+		PacketBrokerViewerActivator.packetProviderServices = frameProviderServices;
 	}
 
 	public static ServiceTracker getPacketProviderServices() {

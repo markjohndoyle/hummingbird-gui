@@ -5,7 +5,7 @@
 						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
 						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<bean id="camelTmFrameProvider" class="com.logica.hummingbird.cameltmframeprovider.CamelTmFrameProvider">
+	<bean id="camelPacketProvider" class="com.logica.hummingbird.camelpacketprovider.CamelPacketProvider">
 	</bean>
 
 	<bean name="jms" class="org.apache.camel.component.jms.JmsComponent">

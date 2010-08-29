@@ -6,10 +6,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
@@ -22,6 +19,11 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.ViewPart;
 
+import com.logica.hummingbird.packetbrokerviewer.PacketBrokerViewerActivator;
+import com.logica.hummingbird.packetprovider.PacketProvider;
+import com.logica.hummingbird.packetprovider.PacketProviderObserver;
+import com.logica.hummingbird.telemetry.HummingbirdPacket;
+
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view shows data obtained from the model. The
  * sample creates a dummy model on the fly, but a real implementation would connect to the model available either in
@@ -33,7 +35,7 @@ import org.eclipse.ui.part.ViewPart;
  * <p>
  */
 
-public class PacketBrokerView extends ViewPart {
+public class PacketBrokerView extends ViewPart implements PacketProviderObserver {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -59,6 +61,8 @@ public class PacketBrokerView extends ViewPart {
 	      (byte) 0x00, (byte) 0x11, (byte) 0x11, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0x10,
 	      (byte) 0x00, (byte) 0x01, (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x11, (byte) 0x00,
 	      (byte) 0x00, (byte) 0x11, (byte) 0x11, (byte) 0x11, };
+
+	private PacketProvider packetProvider;
 	
 	
 	/*
@@ -74,6 +78,8 @@ public class PacketBrokerView extends ViewPart {
 	 * The constructor.
 	 */
 	public PacketBrokerView() {
+		packetProvider = (PacketProvider) PacketBrokerViewerActivator.getPacketProviderServices().getService();
+		packetProvider.addObserver(this);
 	}
 
 	/**
@@ -171,5 +177,11 @@ public class PacketBrokerView extends ViewPart {
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
+	}
+
+
+	@Override
+	public void packetReceived(HummingbirdPacket packet) {
+		System.out.println("Packet Broker View received a packet!! Look -> " + packet);
 	}
 }

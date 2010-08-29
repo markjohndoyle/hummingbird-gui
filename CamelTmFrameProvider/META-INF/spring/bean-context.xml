@@ -19,7 +19,7 @@
 	<!-- FOR SOME REASON REF DOES NOT WORK.  STICK TO URI's FOR ROUTES.  WE WILL RESEARCH THIS...roo -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<route>
-			<from uri="jms:queue:q1"/>
+			<from uri="jms:queue:framesIn"/>
 			<to uri="bean:camelTmFrameProvider?method=frameIn"/>
 		</route>
 	</camelContext>
