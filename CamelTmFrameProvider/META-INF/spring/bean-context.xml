@@ -11,7 +11,7 @@
 	<bean name="jms" class="org.apache.camel.component.jms.JmsComponent">
 		<property name="connectionFactory">
 			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="tcp://10.48.16.23:61616" />
+				<property name="brokerURL" value="tcp://localhost:61616" />
 			</bean>
 		</property>
 	</bean>
@@ -19,7 +19,7 @@
 	<!-- FOR SOME REASON REF DOES NOT WORK.  STICK TO URI's FOR ROUTES.  WE WILL RESEARCH THIS...roo -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<route>
-			<from uri="jms:topic:t1"/>
+			<from uri="jms:queue:q1"/>
 			<to uri="bean:camelTmFrameProvider?method=frameIn"/>
 		</route>
 	</camelContext>
