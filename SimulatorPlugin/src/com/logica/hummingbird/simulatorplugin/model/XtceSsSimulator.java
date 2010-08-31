@@ -21,6 +21,7 @@ public class XtceSsSimulator {
 
 	public final void loadSpaceSystemModel(ContainerFactory spaceSystemModelFactory, String packetName) throws UnknownContainerNameException {
 		ssm = new SimulatorSSM(spaceSystemModelFactory, packetName);
+		System.out.println("Loaded SSM.  Detected " + spaceSystemModelFactory.getAllParameters().keySet().size() + " parameters");
 	}
 
 	public final SimulatorSSM getSpaceSystemModel() {

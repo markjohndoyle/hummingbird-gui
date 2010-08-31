@@ -9,6 +9,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.logica.hummingbird.simulatorplugin.model.XtceSsSimulator;
+import com.logica.hummingbird.spacesystemmodel.exceptions.UnknownContainerNameException;
+import com.logica.hummingbird.xtce.XtceModelFactory;
+import com.logica.hummingbird.xtce.exceptions.InvalidXtceFileException;
+
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
  * @see org.eclipse.core.commands.IHandler
@@ -34,6 +39,18 @@ public class OpenSsm extends AbstractHandler {
 		openSsmDialog.setFilterExtensions(new String[] {"*.xml"});
 		openSsmDialog.setText("Select a space system model to load");
 		String filePath = openSsmDialog.open();
+		
+		try {
+			XtceSsSimulator.getInstance().loadSpaceSystemModel(new XtceModelFactory(filePath), "TMPacket");
+		}
+		catch (UnknownContainerNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (InvalidXtceFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return filePath;
 //		ContainerFactory ssmFactory = null;

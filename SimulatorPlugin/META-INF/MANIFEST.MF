@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SimulatorPlugin
 Bundle-SymbolicName: com.logica.hummingbird.SimulatorPlugin; singleton:=true
 Bundle-Version: 0.0.1
-Bundle-Activator: simulatorplugin.SimulatorActivator
+Bundle-Activator: com.logica.hummingbird.simulatorplugin.SimulatorActivator
 Bundle-Vendor: logica
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

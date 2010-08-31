@@ -1,4 +1,4 @@
-package simulatorplugin;
+package com.logica.hummingbird.simulatorplugin;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
