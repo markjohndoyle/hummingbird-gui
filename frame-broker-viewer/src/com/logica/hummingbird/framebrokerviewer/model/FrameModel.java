@@ -6,7 +6,7 @@ package com.logica.hummingbird.framebrokerviewer.model;
 import java.util.List;
 import java.util.Observable;
 
-import com.logica.hummingbird.framebroker.IContainer;
+import com.logica.hummingbird.spacesystemmodel.Container;
 
 /**
  * @author Mark Doyle
@@ -14,7 +14,7 @@ import com.logica.hummingbird.framebroker.IContainer;
  */
 public class FrameModel extends Observable {
 	
-	List<IContainer> receivedFrames;
+	List<Container> receivedFrames;
 
 	/**
 	 * 

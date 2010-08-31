@@ -12,7 +12,8 @@ Require-Bundle: com.logica.hummingbird.TmFrameProvider;bundle-version="0.0.1",
  org.apache.camel.camel-core;bundle-version="2.2.0",
  org.apache.activemq.activemq-core;bundle-version="5.3.0",
  com.logica.hummingbird.frame-broker;bundle-version="0.0.1",
- org.apache.camel.camel-jms;bundle-version="2.2.0"
+ org.apache.camel.camel-jms;bundle-version="2.2.0",
+ com.logica.hummingbird.space-system-model;bundle-version="0.0.1"
 Export-Package: com.logica.hummingbird.cameltmframeprovider;
   uses:="javax.jms,
    com.logica.hummingbird.framebroker,

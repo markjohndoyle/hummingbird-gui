@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SimulatorPlugin
+Bundle-SymbolicName: com.logica.hummingbird.SimulatorPlugin; singleton:=true
+Bundle-Version: 0.0.1
+Bundle-Activator: simulatorplugin.SimulatorActivator
+Bundle-Vendor: logica
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ com.logica.hummingbird.simulator;bundle-version="0.0.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

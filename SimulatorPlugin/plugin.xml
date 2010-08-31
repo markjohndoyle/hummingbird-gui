@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Space System Editor"
+            extensions="xml"
+            icon="icons/sample.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="com.logica.hummingbird.simulatorplugin.editors.SpaceSystemXmlEditor"
+            id="com.logica.hummingbird.simulatorplugin.editors.SpaceSystemXmlEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Simulator"
+            id="com.logica.hummingbird.SimulatorPlugin">
+      </category>
+      <view
+            name="Space System Parameters View"
+            icon="icons/sample.gif"
+            category="com.logica.hummingbird.SimulatorPlugin"
+            class="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
+            id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>

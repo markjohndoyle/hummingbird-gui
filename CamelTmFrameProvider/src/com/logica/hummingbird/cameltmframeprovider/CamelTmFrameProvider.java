@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 
-import com.logica.hummingbird.framebroker.IContainer;
+import com.logica.hummingbird.spacesystemmodel.Container;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 /**
@@ -18,7 +18,7 @@ import com.logica.hummingbird.tmframeprovider.IFrameProvider;
  */
 public class CamelTmFrameProvider implements IFrameProvider {
 	
-	List<IContainer> receivedFrames;
+	List<Container> receivedFrames;
 
 	public CamelTmFrameProvider() {
 		System.out.println("Constructing camel provider class - Spring container must be alive!");
@@ -27,7 +27,7 @@ public class CamelTmFrameProvider implements IFrameProvider {
 	public void frameIn(Exchange ex) {
 		System.out.println("Message received!");
 		if(receivedFrames == null) {
-			this.receivedFrames = new ArrayList<IContainer>();
+			this.receivedFrames = new ArrayList<Container>();
 		}
 		
 		System.out.println(ex.toString());
@@ -40,7 +40,7 @@ public class CamelTmFrameProvider implements IFrameProvider {
 	}
 
 	@Override
-	public IContainer getLatestFrame() {
+	public Container getLatestFrame() {
 		// TODO Auto-generated method stub
 		return null;
 	}

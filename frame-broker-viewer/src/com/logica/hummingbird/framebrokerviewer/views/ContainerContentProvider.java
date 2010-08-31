@@ -8,7 +8,8 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.logica.hummingbird.framebroker.IContainer;
+import com.logica.hummingbird.spacesystemmodel.Container;
+
 
 /**
  * @author Mark Doyle
@@ -18,7 +19,7 @@ public class ContainerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		return toObjectArray(((IContainer)parentElement).getSubContainers());
+		return toObjectArray(((Container)parentElement).getSubContainers());
 	}
 
 	@Override
@@ -29,12 +30,12 @@ public class ContainerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
-		return ((IContainer)element).getSubContainers().size() > 0;
+		return ((Container)element).getSubContainers().size() > 0;
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return toObjectArray(((IContainer)inputElement).getSubContainers());
+		return toObjectArray(((Container)inputElement).getSubContainers());
 	}
 
 	@Override
@@ -49,10 +50,10 @@ public class ContainerContentProvider implements ITreeContentProvider {
 
 	}
 
-	private Object[] toObjectArray(List<IContainer> containers) {
+	private Object[] toObjectArray(List<Container> containers) {
 		Object[] array = new Object[containers.size()];
 		int count = 0;
-		for(IContainer container : containers) {
+		for(Container container : containers) {
 			array[count] = container;
 			count++;
 		}

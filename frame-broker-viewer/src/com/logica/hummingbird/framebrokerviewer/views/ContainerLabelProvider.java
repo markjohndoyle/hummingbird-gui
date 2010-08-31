@@ -7,10 +7,10 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import com.logica.hummingbird.framebroker.Container;
-import com.logica.hummingbird.framebroker.IContainer;
-import com.logica.hummingbird.framebroker.parameters.IParameter;
 import com.logica.hummingbird.framebrokerviewer.FrameBrokerViewerPlugin;
+import com.logica.hummingbird.spacesystemmodel.Container;
+import com.logica.hummingbird.spacesystemmodel.ContainerImpl;
+import com.logica.hummingbird.spacesystemmodel.parameters.Parameter;
 import com.swtdesigner.ResourceManager;
 
 /**
@@ -21,7 +21,7 @@ public class ContainerLabelProvider implements ILabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IParameter) {
+		if (element instanceof Parameter) {
 			return ResourceManager.getPluginImage(FrameBrokerViewerPlugin.getDefault(), "icons/transmit.png");
 		}
 		else if (element instanceof Container) {
@@ -34,11 +34,11 @@ public class ContainerLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof IContainer) {
-			return ((Container) element).getName();
+		if (element instanceof ContainerImpl) {
+			return ((ContainerImpl)element).getName();
 		}
 		else {
-			return "Unknown IContainer type";
+			return "Unknown Container type";
 		}
 	}
 

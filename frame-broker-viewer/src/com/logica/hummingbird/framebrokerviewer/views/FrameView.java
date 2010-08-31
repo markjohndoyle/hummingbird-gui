@@ -1,5 +1,6 @@
 package com.logica.hummingbird.framebrokerviewer.views;
 
+import org.eclipse.core.commands.ParameterType;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -12,12 +13,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
-import com.logica.hummingbird.framebroker.Container;
-import com.logica.hummingbird.framebroker.IContainer;
-import com.logica.hummingbird.framebroker.parameters.IntegerParameter;
-import com.logica.hummingbird.framebroker.parameters.ParameterType;
-import com.logica.hummingbird.framebroker.parameters.ParameterType.eParameterType;
 import com.logica.hummingbird.framebrokerviewer.FrameBrokerViewerPlugin;
+import com.logica.hummingbird.spacesystemmodel.Container;
+import com.logica.hummingbird.spacesystemmodel.ContainerImpl;
+import com.logica.hummingbird.spacesystemmodel.exceptions.InvalidParameterTypeException;
+import com.logica.hummingbird.spacesystemmodel.parameters.IntegerParameter;
+import com.logica.hummingbird.spacesystemmodel.parameters.behaviours.IntegerUnsignedBehaviour;
+import com.logica.hummingbird.spacesystemmodel.parameters.types.NumberParameterType;
 import com.logica.hummingbird.tmframeprovider.IFrameProvider;
 
 
@@ -36,7 +38,7 @@ public class FrameView extends ViewPart {
 	 */
 	IFrameProvider frameProvider;
 	
-	IContainer frame;
+	Container frame;
 	
 
 	public FrameView() {
@@ -51,18 +53,25 @@ public class FrameView extends ViewPart {
 	}
 	
 	private void testDataInit() {
-		frame = new Container("Test Frame", "Mock Test Frame", "Mock Frame created for testing");
-		((Container)frame).addContainer(new Container("Test Frame Header", "Mock Test Frame Header", "Mock Frame Header created for testing"));
-		Container framePacket = new Container("Test Frame Packet", "Mock Test Frame Packet", "Mock Frame Packet created for testing");
-		((Container)frame).addContainer(framePacket);
-		((Container)frame).addContainer(new Container("Test Frame Tail", "Mock Test Frame Tail", "Mock Frame Tail created for testing"));
+		frame = new ContainerImpl("Test Frame", "Mock Test Frame", "Mock Frame created for testing");
+		((ContainerImpl)frame).addContainer(new ContainerImpl("Test Frame Header", "Mock Test Frame Header", "Mock Frame Header created for testing"));
+		ContainerImpl framePacket = new ContainerImpl("Test Frame Packet", "Mock Test Frame Packet", "Mock Frame Packet created for testing");
+		((ContainerImpl)frame).addContainer(framePacket);
+		((ContainerImpl)frame).addContainer(new ContainerImpl("Test Frame Tail", "Mock Test Frame Tail", "Mock Frame Tail created for testing"));
 		
-		Container packetHeader = new Container("Test Packet Header", "Mock Test Packet Header", "Mock Packet Header created for testing");
+		ContainerImpl packetHeader = new ContainerImpl("Test Packet Header", "Mock Test Packet Header", "Mock Packet Header created for testing");
 		framePacket.addContainer(packetHeader);
-		Container packetBody = new Container("Test Packet Body", "Mock Test Packet Body", "Mock Packet Body created for testing");
+		ContainerImpl packetBody = new ContainerImpl("Test Packet Body", "Mock Test Packet Body", "Mock Packet Body created for testing");
 		framePacket.addContainer(packetBody);
 		
-		ParameterType testType32bitInt = new ParameterType("test type", "test type", "32bit int test type", eParameterType.INTEGER, true, 0, 32);
+		NumberParameterType testType32bitInt = null;
+		try {
+			testType32bitInt = new NumberParameterType("test type", "test type", "32bit int test type", new IntegerUnsignedBehaviour(32, true), 0);
+		}
+		catch (InvalidParameterTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		packetHeader.addContainer(new IntegerParameter("Test Apid param", "test parameter", "Test parameter created for testing", testType32bitInt, 555));
 		packetBody.addContainer(new IntegerParameter("Test param", "test parameter", "Test parameter created for testing", testType32bitInt, 4));
 		packetBody.addContainer(new IntegerParameter("Test param2", "test parameter", "Test parameter created for testing", testType32bitInt, 7));
@@ -111,7 +120,7 @@ public class FrameView extends ViewPart {
 		frameTreeViewerLData.verticalAlignment = GridData.FILL;
 		frameTreeViewerLData.horizontalAlignment = GridData.FILL;
 		
-		Container treeRoot = new Container("GUI root container", "Mock GUI Container for root", "GUI Container used to put the real data into.  This allows us to \"see\" the Root frame");
+		ContainerImpl treeRoot = new ContainerImpl("GUI root container", "Mock GUI Container for root", "GUI Container used to put the real data into.  This allows us to \"see\" the Root frame");
 		treeRoot.addContainer(frame);
 		
 		frameTreeViewer.getControl().setLayoutData(frameTreeViewerLData);
