@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.logica.hummingbird.simulatorplugin.model.XtceSsSimulator;
+import com.logica.hummingbird.simulatorplugin.SimDock;
 import com.logica.hummingbird.spacesystemmodel.exceptions.UnknownContainerNameException;
 import com.logica.hummingbird.xtce.XtceModelFactory;
 import com.logica.hummingbird.xtce.exceptions.InvalidXtceFileException;
@@ -32,8 +32,7 @@ public class OpenSsm extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		
-		Shell shell = HandlerUtil.getActiveWorkbenchWindow(event).getShell();
+		Shell shell = window.getShell();
 		
 		FileDialog openSsmDialog = new FileDialog(shell, SWT.OPEN);
 		openSsmDialog.setFilterExtensions(new String[] {"*.xml"});
@@ -41,7 +40,7 @@ public class OpenSsm extends AbstractHandler {
 		String filePath = openSsmDialog.open();
 		
 		try {
-			XtceSsSimulator.getInstance().loadSpaceSystemModel(new XtceModelFactory(filePath), "TMPacket");
+			SimDock.getInstance().loadSpaceSystemModel(new XtceModelFactory(filePath), "TMPacket");
 		}
 		catch (UnknownContainerNameException e) {
 			// TODO Auto-generated catch block
@@ -52,16 +51,6 @@ public class OpenSsm extends AbstractHandler {
 			e.printStackTrace();
 		}
 		
-		return filePath;
-//		ContainerFactory ssmFactory = null;
-//		try {
-//			ssmFactory = new XtceModelFactory(filePath);
-//		}
-//		catch (InvalidXtceFileException e) {
-//			ErrorDialog.openError(shell, "Error opening space system model", "Invalid XTCE file or location", Status.OK_STATUS);
-//		}
-//		
-//		System.out.println("Loaded SSM - Detected " + ssmFactory.getAllParameters().size() + " parameters");
-//		return ssmFactory;
+		return null;
 	}
 }
