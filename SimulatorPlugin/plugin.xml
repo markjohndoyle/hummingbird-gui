@@ -20,11 +20,20 @@
             id="com.logica.hummingbird.SimulatorPlugin">
       </category>
       <view
-            name="Space System Parameters View"
-            icon="icons/sample.gif"
             category="com.logica.hummingbird.SimulatorPlugin"
             class="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
-            id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView">
+            icon="icons/sample.gif"
+            id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
+            name="Space System Parameters"
+            restorable="true">
+      </view>
+      <view
+            category="com.logica.hummingbird.SimulatorPlugin"
+            class="com.logica.hummingbird.simulatorplugin.views.SpaceSystemPacketsView"
+            icon="icons/sample.gif"
+            id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemPacketsView"
+            name="Space System Packets"
+            restorable="true">
       </view>
    </extension>
    <extension

@@ -28,9 +28,11 @@ public class SimDock implements SimulatorDock {
 	public final void loadSpaceSystemModel(ContainerFactory spaceSystemModelFactory, String packetName) throws UnknownContainerNameException {
 		ssm = new SimulatorSSM(spaceSystemModelFactory, packetName);
 		System.out.println("Loaded SSM.  Detected " + spaceSystemModelFactory.getAllParameters().keySet().size() + " parameters");
-		
-		for(SimulatorObserver ob : observers) {
-			ob.spaceSystemUpdated(spaceSystemModelFactory);
+
+		if (observers != null) {
+			for (SimulatorObserver ob : observers) {
+				ob.spaceSystemUpdated(spaceSystemModelFactory);
+			}
 		}
 	}
 
@@ -66,7 +68,7 @@ public class SimDock implements SimulatorDock {
 
 	@Override
 	public void addObserver(SimulatorObserver ob) {
-		if(observers == null) {
+		if (observers == null) {
 			observers = new ArrayList<SimulatorObserver>();
 		}
 		observers.add(ob);
