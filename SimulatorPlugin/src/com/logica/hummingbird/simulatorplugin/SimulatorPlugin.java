@@ -8,18 +8,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class SimulatorActivator extends AbstractUIPlugin {
+public class SimulatorPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.logica.hummingbird.SimulatorPlugin"; //$NON-NLS-1$
 
 	// The shared instance
-	private static SimulatorActivator plugin;
+	private static SimulatorPlugin plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public SimulatorActivator() {
+	public SimulatorPlugin() {
 	}
 
 	/*
@@ -45,7 +45,7 @@ public class SimulatorActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static SimulatorActivator getDefault() {
+	public static SimulatorPlugin getDefault() {
 		return plugin;
 	}
 

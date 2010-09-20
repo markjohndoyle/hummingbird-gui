@@ -12,6 +12,13 @@
             class="com.logica.hummingbird.simulatorplugin.editors.SpaceSystemXmlEditor"
             id="com.logica.hummingbird.simulatorplugin.editors.SpaceSystemXmlEditor">
       </editor>
+      <editor
+            class="com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignerEditor"
+            default="true"
+            icon="icons/transmit_edit.png"
+            id="com.logica.hummingbird.simulatorplugin.editors.PacketDesignerEditor"
+            name="Packet Designer Editor">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -22,7 +29,7 @@
       <view
             category="com.logica.hummingbird.SimulatorPlugin"
             class="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
-            icon="icons/sample.gif"
+            icon="icons/tag_blue.png"
             id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
             name="Space System Parameters"
             restorable="true">
@@ -35,16 +42,28 @@
             name="Space System Packets"
             restorable="true">
       </view>
+      <view
+            allowMultiple="false"
+            category="com.logica.hummingbird.SimulatorPlugin"
+            class="com.logica.hummingbird.simulatorplugin.packetdesigner.views.PacketDesignerView"
+            icon="icons/cog_go.png"
+            id="com.logica.hummingbird.simulatorplugin.views.packetdesigner"
+            name="Packet Designer"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.eclipse.jdt.ui.JavaPerspective">
          <view
+               id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView"
+               moveable="true"
                ratio="0.5"
-               relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView">
+               relative="org.eclipse.ui.views.TaskList"
+               showTitle="false"
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>
@@ -58,18 +77,13 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="com.logica.hummingbird.simulatorplugin.persepctives.SimulatorPerspectiveFactory"
+            icon="icons/cog_go.png"
             id="com.logica.hummingbird.SimulatorPlugin.perspective"
-            name="SimulatorPerspective">
+            name="Simulator">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-      </menuContribution>
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-      </menuContribution>
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
@@ -78,8 +92,26 @@
                mnemonic="M">
             <command
                   commandId="com.logica.hummingbird.SimulatorPlugin.commands.openSsm"
-                  id="com.logica.hummingbird.SimulatorPlugin.menus.simulatorMenu"
-                  mnemonic="S">
+                  label="Load Space System Model"
+                  mnemonic="S"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.logica.hummingbird.SimulatorPlugin.commands.newpacket"
+                  label="New Packet Definition"
+                  mnemonic="N"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.logica.hummingbird.SimulatorPlugin.commands.setpacket"
+                  label="Set Packet"
+                  mnemonic="S"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.logica.hummingbird.SimulatorPlugin.commands.delete"
+                  label="Delete"
+                  style="push">
             </command>
          </menu>
       </menuContribution>
@@ -90,8 +122,22 @@
             <command
                   commandId="com.logica.hummingbird.SimulatorPlugin.commands.openSsm"
                   icon="icons/sample.gif"
-                  id="com.logica.hummingbird.SimulatorPlugin.toolbars.simulatorToolbar"
+                  id="com.logica.hummingbird.SimulatorPlugin.toolbars.simulatorToolbar.openSpaceSystem"
+                  label="Open Space System"
                   tooltip="Load a space system model into the simulator">
+            </command>
+            <command
+                  commandId="com.logica.hummingbird.SimulatorPlugin.commands.newpacket"
+                  icon="icons/transmit_edit.png"
+                  id="com.logica.hummingbird.SimulatorPlugin.toolbars.simulatorToolbar.NewPacket"
+                  label="New packet definition"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.logica.hummingbird.SimulatorPlugin.commands.runSim"
+                  icon="icons/launch_run.gif"
+                  label="Run sim"
+                  style="push">
             </command>
          </toolbar>
       </menuContribution>
@@ -113,16 +159,69 @@
       </category>
       <command
             categoryId="com.logica.hummingbird.SimulatorPlugin.commands.category"
+            defaultHandler="com.logica.hummingbird.simulatorplugin.handlers.OpenSsm"
             id="com.logica.hummingbird.SimulatorPlugin.commands.openSsm"
             name="Open Space System Model">
+      </command>
+      <command
+            categoryId="com.logica.hummingbird.SimulatorPlugin.commands.category"
+            id="com.logica.hummingbird.SimulatorPlugin.commands.newpacket"
+            name="New Packet Definition">
+      </command>
+      <command
+            categoryId="com.logica.hummingbird.SimulatorPlugin.commands.category"
+            id="com.logica.hummingbird.SimulatorPlugin.commands.setpacket"
+            name="Set new packet">
+      </command>
+      <command
+            categoryId="com.logica.hummingbird.SimulatorPlugin.commands.category"
+            id="com.logica.hummingbird.SimulatorPlugin.commands.delete"
+            name="Delete">
+      </command>
+      <command
+            id="com.logica.hummingbird.SimulatorPlugin.commands.runSim"
+            name="Run sim">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="com.logica.hummingbird.simulatorplugin.handlers.OpenSsm"
-            commandId="com.logica.hummingbird.SimulatorPlugin.commands.openSsm">
+            commandId="com.logica.hummingbird.SimulatorPlugin.commands.newpacket"
+            class="com.logica.hummingbird.simulatorplugin.handlers.NewPacketDefinition">
       </handler>
+      <handler
+            commandId="com.logica.hummingbird.SimulatorPlugin.commands.setpacket"
+            class="com.logica.hummingbird.simulatorplugin.handlers.SetPacket">
+         <activeWhen>
+            <with
+                  variable="activeEditorId">
+               <equals
+                     value="com.logica.hummingbird.simulatorplugin.editors.PacketDesignerEditor">
+               </equals>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            class="com.logica.hummingbird.simulatorplugin.packetdesigner.handlers.PacketDesignGefDeleteHandler"
+            commandId="com.logica.hummingbird.SimulatorPlugin.commands.delete">
+      </handler>
+      <handler
+            class="com.logica.hummingbird.simulatorplugin.handlers.RunSimHandler"
+            commandId="com.logica.hummingbird.SimulatorPlugin.handlers.RunSim">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+   </extension>
+   <extension
+         point="org.eclipse.ui.editorActions">
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consoleFactories">
+      <consoleFactory
+            class="com.logica.hummingbird.simulatorplugin.console.SimulatorConsoleFactory"
+            label="Simulator console">
+      </consoleFactory>
    </extension>
 
 </plugin>

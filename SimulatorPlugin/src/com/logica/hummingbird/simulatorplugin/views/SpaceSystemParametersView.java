@@ -1,6 +1,7 @@
 package com.logica.hummingbird.simulatorplugin.views;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -8,12 +9,12 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
@@ -29,6 +30,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.logica.hummingbird.simulatorplugin.SimDock;
 import com.logica.hummingbird.simulatorplugin.SimulatorObserver;
+import com.logica.hummingbird.spacesystemmodel.Container;
 import com.logica.hummingbird.spacesystemmodel.ContainerFactory;
 import com.logica.hummingbird.spacesystemmodel.parameters.ParameterContainer;
 
@@ -50,7 +52,7 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 	 */
 	public static final String ID = "com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView";
 
-	private TableViewer parameterTable;
+	private TableViewer parameterTableViewer;
 
 	/*
 	 * The content provider class is responsible for providing objects to the view. It can wrap existing objects in
@@ -66,9 +68,9 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 		}
 
 		public Object[] getElements(Object parent) {
-			Collection<ParameterContainer> params = SimDock.getInstance().getAllParameters();
-			if (params != null) {
-				return params.toArray();
+			Collection<ParameterContainer> containers = SimDock.getInstance().getAllParameters();
+			if (containers != null) {
+				return containers.toArray();
 			}
 			else {
 				return new String[] { "No parameters to display" };
@@ -78,12 +80,32 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			if (obj instanceof ParameterContainer) {
-				return ((ParameterContainer) obj).getName();
+			StringBuffer text = new StringBuffer();
+			switch (index) {
+				case 0:
+					if (obj instanceof Container) {
+						text.append(((Container) obj).getName());
+						break;
+					}
+				case 1:
+					if (obj instanceof Container) {
+						List<Container> parents = ((Container) obj).getParents();
+						if (parents != null) {
+							for (Container p : parents) {
+								text.append(p.getName() + " ");
+							}
+							break;
+						}
+						else {
+							text.append("N/A");
+							break;
+						}
+					}
+				default:
+					text.append(obj.toString());
 			}
-			else {
-				return obj.toString();
-			}
+			System.out.println("Returning " + text + " for column index " + index);
+			return text.toString();
 		}
 
 		public Image getColumnImage(Object obj, int index) {
@@ -106,31 +128,38 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 	}
 
 	/**
-	 * This is a callback that will allow us to create the viewer and initialize it.
+	 * This is a callback that will allow us to create the viewer and initialise it.
 	 */
 	public void createPartControl(Composite parent) {
-		parameterTable = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		parameterTable.setContentProvider(new ViewContentProvider());
-		parameterTable.setLabelProvider(new ViewLabelProvider());
-		parameterTable.setSorter(new NameSorter());
-		parameterTable.setInput(getViewSite());
+		parameterTableViewer = new TableViewer(parent, SWT.MULTI);
+		parameterTableViewer.setColumnProperties(new String[] {});
 
 		// Set up the table
-	    Table table = parameterTable.getTable();
-	    new TableColumn(table, SWT.LEFT).setText("Parameter");
-	    new TableColumn(table, SWT.RIGHT).setText("Value");
-	    table.setHeaderVisible(true);
+		Table table = parameterTableViewer.getTable();
+
+		TableLayout layout = new TableLayout();
+		layout.addColumnData(new ColumnWeightData(33, true));
+		layout.addColumnData(new ColumnWeightData(33, true));
+		table.setLayout(layout);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+
+		parameterTableViewer.setContentProvider(new ViewContentProvider());
+		parameterTableViewer.setLabelProvider(new ViewLabelProvider());
+		parameterTableViewer.setSorter(new NameSorter());
+		parameterTableViewer.setInput(getViewSite());
+
+		TableColumn paramCol = new TableColumn(table, SWT.LEFT);
+		paramCol.setText("Parameter");
+		TableColumn parentCol = new TableColumn(table, SWT.LEFT);
+		parentCol.setText("Parent");
 
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parameterTable.getControl(), "com.logica.hummingbird.SimulatorPlugin.viewer");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parameterTableViewer.getControl(), "com.logica.hummingbird.SimulatorPlugin.viewer");
 
-		// Pack the columns
-	    for (int i = 0, n = table.getColumnCount(); i < n; i++) {
-	      table.getColumn(i).pack();
-	    }
-	    
 		hookContextMenu();
-		initializeToolBar();
+
+		IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
 	}
 
 	private void hookContextMenu() {
@@ -141,9 +170,9 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 				SpaceSystemParametersView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(parameterTable.getControl());
-		parameterTable.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, parameterTable);
+		Menu menu = menuMgr.createContextMenu(parameterTableViewer.getControl());
+		parameterTableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, parameterTableViewer);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
@@ -152,21 +181,18 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 	}
 
 	private void showMessage(String message) {
-		MessageDialog.openInformation(parameterTable.getControl().getShell(), "Space System Parameters View", message);
+		MessageDialog.openInformation(parameterTableViewer.getControl().getShell(), "Space System Parameters View", message);
 	}
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		parameterTable.getControl().setFocus();
+		parameterTableViewer.getControl().setFocus();
 	}
 
 	@Override
 	public void spaceSystemUpdated(ContainerFactory spaceSystemModel) {
-		parameterTable.refresh();
-	}
-	private void initializeToolBar() {
-		IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
+		parameterTableViewer.refresh();
 	}
 }

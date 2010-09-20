@@ -35,13 +35,14 @@
          </command>
       </menuContribution>
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu">
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
                label="Frame Broker"
                tooltip="Frame Broker configuration">
             <command
                   commandId="com.logica.hummingbird.framebrokerviewer.commands.selectProvider"
                   icon="icons/transmit_edit.png"
+                  label="Select Tm Provider"
                   style="push"
                   tooltip="Select the telemetry frame provider.">
             </command>

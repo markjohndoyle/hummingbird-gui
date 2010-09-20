@@ -3,8 +3,11 @@ package com.logica.hummingbird.simulatorplugin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
+import com.google.gson.Gson;
 import com.logica.hummingbird.simulator.SimulatorSSM;
+import com.logica.hummingbird.spacesystemmodel.Container;
 import com.logica.hummingbird.spacesystemmodel.ContainerFactory;
 import com.logica.hummingbird.spacesystemmodel.exceptions.UnknownContainerNameException;
 import com.logica.hummingbird.spacesystemmodel.parameters.ParameterContainer;
@@ -14,6 +17,8 @@ public class SimDock implements SimulatorDock {
 	static SimDock instance;
 	SimulatorSSM ssm;
 	List<SimulatorObserver> observers;
+	Gson gson;
+	List<FutureTask> simThreads;
 
 	private SimDock() {
 	}
@@ -48,6 +53,9 @@ public class SimDock implements SimulatorDock {
 	public final SimulatorSSM getSpaceSystemModel() {
 		return ssm;
 	}
+	
+	public final void runSim() {
+	}
 
 	/**
 	 * @return the ssm
@@ -72,6 +80,15 @@ public class SimDock implements SimulatorDock {
 			observers = new ArrayList<SimulatorObserver>();
 		}
 		observers.add(ob);
+	}
+
+	public Collection<Container> getAllContainers() {
+		if (ssm != null) {
+			return ssm.getAllContainers();
+		}
+		else {
+			return null;
+		}
 	}
 
 }
