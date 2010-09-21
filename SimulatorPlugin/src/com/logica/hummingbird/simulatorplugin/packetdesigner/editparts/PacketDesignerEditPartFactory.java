@@ -3,7 +3,7 @@ package com.logica.hummingbird.simulatorplugin.packetdesigner.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
@@ -13,9 +13,9 @@ public class PacketDesignerEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart editPart = null;
 
-		if (model instanceof PacketDesign) {
+		if (model instanceof SimPacketDesign) {
 			System.out.println("Returning packet deisgn");
-			editPart = new PacketDesignEditPart((PacketDesign) model);
+			editPart = new PacketDesignEditPart((SimPacketDesign) model);
 		}
 		else if (model instanceof HummingbirdPacket) {
 			System.out.println("Returning packet");

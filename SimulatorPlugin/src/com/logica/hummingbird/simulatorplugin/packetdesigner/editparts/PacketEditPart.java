@@ -7,9 +7,14 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.ui.PlatformUI;
 
+import com.logica.hummingbird.simulatorplugin.packetdesigner.dialogs.PacketEditDialog;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.figures.PacketFigure;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.PacketLayoutEditPolicy;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
 
@@ -90,16 +95,17 @@ public class PacketEditPart extends AbstractGraphicalEditPart {
 		return getPacketModel().getParameters();
 	}
 
-	// /**
-	// * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
-	// */
-	// protected EditPolicy createChildEditPolicy(EditPart child) {
-	// if (child instanceof ParameterEditPart) {
-	// System.out.println("Creating Selection policy for parameter child");
-	// return new ParameterSelectionEditPolicy();
-	// }
-	// return new NonResizableEditPolicy();
-	// }
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+			System.out.println("Double clicked on packet");
+			// FIXME this is a test - use commands and make a decent dialog.
+			SimPacketDesign packetDesign = ((PacketDesignEditPart) getParent()).getPacketDesign();
+			PacketEditDialog dialog = new PacketEditDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), packetDesign);
+			dialog.open();
+		}
+		super.performRequest(req);
+	}
 
 	/**
 	 * Sets the width of the line when selected
@@ -126,9 +132,9 @@ public class PacketEditPart extends AbstractGraphicalEditPart {
 		return packetFigure.getParameterContainer();
 	}
 
-	
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChild(org.eclipse.gef.EditPart)
 	 */
 	@Override
@@ -146,6 +152,10 @@ public class PacketEditPart extends AbstractGraphicalEditPart {
 	protected void addChild(EditPart child, int index) {
 		// TODO Auto-generated method stub
 		super.addChild(child, index);
+	}
+
+	public final void setPacketName(String name) {
+		this.packetFigure.setPacketName(name);
 	}
 
 }

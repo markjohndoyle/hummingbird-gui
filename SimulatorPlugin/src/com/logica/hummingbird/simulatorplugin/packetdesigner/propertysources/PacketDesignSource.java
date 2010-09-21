@@ -1,15 +1,19 @@
 package com.logica.hummingbird.simulatorplugin.packetdesigner.propertysources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 
 public class PacketDesignSource implements IPropertySource {
 
-	private PacketDesign packetDesign;
+	private SimPacketDesign packetDesign;
 
-	public PacketDesignSource(PacketDesign packetDesign) {
+	public PacketDesignSource(SimPacketDesign packetDesign) {
 		this.packetDesign = packetDesign;
 	}
 
@@ -21,8 +25,10 @@ public class PacketDesignSource implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
-		return null;
+		List<IPropertyDescriptor> props = new ArrayList<IPropertyDescriptor>();
+		props.add(new PropertyDescriptor(SimPacketDesign.PACKET_PROPERTY, "Packet"));
+
+		return props.toArray(new IPropertyDescriptor[0]);
 	}
 
 	@Override

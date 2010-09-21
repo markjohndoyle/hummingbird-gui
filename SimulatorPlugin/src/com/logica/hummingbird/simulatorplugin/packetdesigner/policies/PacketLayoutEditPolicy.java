@@ -8,7 +8,7 @@ import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.commands.ParameterCreateCommand;
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
 public class PacketLayoutEditPolicy extends OrderedLayoutEditPolicy {
@@ -29,7 +29,7 @@ public class PacketLayoutEditPolicy extends OrderedLayoutEditPolicy {
 	protected Command getCreateCommand(CreateRequest request) {
 		if (request.getNewObject() == HummingbirdParameter.class) {
 			System.out.println("PacketLayoutEditPolicy is getting create command for HummingbirdParameter classs");
-			PacketDesign manager = (PacketDesign) getHost().getParent().getModel();
+			SimPacketDesign manager = (SimPacketDesign) getHost().getParent().getModel();
 			return new ParameterCreateCommand(manager);
 		}
 		return UnexecutableCommand.INSTANCE;

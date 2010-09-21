@@ -10,7 +10,7 @@ import com.logica.hummingbird.simulatorplugin.packetdesigner.commands.ParameterD
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.PacketDesignEditPart;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.PacketEditPart;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.ParameterEditPart;
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
@@ -47,7 +47,7 @@ public class ParameterComponentEditPolicy extends ComponentEditPolicy {
 			if (model instanceof HummingbirdParameter) {
 				// Get the PacketDesign model
 				PacketDesignEditPart pdep = (PacketDesignEditPart) ((ParameterEditPart) editPart).getParent().getParent();
-				PacketDesign pd = pdep.getPacketDesign();
+				SimPacketDesign pd = pdep.getPacketDesign();
 
 				delete.add(new ParameterDeleteGefCommand(pd, packet, (HummingbirdParameter) model));
 			}

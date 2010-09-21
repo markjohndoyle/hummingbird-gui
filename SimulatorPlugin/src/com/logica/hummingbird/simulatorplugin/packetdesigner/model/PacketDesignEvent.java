@@ -11,16 +11,16 @@ import com.logica.hummingbird.telemetry.HummingbirdParameter;
 public class PacketDesignEvent {
 
 	public enum EventType {
-		PACKET_CHANGED, PARAMETER_ADDED, PARAMETER_REMOVED
+		PACKET_CHANGED, PARAMETER_ADDED, PARAMETER_REMOVED, PACKET_ADDED
 	};
 
 	private EventType type;
 	private HummingbirdPacket packet = null;
 	private HummingbirdParameter changedParameter = null;
 
-	public PacketDesignEvent(EventType type, HummingbirdPacket packet) {
+	public PacketDesignEvent(EventType type, HummingbirdPacket newPacket) {
 		this.type = type;
-		this.packet = packet;
+		this.packet = newPacket;
 	}
 
 	public PacketDesignEvent(EventType type, HummingbirdParameter parameter) {

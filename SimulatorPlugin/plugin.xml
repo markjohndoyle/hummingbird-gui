@@ -207,7 +207,7 @@
       </handler>
       <handler
             class="com.logica.hummingbird.simulatorplugin.handlers.RunSimHandler"
-            commandId="com.logica.hummingbird.SimulatorPlugin.handlers.RunSim">
+            commandId="com.logica.hummingbird.SimulatorPlugin.commands.runSim">
       </handler>
    </extension>
    <extension

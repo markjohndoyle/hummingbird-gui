@@ -35,16 +35,10 @@ import com.logica.hummingbird.spacesystemmodel.ContainerFactory;
 import com.logica.hummingbird.spacesystemmodel.parameters.ParameterContainer;
 
 /**
- * This sample class demonstrates how to plug-in a new workbench view. The view shows data obtained from the model. The
- * sample creates a dummy model on the fly, but a real implementation would connect to the model available either in
- * this or another plug-in (e.g. the workspace). The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model objects should be presented in the view. Each view can present the
- * same model objects using different labels and icons, if needed. Alternatively, a single label provider can be shared
- * between views in order to ensure that objects of the same type are presented in the same way everywhere.
- * <p>
+ * 
+ * @author Mark Doyle
+ * 
  */
-
 public class SpaceSystemParametersView extends ViewPart implements SimulatorObserver {
 
 	/**
@@ -82,27 +76,27 @@ public class SpaceSystemParametersView extends ViewPart implements SimulatorObse
 		public String getColumnText(Object obj, int index) {
 			StringBuffer text = new StringBuffer();
 			switch (index) {
-				case 0:
-					if (obj instanceof Container) {
-						text.append(((Container) obj).getName());
+			case 0:
+				if (obj instanceof Container) {
+					text.append(((Container) obj).getName());
+					break;
+				}
+			case 1:
+				if (obj instanceof Container) {
+					List<Container> parents = ((Container) obj).getParents();
+					if (parents != null) {
+						for (Container p : parents) {
+							text.append(p.getName() + " ");
+						}
 						break;
 					}
-				case 1:
-					if (obj instanceof Container) {
-						List<Container> parents = ((Container) obj).getParents();
-						if (parents != null) {
-							for (Container p : parents) {
-								text.append(p.getName() + " ");
-							}
-							break;
-						}
-						else {
-							text.append("N/A");
-							break;
-						}
+					else {
+						text.append("N/A");
+						break;
 					}
-				default:
-					text.append(obj.toString());
+				}
+			default:
+				text.append(obj.toString());
 			}
 			System.out.println("Returning " + text + " for column index " + index);
 			return text.toString();

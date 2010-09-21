@@ -13,10 +13,10 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesignEvent;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesignEvent.EventType;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesignListener;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.PacketDesignLayoutEditPolicy;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
 
@@ -38,7 +38,7 @@ public class PacketDesignEditPart extends AbstractGraphicalEditPart {
 	 * @param design
 	 *            The PacketDesign model linked to this EditPart
 	 */
-	public PacketDesignEditPart(PacketDesign design) {
+	public PacketDesignEditPart(SimPacketDesign design) {
 		setModel(design);
 
 		// Create a listener to watch for changes to the PacketDeisgn model
@@ -77,8 +77,8 @@ public class PacketDesignEditPart extends AbstractGraphicalEditPart {
 	 * 
 	 * @return
 	 */
-	public final PacketDesign getPacketDesign() {
-		return (PacketDesign) getModel();
+	public final SimPacketDesign getPacketDesign() {
+		return (SimPacketDesign) getModel();
 	}
 
 	/*
@@ -160,6 +160,13 @@ public class PacketDesignEditPart extends AbstractGraphicalEditPart {
 				PacketEditPart packetEditPart = (PacketEditPart) packetEditParts.get(0);
 				ParameterEditPart ped = new ParameterEditPart(event.getChangedParameter());
 				packetEditPart.addChild(ped, packetEditPart.getChildren().size());
+			}
+			else if (event.getType().equals(EventType.PACKET_CHANGED)) {
+				System.out.println("Model changed. Packet " + event.getPacket() + " changed - refreshing");
+				List packetEditParts = getChildren();
+				PacketEditPart packetEditPart = (PacketEditPart) packetEditParts.get(0);
+				packetEditPart.setPacketName(event.getPacket().getName());
+				packetEditPart.refresh();
 			}
 			refresh();
 		}

@@ -9,9 +9,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignEditorInput;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignerEditor;
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
-import com.logica.hummingbird.telemetry.Packet;
-import com.logica.hummingbird.telemetry.Parameter;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
+import com.logica.hummingbird.telemetry.DefaultSpacePacket;
+import com.logica.hummingbird.telemetry.DefaultSpaceParameter;
+import com.logica.hummingbird.telemetry.HummingbirdPacket;
 
 public class NewPacketDefinition extends AbstractHandler {
 
@@ -19,13 +20,15 @@ public class NewPacketDefinition extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		PacketDesignEditorInput input = new PacketDesignEditorInput();
-		Packet newPacket = new Packet("Test Packet");
-		newPacket.addParameter(new Parameter("Test Parameter A", Integer.class, 5));
-		newPacket.addParameter(new Parameter("Test Parameter B", Double.class, 10));
-		newPacket.addParameter(new Parameter("Test Parameter C", String.class, "OK"));
+		HummingbirdPacket newPacket = new DefaultSpacePacket("Test Packet");
+		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter A", Integer.class, 5));
+		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter B", Double.class, 10));
+		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter C", String.class, "OK"));
 
-		PacketDesign.getInstance().setPacket(newPacket);
-		input.setPacketDesign(PacketDesign.getInstance());
+		// PacketDesign.getInstance().setPacket(newPacket);
+		SimPacketDesign pd = new SimPacketDesign();
+		pd.setPacket(newPacket);
+		input.setPacketDesign(pd);
 
 		IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
 

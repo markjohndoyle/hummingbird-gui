@@ -4,20 +4,20 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 
 public class PacketDesignEditorInput implements IEditorInput {
 
-	private PacketDesign design;
+	private SimPacketDesign design;
 
 	public PacketDesignEditorInput() {
 	}
 
-	public void setPacketDesign(PacketDesign design) {
+	public void setPacketDesign(SimPacketDesign design) {
 		this.design = design;
 	}
 
-	public PacketDesign getPacketDesign() {
+	public SimPacketDesign getPacketDesign() {
 		return design;
 	}
 

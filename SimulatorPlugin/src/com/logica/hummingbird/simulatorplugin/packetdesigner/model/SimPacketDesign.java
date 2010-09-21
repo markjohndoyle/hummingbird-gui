@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.logica.hummingbird.simulatorplugin.SimulatorPlugin;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesignEvent.EventType;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.propertysources.PacketDesignSource;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
@@ -22,11 +24,13 @@ import com.logica.hummingbird.telemetry.HummingbirdParameter;
  * @author Mark Doyle
  * 
  */
-public class PacketDesign implements IAdaptable {
+public class SimPacketDesign implements IAdaptable {
 
-	private static PacketDesign instance = null;
+	public static final QualifiedName PACKET_PROPKEY = new QualifiedName(SimulatorPlugin.PLUGIN_ID, "packet");
+	public static final String PACKET_PROPERTY = "Packet";
 
 	private HummingbirdPacket packet;
+	private List<HummingbirdParameter> parameters;
 
 	private List<PacketDesignListener> observers = new ArrayList<PacketDesignListener>();
 
@@ -34,10 +38,7 @@ public class PacketDesign implements IAdaptable {
 
 	private IPropertySource propertySource = null;
 
-	/**
-	 * Private - Singleton
-	 */
-	private PacketDesign() {
+	public SimPacketDesign() {
 	}
 
 	public final void addObserver(PacketDesignListener observer) {
@@ -48,22 +49,19 @@ public class PacketDesign implements IAdaptable {
 		this.observers.remove(observer);
 	}
 
-	public final static PacketDesign getInstance() {
-		if (instance == null) {
-			instance = new PacketDesign();
-		}
-		return instance;
-	}
-
-	public void setPacket(HummingbirdPacket packet) {
-		this.packet = packet;
-		notifyObservers(new PacketDesignEvent(EventType.PACKET_CHANGED, packet));
-	}
-
 	private void notifyObservers(PacketDesignEvent event) {
 		for (PacketDesignListener l : observers) {
 			l.packetChanged(event);
 		}
+	}
+
+	public final String getPacketName() {
+		return this.packet.getName();
+	}
+
+	public final void setPacketName(String name) {
+		this.packet.setName(name);
+		notifyObservers(new PacketDesignEvent(EventType.PACKET_CHANGED, packet));
 	}
 
 	public final void addParameter(HummingbirdParameter parameter) {
@@ -85,16 +83,30 @@ public class PacketDesign implements IAdaptable {
 		return packet;
 	}
 
+	public void setPacket(HummingbirdPacket packet) {
+		this.packet = packet;
+		setParameters(packet.getParameters());
+		notifyObservers(new PacketDesignEvent(EventType.PACKET_CHANGED, packet));
+	}
+
+	public final void setParameters(List<HummingbirdParameter> parameters) {
+		this.parameters = parameters;
+	}
+
+	public final List<HummingbirdParameter> getParameters() {
+		return this.parameters;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		// Singleton!
-		throw new CloneNotSupportedException("PacketDesign is a singleton - use getInstance for a reference");
-	}
+	// @Override
+	// protected Object clone() throws CloneNotSupportedException {
+	// // Singleton!
+	// throw new CloneNotSupportedException("PacketDesign is a singleton - use getInstance for a reference");
+	// }
 
 	/**
 	 * TODO GSON not capable of serialising dynamically assigned classes, i.e. concrete implementations of interfaces .
@@ -109,8 +121,8 @@ public class PacketDesign implements IAdaptable {
 
 	@Override
 	public Object getAdapter(Class adapter) {
-		if(adapter == IPropertySource.class) {
-			if(propertySource  == null) {
+		if (adapter == IPropertySource.class) {
+			if (propertySource == null) {
 				propertySource = new PacketDesignSource(this);
 			}
 			return propertySource;

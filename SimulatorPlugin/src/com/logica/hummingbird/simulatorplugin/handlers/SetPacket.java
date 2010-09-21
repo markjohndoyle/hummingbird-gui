@@ -9,9 +9,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignEditorInput;
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
-import com.logica.hummingbird.telemetry.Packet;
-import com.logica.hummingbird.telemetry.Parameter;
 
 public class SetPacket extends AbstractHandler {
 
@@ -40,31 +37,7 @@ public class SetPacket extends AbstractHandler {
 
 		// TODO Prompt new packet dialog/wizard
 
-		Packet newPacket = new Packet("Test Packet 2");
-		newPacket.addParameter(new Parameter("Apid", Integer.class, 555));
-		newPacket.addParameter(new Parameter("Laser Temp", Double.class, 5685));
-		newPacket.addParameter(new Parameter("PilotName", String.class, "CrocodileShoes"));
-
-		PacketDesign pd = pdEditorInput.getPacketDesign();
-		if (pd != null) {
-			pd.setPacket(newPacket);
-		}
-		else {
-			System.err.println("Packet design empty - Probably not started a new one yet");
-		}
-
-		// PacketDesign.getInstance().setPacket(newPacket);
-		// input.setPacketDesign(PacketDesign.getInstance());
-
-		// IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-
-		// try {
-		// page.openEditor(input, PacketDesignerEditor.ID);
-		// }
-		// catch (PartInitException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		System.out.println("Not yet implemented - needs a wizard or dialog");
 
 		return null;
 	}

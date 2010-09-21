@@ -3,9 +3,14 @@ package com.logica.hummingbird.simulatorplugin.packetdesigner.editparts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.ui.PlatformUI;
 
+import com.logica.hummingbird.simulatorplugin.packetdesigner.dialogs.ParameterEditDialog;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.figures.ParameterFigure;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.ParameterComponentEditPolicy;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.ParameterLayoutEditPolicy;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
@@ -60,6 +65,18 @@ public class ParameterEditPart extends AbstractGraphicalEditPart {
 			parameterFigure.setSelected(false);
 		}
 		parameterFigure.repaint();
+	}
+
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+			System.out.println("Double clicked on packet");
+			// FIXME this is a test - use commands and make a decent dialog.
+			SimPacketDesign packetDesign = ((PacketDesignEditPart) getParent().getParent()).getPacketDesign();
+			ParameterEditDialog dialog = new ParameterEditDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), packetDesign);
+			dialog.open();
+		}
+		super.performRequest(req);
 	}
 
 }

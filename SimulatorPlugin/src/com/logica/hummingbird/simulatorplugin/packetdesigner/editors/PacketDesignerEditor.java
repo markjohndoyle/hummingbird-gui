@@ -54,7 +54,7 @@ import com.logica.hummingbird.simulatorplugin.SimulatorPlugin;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.PacketDesignerEditPartFactory;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.ParameterCreationFactory;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.menus.PacketDesignerContextMenu;
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
 /**
@@ -100,7 +100,7 @@ public class PacketDesignerEditor extends GraphicalEditorWithFlyoutPalette {
 	// private OverviewOutlinePage overviewOutlinePage;
 
 	// HummingbirdPacket packet;
-	private PacketDesign packetDesign;
+	private SimPacketDesign packetDesign;
 
 	private KeyHandler sharedKeyHandler;
 

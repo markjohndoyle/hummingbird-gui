@@ -1,19 +1,25 @@
 package com.logica.hummingbird.simulatorplugin.packetdesigner.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.wizards.NewParameterWizard;
+import com.logica.hummingbird.telemetry.DefaultSpaceParameter;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
-import com.logica.hummingbird.telemetry.Parameter;
 
 public class ParameterCreateCommand extends Command {
 
-	PacketDesign packetDesign;
+	SimPacketDesign packetDesign;
 	HummingbirdParameter parameterToAdd;
+	private final WizardDialog wizDialog;
 
-	public ParameterCreateCommand(PacketDesign manager) {
+	public ParameterCreateCommand(SimPacketDesign manager) {
 		System.out.println("ParameterCreateCommand with no parameter therefore using a default parameter");
-		HummingbirdParameter p = new Parameter("Default Parameter", Integer.class, 0);
+		NewParameterWizard wiz = new NewParameterWizard();
+		wizDialog = new WizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), wiz);
+		HummingbirdParameter p = new DefaultSpaceParameter("Default Parameter", Integer.class, 0);
 		this.packetDesign = manager;
 		this.parameterToAdd = p;
 	}
@@ -36,6 +42,7 @@ public class ParameterCreateCommand extends Command {
 	 */
 	@Override
 	public void redo() {
+		wizDialog.open();
 		packetDesign.addParameter(parameterToAdd);
 	}
 
