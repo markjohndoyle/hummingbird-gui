@@ -8,8 +8,8 @@ import org.apache.camel.Exchange;
 
 import com.logica.hummingbird.packetprovider.PacketProvider;
 import com.logica.hummingbird.packetprovider.PacketProviderObserver;
+import com.logica.hummingbird.telemetry.DefaultSpacePacket;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
-import com.logica.hummingbird.telemetry.Packet;
 
 
 public class CamelPacketProvider implements PacketProvider {
@@ -18,7 +18,7 @@ public class CamelPacketProvider implements PacketProvider {
 	Stack<HummingbirdPacket> packetBuffer = new Stack<HummingbirdPacket>();
 
 	public void packetIn(Exchange ex) {
-		HummingbirdPacket packet = new Packet();
+		HummingbirdPacket packet = new DefaultSpacePacket();
 
 		notifyObservers(packet);
 	}
