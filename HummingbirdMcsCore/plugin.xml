@@ -111,5 +111,8 @@
             name="Exit">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+   </extension>
 
 </plugin>

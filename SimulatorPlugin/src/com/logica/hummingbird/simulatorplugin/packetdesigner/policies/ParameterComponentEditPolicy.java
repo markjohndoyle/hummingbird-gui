@@ -10,8 +10,9 @@ import com.logica.hummingbird.simulatorplugin.packetdesigner.commands.ParameterD
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.PacketDesignEditPart;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.PacketEditPart;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editparts.ParameterEditPart;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacket;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
-import com.logica.hummingbird.telemetry.HummingbirdPacket;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
 public class ParameterComponentEditPolicy extends ComponentEditPolicy {
@@ -26,7 +27,7 @@ public class ParameterComponentEditPolicy extends ComponentEditPolicy {
 		System.out.println("Getting delete command for Parameter");
 		// Get the packet that this parameter belongs too
 		PacketEditPart packetEditPart = (PacketEditPart) getHost().getParent();
-		HummingbirdPacket packet = packetEditPart.getPacketModel();
+		SimPacket packet = packetEditPart.getPacketModel();
 
 		// Create a compound command in case there are multiple selections
 		CompoundCommand delete = new CompoundCommand();
@@ -49,7 +50,7 @@ public class ParameterComponentEditPolicy extends ComponentEditPolicy {
 				PacketDesignEditPart pdep = (PacketDesignEditPart) ((ParameterEditPart) editPart).getParent().getParent();
 				SimPacketDesign pd = pdep.getPacketDesign();
 
-				delete.add(new ParameterDeleteGefCommand(pd, packet, (HummingbirdParameter) model));
+				delete.add(new ParameterDeleteGefCommand(pd, packet, (SimParameter) model));
 			}
 			else {
 				// FIXME Use logging mechanism when it is set up.

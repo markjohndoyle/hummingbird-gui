@@ -55,6 +55,7 @@ public class ParameterFigure extends Figure {
 	}
 
 	public final void setParameterName(String parameterName) {
+		System.out.println("Setting Parameter name label on figure");
 		this.parameterNameLabel.setText(parameterName);
 	}
 

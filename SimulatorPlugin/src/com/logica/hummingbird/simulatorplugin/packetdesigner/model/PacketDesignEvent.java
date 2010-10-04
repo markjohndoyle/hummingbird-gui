@@ -1,8 +1,5 @@
 package com.logica.hummingbird.simulatorplugin.packetdesigner.model;
 
-import com.logica.hummingbird.telemetry.HummingbirdPacket;
-import com.logica.hummingbird.telemetry.HummingbirdParameter;
-
 /**
  * 
  * @author Mark Doyle
@@ -15,20 +12,20 @@ public class PacketDesignEvent {
 	};
 
 	private EventType type;
-	private HummingbirdPacket packet = null;
-	private HummingbirdParameter changedParameter = null;
+	private SimPacket packet = null;
+	private SimParameter changedParameter = null;
 
-	public PacketDesignEvent(EventType type, HummingbirdPacket newPacket) {
+	public PacketDesignEvent(EventType type, SimPacket newPacket) {
 		this.type = type;
 		this.packet = newPacket;
 	}
 
-	public PacketDesignEvent(EventType type, HummingbirdParameter parameter) {
+	public PacketDesignEvent(EventType type, SimParameter parameter) {
 		this.type = type;
 		this.changedParameter = parameter;
 	}
 
-	public PacketDesignEvent(EventType type, HummingbirdPacket packet, HummingbirdParameter parameter) {
+	public PacketDesignEvent(EventType type, SimPacket packet, SimParameter parameter) {
 		this.type = type;
 		this.changedParameter = parameter;
 	}
@@ -36,11 +33,11 @@ public class PacketDesignEvent {
 	/**
 	 * @return the packet
 	 */
-	public HummingbirdPacket getPacket() {
+	public SimPacket getPacket() {
 		return packet;
 	}
 
-	public HummingbirdParameter getChangedParameter() {
+	public SimParameter getChangedParameter() {
 		return changedParameter;
 	}
 

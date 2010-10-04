@@ -41,9 +41,10 @@ public class SimDock implements SimulatorDock {
 		}
 	}
 
-	public Collection<ParameterContainer> getAllParameters() {
+	public List<ParameterContainer> getAllParameters() {
 		if (ssm != null) {
-			return ssm.getAllParameters();
+			System.out.println("Getting all parameters form the simdocks ssm simulator");
+			return new ArrayList<ParameterContainer>(ssm.getAllParameters());
 		}
 		else {
 			return null;
@@ -53,7 +54,7 @@ public class SimDock implements SimulatorDock {
 	public final SimulatorSSM getSpaceSystemModel() {
 		return ssm;
 	}
-	
+
 	public final void runSim() {
 	}
 

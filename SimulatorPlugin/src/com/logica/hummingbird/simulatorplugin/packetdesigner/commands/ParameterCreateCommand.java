@@ -5,21 +5,20 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.wizards.NewParameterWizard;
-import com.logica.hummingbird.telemetry.DefaultSpaceParameter;
-import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
 public class ParameterCreateCommand extends Command {
 
 	SimPacketDesign packetDesign;
-	HummingbirdParameter parameterToAdd;
+	SimParameter parameterToAdd;
 	private final WizardDialog wizDialog;
 
 	public ParameterCreateCommand(SimPacketDesign manager) {
 		System.out.println("ParameterCreateCommand with no parameter therefore using a default parameter");
 		NewParameterWizard wiz = new NewParameterWizard();
 		wizDialog = new WizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), wiz);
-		HummingbirdParameter p = new DefaultSpaceParameter("Default Parameter", Integer.class, 0);
+		SimParameter p = new SimParameter("Default Parameter", Integer.class, 0);
 		this.packetDesign = manager;
 		this.parameterToAdd = p;
 	}

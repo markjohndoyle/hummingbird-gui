@@ -9,10 +9,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignEditorInput;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.editors.PacketDesignerEditor;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacket;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
-import com.logica.hummingbird.telemetry.DefaultSpacePacket;
-import com.logica.hummingbird.telemetry.DefaultSpaceParameter;
-import com.logica.hummingbird.telemetry.HummingbirdPacket;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 
 public class NewPacketDefinition extends AbstractHandler {
 
@@ -20,10 +19,10 @@ public class NewPacketDefinition extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		PacketDesignEditorInput input = new PacketDesignEditorInput();
-		HummingbirdPacket newPacket = new DefaultSpacePacket("Test Packet");
-		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter A", Integer.class, 5));
-		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter B", Double.class, 10));
-		newPacket.addParameter(new DefaultSpaceParameter("Test Parameter C", String.class, "OK"));
+		SimPacket newPacket = new SimPacket("Test Packet");
+		newPacket.addParameter(new SimParameter("Test Parameter A", Integer.class, 5));
+		newPacket.addParameter(new SimParameter("Test Parameter B", Double.class, 10));
+		newPacket.addParameter(new SimParameter("Test Parameter C", String.class, "OK"));
 
 		// PacketDesign.getInstance().setPacket(newPacket);
 		SimPacketDesign pd = new SimPacketDesign();

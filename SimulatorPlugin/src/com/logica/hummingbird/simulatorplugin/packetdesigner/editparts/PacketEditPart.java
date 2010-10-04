@@ -14,6 +14,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.logica.hummingbird.simulatorplugin.packetdesigner.dialogs.PacketEditDialog;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.figures.PacketFigure;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacket;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.PacketLayoutEditPolicy;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
@@ -47,8 +48,8 @@ public class PacketEditPart extends AbstractGraphicalEditPart {
 	 * 
 	 * @return
 	 */
-	public final HummingbirdPacket getPacketModel() {
-		return (HummingbirdPacket) getModel();
+	public final SimPacket getPacketModel() {
+		return (SimPacket) getModel();
 	}
 
 	/**

@@ -7,34 +7,39 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
-import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacket;
 
-public class PacketDesignSource implements IPropertySource {
+public class SimPacketSource implements IPropertySource {
 
-	private SimPacketDesign packetDesign;
+	private SimPacket packet;
 
-	public PacketDesignSource(SimPacketDesign packetDesign) {
-		this.packetDesign = packetDesign;
+	public SimPacketSource(SimPacket packet) {
+		super();
+		this.packet = packet;
 	}
 
 	@Override
 	public Object getEditableValue() {
-		// Can't edit a Packet Design
-		return null;
+		return packet;
 	}
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		List<IPropertyDescriptor> props = new ArrayList<IPropertyDescriptor>();
-		props.add(new PropertyDescriptor(SimPacketDesign.PACKET_PROPERTY, "Packet Name"));
+
+		props.add(new PropertyDescriptor(SimPacket.NAME_PROPERTY, "Packet Name"));
+		props.add(new PropertyDescriptor(SimPacket.NUMBER_OF_PARAMETERS_PROPERTY, "Number of parameters"));
 
 		return props.toArray(new IPropertyDescriptor[0]);
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (SimPacketDesign.PACKET_PROPERTY.equals(id)) {
-			return packetDesign.getPacketName();
+		if (SimPacket.NAME_PROPERTY.equals(id)) {
+			return packet.getName();
+		}
+		if (SimPacket.NUMBER_OF_PARAMETERS_PROPERTY.equals(id)) {
+			return packet.getParameters().size();
 		}
 		return null;
 	}
@@ -53,8 +58,9 @@ public class PacketDesignSource implements IPropertySource {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// TODO Auto-generated method stub
-
+		if (SimPacket.NAME_PROPERTY.equals(id)) {
+			packet.setName((String) value);
+		}
 	}
 
 }

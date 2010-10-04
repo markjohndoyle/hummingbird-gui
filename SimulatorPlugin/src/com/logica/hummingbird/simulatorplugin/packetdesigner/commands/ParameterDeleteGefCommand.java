@@ -2,18 +2,17 @@ package com.logica.hummingbird.simulatorplugin.packetdesigner.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacket;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
-import com.logica.hummingbird.telemetry.HummingbirdPacket;
-import com.logica.hummingbird.telemetry.HummingbirdParameter;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 
 public class ParameterDeleteGefCommand extends Command {
 
 	private final SimPacketDesign packetDesign;
-	private final HummingbirdPacket packet;
-	private final HummingbirdParameter parameter;
+	private final SimPacket packet;
+	private final SimParameter parameter;
 
-	public ParameterDeleteGefCommand(SimPacketDesign packetDesign, HummingbirdPacket packet, HummingbirdParameter parameter) {
-		System.out.println("Creating ParameterDeleteGefCommand");
+	public ParameterDeleteGefCommand(SimPacketDesign packetDesign, SimPacket packet, SimParameter parameter) {
 		if (packet == null || parameter == null || packetDesign == null) {
 			throw new IllegalArgumentException();
 		}

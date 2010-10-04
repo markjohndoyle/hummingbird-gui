@@ -13,7 +13,6 @@ import com.logica.hummingbird.simulatorplugin.SimulatorPlugin;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.PacketDesignEvent.EventType;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.propertysources.PacketDesignSource;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
-import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
 /**
  * Simply a wrapper around the HummingbirdPacket which is being designed, a Packet Design if you will.
@@ -29,17 +28,14 @@ public class SimPacketDesign implements IAdaptable {
 	public static final QualifiedName PACKET_PROPKEY = new QualifiedName(SimulatorPlugin.PLUGIN_ID, "packet");
 	public static final String PACKET_PROPERTY = "Packet";
 
-	private HummingbirdPacket packet;
-	private List<HummingbirdParameter> parameters;
+	private SimPacket packet;
+	private List<SimParameter> parameters;
 
 	private List<PacketDesignListener> observers = new ArrayList<PacketDesignListener>();
 
 	private Gson gson;
 
 	private IPropertySource propertySource = null;
-
-	public SimPacketDesign() {
-	}
 
 	public final void addObserver(PacketDesignListener observer) {
 		this.observers.add(observer);
@@ -64,13 +60,13 @@ public class SimPacketDesign implements IAdaptable {
 		notifyObservers(new PacketDesignEvent(EventType.PACKET_CHANGED, packet));
 	}
 
-	public final void addParameter(HummingbirdParameter parameter) {
+	public final void addParameter(SimParameter parameter) {
 		this.packet.addParameter(parameter);
 		notifyObservers(new PacketDesignEvent(EventType.PARAMETER_ADDED, packet, parameter));
 		System.out.println(this.serialise());
 	}
 
-	public final void removeParameter(HummingbirdParameter parameter) {
+	public final void removeParameter(SimParameter parameter) {
 		if (this.packet.getParameters().remove(parameter)) {
 			notifyObservers(new PacketDesignEvent(EventType.PARAMETER_REMOVED, packet, parameter));
 		}
@@ -83,17 +79,17 @@ public class SimPacketDesign implements IAdaptable {
 		return packet;
 	}
 
-	public void setPacket(HummingbirdPacket packet) {
+	public void setPacket(SimPacket packet) {
 		this.packet = packet;
-		setParameters(packet.getParameters());
+//		setParameters(packet.getParameters());
 		notifyObservers(new PacketDesignEvent(EventType.PACKET_CHANGED, packet));
 	}
 
-	public final void setParameters(List<HummingbirdParameter> parameters) {
+	public final void setParameters(List<SimParameter> parameters) {
 		this.parameters = parameters;
 	}
 
-	public final List<HummingbirdParameter> getParameters() {
+	public final List<SimParameter> getParameters() {
 		return this.parameters;
 	}
 

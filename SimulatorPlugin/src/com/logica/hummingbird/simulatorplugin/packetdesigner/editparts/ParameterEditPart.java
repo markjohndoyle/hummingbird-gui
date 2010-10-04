@@ -1,5 +1,8 @@
 package com.logica.hummingbird.simulatorplugin.packetdesigner.editparts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -11,15 +14,16 @@ import org.eclipse.ui.PlatformUI;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.dialogs.ParameterEditDialog;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.figures.ParameterFigure;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.ParameterComponentEditPolicy;
 import com.logica.hummingbird.simulatorplugin.packetdesigner.policies.ParameterLayoutEditPolicy;
 import com.logica.hummingbird.telemetry.HummingbirdParameter;
 
-public class ParameterEditPart extends AbstractGraphicalEditPart {
+public class ParameterEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
 	private final ParameterFigure paramFigure = new ParameterFigure();
 
-	public ParameterEditPart(HummingbirdParameter parameter) {
+	public ParameterEditPart(SimParameter parameter) {
 		System.out.println("constructing " + this.getClass().getName() + " with parameter " + parameter.getName());
 		this.setModel(parameter);
 
@@ -42,14 +46,15 @@ public class ParameterEditPart extends AbstractGraphicalEditPart {
 	@Override
 	public void activate() {
 		super.activate();
+		getParameterModel().addPropertyChangeListener(this);
 	}
 
 	protected void refreshVisuals() {
 		System.out.println("ParameterEditPart refreshing visuals");
 	}
 
-	public final HummingbirdParameter getParameterModel() {
-		return (HummingbirdParameter) getModel();
+	public final SimParameter getParameterModel() {
+		return (SimParameter) getModel();
 	}
 
 	/**
@@ -73,10 +78,22 @@ public class ParameterEditPart extends AbstractGraphicalEditPart {
 			System.out.println("Double clicked on packet");
 			// FIXME this is a test - use commands and make a decent dialog.
 			SimPacketDesign packetDesign = ((PacketDesignEditPart) getParent().getParent()).getPacketDesign();
-			ParameterEditDialog dialog = new ParameterEditDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), packetDesign);
+			ParameterEditDialog dialog = new ParameterEditDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), getParameterModel());
 			dialog.open();
 		}
 		super.performRequest(req);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getNewValue().equals(evt.getOldValue())) {
+			return;
+		}
+
+		if (evt.getPropertyName().equals("name")) {
+			paramFigure.setParameterName((String) evt.getNewValue());
+		}
+		getParent().refresh();
 	}
 
 }

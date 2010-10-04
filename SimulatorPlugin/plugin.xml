@@ -223,5 +223,15 @@
             label="Simulator console">
       </consoleFactory>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter"
+            class="com.logica.hummingbird.simulatorplugin.packetdesigner.adapterfactories.SimParameterAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+   </extension>
 
 </plugin>
