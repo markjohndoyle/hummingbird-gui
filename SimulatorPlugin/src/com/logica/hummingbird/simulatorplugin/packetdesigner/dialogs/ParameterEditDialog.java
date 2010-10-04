@@ -149,19 +149,19 @@ public class ParameterEditDialog extends Dialog {
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableValue textObserveTextObserveWidget_1 = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObserveTextObserveWidget_1 = SWTObservables.observeText(text, SWT.FocusOut);
 		IObservableValue parameterNameObserveValue = BeansObservables.observeValue(parameter, "name");
 		bindingContext.bindValue(textObserveTextObserveWidget_1, parameterNameObserveValue, null, null);
 		//
-		IObservableValue text_1ObserveTextObserveWidget = SWTObservables.observeText(text_1, SWT.Modify);
+		IObservableValue text_1ObserveTextObserveWidget = SWTObservables.observeText(text_1, SWT.FocusOut);
 		IObservableValue parametergetClassTypeCanonicalNameObserveValue = PojoObservables.observeValue(parameter.getClassType(), "canonicalName");
 		bindingContext.bindValue(text_1ObserveTextObserveWidget, parametergetClassTypeCanonicalNameObserveValue, null, null);
 		//
-		IObservableValue text_3ObserveTextObserveWidget = SWTObservables.observeText(text_3, SWT.Modify);
+		IObservableValue text_3ObserveTextObserveWidget = SWTObservables.observeText(text_3, SWT.FocusOut);
 		IObservableValue parameterShortDescriptionObserveValue = BeansObservables.observeValue(parameter, "shortDescription");
 		bindingContext.bindValue(text_3ObserveTextObserveWidget, parameterShortDescriptionObserveValue, null, null);
 		//
-		IObservableValue styledTextObserveTextObserveWidget = SWTObservables.observeText(styledText, SWT.Modify);
+		IObservableValue styledTextObserveTextObserveWidget = SWTObservables.observeText(styledText, SWT.FocusOut);
 		IObservableValue parameterLongDescriptionObserveValue = BeansObservables.observeValue(parameter, "longDescription");
 		bindingContext.bindValue(styledTextObserveTextObserveWidget, parameterLongDescriptionObserveValue, null, null);
 		//

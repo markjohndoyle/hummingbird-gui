@@ -63,6 +63,7 @@ public class PacketEditDialog extends Dialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		m_bindingContext = initDataBindings();
 	}
 
 	/**
@@ -71,17 +72,6 @@ public class PacketEditDialog extends Dialog {
 	@Override
 	protected Point getInitialSize() {
 		return new Point(218, 110);
-	}
-
-	private DataBindingContext initDataBindings() {
-		IObservableValue packetNameObserveWidget = SWTObservables.observeText(packetNameText, SWT.Modify);
-		IObservableValue packetNameObserveValue = PojoObservables.observeValue(packetDesign, "packetName");
-		//
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		bindingContext.bindValue(packetNameObserveWidget, packetNameObserveValue, null, null);
-		//
-		return bindingContext;
 	}
 
 	public com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimPacketDesign getPacketDesign() {
@@ -105,4 +95,13 @@ public class PacketEditDialog extends Dialog {
 		}
 	}
 
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue packetNameObserveWidget = SWTObservables.observeText(packetNameText, SWT.FocusOut);
+		IObservableValue packetNameObserveValue = PojoObservables.observeValue(packetDesign, "packetName");
+		bindingContext.bindValue(packetNameObserveWidget, packetNameObserveValue, null, null);
+		//
+		return bindingContext;
+	}
 }
