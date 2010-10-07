@@ -72,6 +72,7 @@ public class ParameterEditDialog extends Dialog {
 		lblType.setText("Type");
 		// Component creation
 		text_1 = new Text(container, SWT.BORDER);
+		text_1.setEditable(false);
 		text_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		// Component creation
 		final Label lblValue = new Label(container, SWT.NONE);
@@ -154,8 +155,8 @@ public class ParameterEditDialog extends Dialog {
 		bindingContext.bindValue(textObserveTextObserveWidget_1, parameterNameObserveValue, null, null);
 		//
 		IObservableValue text_1ObserveTextObserveWidget = SWTObservables.observeText(text_1, SWT.FocusOut);
-		IObservableValue parametergetClassTypeCanonicalNameObserveValue = PojoObservables.observeValue(parameter.getClassType(), "canonicalName");
-		bindingContext.bindValue(text_1ObserveTextObserveWidget, parametergetClassTypeCanonicalNameObserveValue, null, null);
+		IObservableValue parameterClassTypecanonicalNameObserveValue = PojoObservables.observeValue(parameter, "classType.canonicalName");
+		bindingContext.bindValue(text_1ObserveTextObserveWidget, parameterClassTypecanonicalNameObserveValue, null, null);
 		//
 		IObservableValue text_3ObserveTextObserveWidget = SWTObservables.observeText(text_3, SWT.FocusOut);
 		IObservableValue parameterShortDescriptionObserveValue = BeansObservables.observeValue(parameter, "shortDescription");

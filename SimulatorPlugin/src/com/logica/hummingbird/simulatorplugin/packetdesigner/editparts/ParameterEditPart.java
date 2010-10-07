@@ -90,9 +90,15 @@ public class ParameterEditPart extends AbstractGraphicalEditPart implements Prop
 			return;
 		}
 
-		if (evt.getPropertyName().equals("name")) {
+		String evtPropName = evt.getPropertyName();
+		if (evtPropName.equals("name")) {
 			paramFigure.setParameterName((String) evt.getNewValue());
 		}
+		else {
+			// Nothing changed that needs refreshing
+			return;
+		}
+
 		getParent().refresh();
 	}
 
