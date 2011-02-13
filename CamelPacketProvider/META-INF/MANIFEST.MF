@@ -10,6 +10,7 @@ Require-Bundle: org.apache.camel.camel-core;bundle-version="2.2.0",
  org.apache.activemq.activemq-core;bundle-version="5.3.0",
  org.apache.camel.camel-jms;bundle-version="2.2.0",
  PacketProviderInterface;bundle-version="0.0.1",
+ com.logica.hummingbird.commons;bundle-version="0.0.1",
  com.logica.hummingbird.tele;bundle-version="0.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.jms;version="1.1.0",

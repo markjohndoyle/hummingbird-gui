@@ -85,5 +85,34 @@
          </presentation>
       </config>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?">
+         <menu
+               id="com.logica.hummingbird.hummingbirdmcscore.menus.file"
+               label="File"
+               mnemonic="F">
+            <command
+                  commandId="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
+                  label="Exit"
+                  mnemonic="x"
+                  style="push"
+                  tooltip="Exits the control system">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
+            name="Exit">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+   </extension>
 
 </plugin>

@@ -3,12 +3,26 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SimulatorPlugin
 Bundle-SymbolicName: com.logica.hummingbird.SimulatorPlugin; singleton:=true
 Bundle-Version: 0.0.1
-Bundle-Activator: simulatorplugin.SimulatorActivator
-Bundle-Vendor: logica
+Bundle-Activator: com.logica.hummingbird.simulatorplugin.SimulatorPlugin
+Bundle-Vendor: Logica
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
+ org.eclipse.gef;bundle-version="3.6.0",
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.5.100",
+ org.eclipse.ui.console;bundle-version="3.5.0",
+ com.google.gson;bundle-version="1.4.0",
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.observable,
+ org.eclipse.core.databinding.property,
+ org.eclipse.jface.databinding,
+ com.ibm.icu,
+ com.logica.hummingbird.tele;bundle-version="0.0.1",
+ com.logica.hummingbird.space-system-model;bundle-version="0.0.1",
+ com.logica.hummingbird.xtce;bundle-version="0.0.1",
  com.logica.hummingbird.simulator;bundle-version="0.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+

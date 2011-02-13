@@ -1,78 +1,116 @@
 package com.logica.hummingbird.simulatorplugin.views;
 
+import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
+import com.logica.hummingbird.simulatorplugin.SimDock;
+import com.logica.hummingbird.simulatorplugin.SimulatorObserver;
+import com.logica.hummingbird.spacesystemmodel.Container;
+import com.logica.hummingbird.spacesystemmodel.ContainerFactory;
+import com.logica.hummingbird.spacesystemmodel.parameters.ParameterContainer;
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * 
+ * @author Mark Doyle
+ * 
  */
-
-public class SpaceSystemParametersView extends ViewPart {
+public class SpaceSystemParametersView extends ViewPart implements SimulatorObserver {
 
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "com.logica.hummingbird.simulatorplugin.views.SpaceSystemParametersView";
 
-	private TableViewer viewer;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
+	private TableViewer parameterTableViewer;
 
 	/*
-	 * The content provider class is responsible for
-	 * providing objects to the view. It can wrap
-	 * existing objects in adapters or simply return
-	 * objects as-is. These objects may be sensitive
-	 * to the current input of the view, or ignore
-	 * it and always show the same content 
-	 * (like Task List, for example).
+	 * The content provider class is responsible for providing objects to the view. It can wrap existing objects in
+	 * adapters or simply return objects as-is. These objects may be sensitive to the current input of the view, or
+	 * ignore it and always show the same content (like Task List, for example).
 	 */
-	 
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			System.out.println("input changed");
 		}
+
 		public void dispose() {
 		}
+
 		public Object[] getElements(Object parent) {
-			return new String[] { "One", "Two", "Three" };
+			Collection<ParameterContainer> containers = SimDock.getInstance().getAllParameters();
+			if (containers != null) {
+				return containers.toArray();
+			}
+			else {
+				return new String[] { "No parameters to display" };
+			}
 		}
 	}
+
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			return getText(obj);
+			StringBuffer text = new StringBuffer();
+			switch (index) {
+			case 0:
+				if (obj instanceof Container) {
+					text.append(((Container) obj).getName());
+					break;
+				}
+			case 1:
+				if (obj instanceof Container) {
+					List<Container> parents = ((Container) obj).getParents();
+					if (parents != null) {
+						for (Container p : parents) {
+							text.append(p.getName() + " ");
+						}
+						break;
+					}
+					else {
+						text.append("N/A");
+						break;
+					}
+				}
+			default:
+				text.append(obj.toString());
+			}
+			System.out.println("Returning " + text + " for column index " + index);
+			return text.toString();
 		}
+
 		public Image getColumnImage(Object obj, int index) {
 			return getImage(obj);
 		}
+
 		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		}
 	}
+
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -80,25 +118,42 @@ public class SpaceSystemParametersView extends ViewPart {
 	 * The constructor.
 	 */
 	public SpaceSystemParametersView() {
+		SimDock.getInstance().addObserver(this);
 	}
 
 	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
+	 * This is a callback that will allow us to create the viewer and initialise it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
+		parameterTableViewer = new TableViewer(parent, SWT.MULTI);
+		parameterTableViewer.setColumnProperties(new String[] {});
+
+		// Set up the table
+		Table table = parameterTableViewer.getTable();
+
+		TableLayout layout = new TableLayout();
+		layout.addColumnData(new ColumnWeightData(33, true));
+		layout.addColumnData(new ColumnWeightData(33, true));
+		table.setLayout(layout);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+
+		parameterTableViewer.setContentProvider(new ViewContentProvider());
+		parameterTableViewer.setLabelProvider(new ViewLabelProvider());
+		parameterTableViewer.setSorter(new NameSorter());
+		parameterTableViewer.setInput(getViewSite());
+
+		TableColumn paramCol = new TableColumn(table, SWT.LEFT);
+		paramCol.setText("Parameter");
+		TableColumn parentCol = new TableColumn(table, SWT.LEFT);
+		parentCol.setText("Parent");
 
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "com.logica.hummingbird.SimulatorPlugin.viewer");
-		makeActions();
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parameterTableViewer.getControl(), "com.logica.hummingbird.SimulatorPlugin.viewer");
+
 		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
+
+		IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
 	}
 
 	private void hookContextMenu() {
@@ -109,82 +164,29 @@ public class SpaceSystemParametersView extends ViewPart {
 				SpaceSystemParametersView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
-	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
+		Menu menu = menuMgr.createContextMenu(parameterTableViewer.getControl());
+		parameterTableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, parameterTableViewer);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-	}
 
-	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
-			}
-		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
-	}
-
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
-	}
 	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Space System Parameters View",
-			message);
+		MessageDialog.openInformation(parameterTableViewer.getControl().getShell(), "Space System Parameters View", message);
 	}
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		viewer.getControl().setFocus();
+		parameterTableViewer.getControl().setFocus();
+	}
+
+	@Override
+	public void spaceSystemUpdated(ContainerFactory spaceSystemModel) {
+		parameterTableViewer.refresh();
 	}
 }

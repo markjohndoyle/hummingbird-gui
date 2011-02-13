@@ -17,7 +17,9 @@ public class McsHomePerspective implements IPerspectiveFactory {
 	 */
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-		System.currentTimeMillis();
+		addFastViews(layout);
 	}
 
+	private void addFastViews(IPageLayout layout) {
+	}
 }
