@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
+						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+	<!-- Create a camel paramter provider bean for use by the services-context (Spring SM)-->
+	<bean id="camelParameterProvider" class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProvider">
+	</bean>
+
+	<!-- Create a jms endpoint for the route used by this provider-->
+	<bean name="jms" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="tcp://localhost:61616" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--The came route used to retrieve packets for the gui. Can be altered -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from uri="jms:queue:processedParametersOut" />
+			<to uri="bean:camelParameterProvider?method=parameterIn" />
+		</route>
+	</camelContext>
+
+</beans>

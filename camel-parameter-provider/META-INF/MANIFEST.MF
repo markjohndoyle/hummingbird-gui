@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Camel-packet-provider
+Bundle-SymbolicName: camel-parameter-provider
+Bundle-Version: 0.0.1
+Bundle-Vendor: Hummingbird org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: parameter-provider;bundle-version="0.0.1",
+ org.apache.camel.camel-core;bundle-version="2.2.0",
+ org.apache.camel.camel-jms;bundle-version="2.2.0",
+ org.apache.camel.camel-osgi;bundle-version="2.2.0",
+ org.apache.camel.camel-spring;bundle-version="2.2.0",
+ org.apache.activemq.activemq-camel;bundle-version="5.3.0",
+ org.apache.activemq.activemq-core;bundle-version="5.3.0"
