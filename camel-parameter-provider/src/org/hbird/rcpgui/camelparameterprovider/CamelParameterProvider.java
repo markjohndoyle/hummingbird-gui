@@ -5,20 +5,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.camel.Message;
+import org.apache.camel.spring.SpringCamelContext;
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-public class CamelParameterProvider implements ParameterProvider {
+public class CamelParameterProvider implements ParameterProvider, ApplicationContextAware {
 
-	List<ParameterObserver> observers;
+	private ApplicationContext ac = null;
+	private List<ParameterObserver> observers;
 
 	public CamelParameterProvider() {
 		System.out.println("CamelParameterProvider constructed");
 	}
 
 	@Override
-	public void addObserver(ParameterObserver po) {
+	public void addObserver(final ParameterObserver po) {
 		if (observers == null) {
 			observers = new ArrayList<ParameterObserver>(1);
 		}
@@ -26,12 +31,12 @@ public class CamelParameterProvider implements ParameterProvider {
 	}
 
 
-	public void parameterIn(Message parameterMsg) {
-		Map<String, Object> headers = parameterMsg.getHeaders();
-		Object parameterValue = parameterMsg.getBody();
+	public void parameterIn(final Message parameterMsg) {
+		final Map<String, Object> headers = parameterMsg.getHeaders();
+		final Object parameterValue = parameterMsg.getBody();
 
 		// Create basic parameter object
-		Parameter parameter = new Parameter();
+		final Parameter parameter = new Parameter();
 		parameter.setValue(parameterValue);
 		parameter.setParameterProperties(headers);
 
@@ -44,10 +49,29 @@ public class CamelParameterProvider implements ParameterProvider {
 	 * 
 	 * @param parameter
 	 */
-	private void notifyObservers(Parameter parameter) {
-		for (ParameterObserver po : observers) {
+	private void notifyObservers(final Parameter parameter) {
+		for (final ParameterObserver po : observers) {
 			po.paramterRecieved(parameter);
 		}
+	}
+
+	@Override
+	public void start() throws Exception {
+		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("route");
+
+		// now start Camel manually
+		camel.start();
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setApplicationContext(final ApplicationContext actx) throws BeansException {
+		this.ac = actx;
 	}
 
 }

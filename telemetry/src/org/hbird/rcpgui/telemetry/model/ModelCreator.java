@@ -17,19 +17,41 @@ public class ModelCreator implements ParameterObserver {
 	public ModelCreator() {
 		parameterProvider = (ParameterProvider) TelemetryActivator.getParameterProviderServices().getService();
 		parameterProvider.addObserver(this);
+		try {
+			parameterProvider.start();
+		}
+		catch (final Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void paramterRecieved(Parameter parameter) {
+	public void paramterRecieved(final Parameter parameter) {
 		System.out.println("Telemetry view received a parameter");
 		System.out.println(parameter.toString());
-		createTelemetryParameter(parameter);
+		parameters.add(createTelemetryParameter(parameter));
 	}
 
-	private void createTelemetryParameter(Parameter parameter) {
-		Map<String, Object> properties = parameter.getParameterProperties();
-
+	private TelemetryParameter createTelemetryParameter(final Parameter parameter) {
+		final Map<String, Object> properties = parameter.getParameterProperties();
+		final Object value = parameter.getValue();
+		return new TelemetryParameter(properties, value);
 	}
 
+	/**
+	 * @return the parameters
+	 */
+	public List<TelemetryParameter> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @param parameters
+	 *            the parameters to set
+	 */
+	public void setParameters(final List<TelemetryParameter> parameters) {
+		this.parameters = parameters;
+	}
 
 }

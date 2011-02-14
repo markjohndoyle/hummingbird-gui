@@ -7,6 +7,12 @@ Bundle-Activator: org.hbird.rcpgui.telemetry.TelemetryActivator
 Bundle-Vendor: Hummingbird org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- parameter-provider;bundle-version="0.0.1"
+ parameter-provider;bundle-version="0.0.1",
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.observable,
+ org.eclipse.core.databinding.property,
+ org.eclipse.jface.databinding,
+ com.ibm.icu
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

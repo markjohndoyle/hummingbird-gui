@@ -1,11 +1,18 @@
 package org.hbird.rcpgui.telemetry.views;
 
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -20,6 +27,8 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.telemetry.model.ModelCreator;
+import org.hbird.rcpgui.telemetry.model.TelemetryParameter;
 
 
 /**
@@ -33,6 +42,7 @@ import org.eclipse.ui.part.ViewPart;
  * <p>
  */
 public class TelemetryTable extends ViewPart {
+	private DataBindingContext m_bindingContext;
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -41,33 +51,34 @@ public class TelemetryTable extends ViewPart {
 
 	private TableViewer viewer;
 
+	private ModelCreator parametersModel = new ModelCreator();
+
 	/**
 	 * The constructor.
 	 */
 	public TelemetryTable() {
-
 	}
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize it.
 	 */
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 
-		Composite composite = new Composite(parent, SWT.NONE);
+		final Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		final GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_composite.heightHint = 27;
 		composite.setLayoutData(gd_composite);
 
-		Label lblNewLabel = new Label(composite, SWT.NONE);
+		final Label lblNewLabel = new Label(composite, SWT.NONE);
 		lblNewLabel.setText("New Label");
 
-		Label parameterReceivedLabel = new Label(composite, SWT.NONE);
+		final Label parameterReceivedLabel = new Label(composite, SWT.NONE);
 		parameterReceivedLabel.setText("New Label");
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		Table table = viewer.getTable();
+		final Table table = viewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		viewer.setInput(getViewSite());
 
@@ -76,45 +87,46 @@ public class TelemetryTable extends ViewPart {
 		makeActions();
 		hookContextMenu();
 		contributeToActionBars();
+		m_bindingContext = initDataBindings();
 	}
 
 	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		final MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
-			public void menuAboutToShow(IMenuManager manager) {
+			public void menuAboutToShow(final IMenuManager manager) {
 				TelemetryTable.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		final Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
 	}
 
 	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
+		final IActionBars bars = getViewSite().getActionBars();
 		fillLocalPullDown(bars.getMenuManager());
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
-	private void fillLocalPullDown(IMenuManager manager) {
+	private void fillLocalPullDown(final IMenuManager manager) {
 		manager.add(new Separator());
 	}
 
-	private void fillContextMenu(IMenuManager manager) {
+	private void fillContextMenu(final IMenuManager manager) {
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	private void fillLocalToolBar(IToolBarManager manager) {
+	private void fillLocalToolBar(final IToolBarManager manager) {
 	}
 
 	private void makeActions() {
 	}
 
 
-	private void showMessage(String message) {
+	private void showMessage(final String message) {
 		MessageDialog.openInformation(viewer.getControl().getShell(), "TelemetryTable", message);
 	}
 
@@ -126,4 +138,19 @@ public class TelemetryTable extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 
+	protected DataBindingContext initDataBindings() {
+		final DataBindingContext bindingContext = new DataBindingContext();
+		//
+		final ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		viewer.setContentProvider(listContentProvider);
+		//
+		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] {
+			"longDescription", "name", "shortDescription" });
+		viewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		final IObservableList parametersModelParametersObserveList = PojoObservables.observeList(Realm.getDefault(), parametersModel, "parameters");
+		viewer.setInput(parametersModelParametersObserveList);
+		//
+		return bindingContext;
+	}
 }
