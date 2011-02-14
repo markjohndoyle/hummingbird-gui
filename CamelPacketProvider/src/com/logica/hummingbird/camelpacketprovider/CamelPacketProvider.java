@@ -9,6 +9,7 @@ import com.logica.hummingbird.packetprovider.PacketProvider;
 import com.logica.hummingbird.packetprovider.PacketProviderObserver;
 import com.logica.hummingbird.telemetry.DefaultSpacePacket;
 import com.logica.hummingbird.telemetry.HummingbirdPacket;
+import com.logica.hummingbird.telemetry.HummingbirdParameter;
 import com.logica.hummingbird.util.BytesUtility;
 
 public class CamelPacketProvider implements PacketProvider {
@@ -16,8 +17,10 @@ public class CamelPacketProvider implements PacketProvider {
 	List<PacketProviderObserver> observers = new ArrayList<PacketProviderObserver>(1);
 
 	public void packetIn(Exchange ex) {
-		byte[] inPacket = (byte[]) (ex.getIn().getBody());
-		System.out.println("Received byte array " + BytesUtility.decimalDump(inPacket));
+//		byte[] inPacket = (byte[]) (ex.getIn().getBody());
+//		HummingbirdParameter inParameter = (HummingbirdParameter) (ex.getIn().getBody());
+		System.out.println("body  = " + ex.getIn().getBody().toString());
+//		System.out.println("Received parameter " + inParameter.getName());
 		HummingbirdPacket packet = new DefaultSpacePacket();
 		packet.setName("Testing Camel packet");
 		notifyObservers(packet);

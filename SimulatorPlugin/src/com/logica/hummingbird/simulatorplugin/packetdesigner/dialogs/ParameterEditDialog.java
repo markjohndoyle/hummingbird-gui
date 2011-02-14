@@ -127,11 +127,11 @@ public class ParameterEditDialog extends Dialog {
 		return new Point(450, 300);
 	}
 
-	public HummingbirdParameter getSimPacketDesign() {
+	public HummingbirdParameter getSimParameter() {
 		return parameter;
 	}
 
-	public void setSimPacketDesign(SimParameter simParameter) {
+	public void setSimParameter(SimParameter simParameter) {
 		setSimParameter(simParameter, true);
 	}
 

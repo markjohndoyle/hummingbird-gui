@@ -7,10 +7,13 @@ import java.util.concurrent.FutureTask;
 
 import com.google.gson.Gson;
 import com.logica.hummingbird.simulator.SimulatorSSM;
+import com.logica.hummingbird.simulatorplugin.packetdesigner.model.SimParameter;
 import com.logica.hummingbird.spacesystemmodel.Container;
 import com.logica.hummingbird.spacesystemmodel.ContainerFactory;
 import com.logica.hummingbird.spacesystemmodel.exceptions.UnknownContainerNameException;
 import com.logica.hummingbird.spacesystemmodel.parameters.ParameterContainer;
+import com.logica.hummingbird.spacesystemmodel.parameters.behaviours.AbstractFloatBehaviour;
+import com.logica.hummingbird.spacesystemmodel.parameters.behaviours.AbstractIntegerBehaviour;
 
 public class SimDock implements SimulatorDock {
 
@@ -43,8 +46,28 @@ public class SimDock implements SimulatorDock {
 
 	public List<ParameterContainer> getAllParameters() {
 		if (ssm != null) {
-			System.out.println("Getting all parameters form the simdocks ssm simulator");
+			System.out.println("Getting all parameters from the simdocks ssm simulator");
 			return new ArrayList<ParameterContainer>(ssm.getAllParameters());
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public List<SimParameter> getAllParametersAsSimParameters() {
+		if (ssm != null) {
+			System.out.println("Getting all parameters as SimParameters");
+			List<ParameterContainer> pcs = new ArrayList<ParameterContainer>(ssm.getAllParameters());
+			List<SimParameter> simParams = new ArrayList<SimParameter>(pcs.size());
+			for(ParameterContainer pc : pcs) {
+				if(pc.getType().getNumberBehaviour() instanceof AbstractIntegerBehaviour) {
+					simParams.add(new SimParameter(pc.getName(), Integer.class, pc.getValue(), pc.getShortDescription(), pc.getLongDescription()));					
+				}
+				else if(pc.getType().getNumberBehaviour() instanceof AbstractFloatBehaviour) {
+					simParams.add(new SimParameter(pc.getName(), Double.class, pc.getValue(), pc.getShortDescription(), pc.getLongDescription()));
+				}
+			}
+			return simParams;
 		}
 		else {
 			return null;

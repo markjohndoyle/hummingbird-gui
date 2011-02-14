@@ -33,6 +33,17 @@ public class SimParameter implements HummingbirdParameter {
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 
+	public SimParameter(String name, Class<?> classType, Object value, String shortDescription, String longDescription) {
+		super();
+		this.name = name;
+		this.classType = classType;
+		this.value = value;
+		this.shortDescription = shortDescription;
+		this.longDescription = longDescription;
+
+		propertyChangeSupport = new PropertyChangeSupport(this);
+	}
+
 	public SimParameter(HummingbirdParameter hParameter) {
 		this.name = hParameter.getName();
 		this.classType = hParameter.getClassType();
@@ -51,15 +62,6 @@ public class SimParameter implements HummingbirdParameter {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		String oldValue = this.name;
-		this.name = name;
-		propertyChangeSupport.firePropertyChange("name", oldValue, this.name);
-	}
 
 	/**
 	 * @param value
@@ -84,15 +86,15 @@ public class SimParameter implements HummingbirdParameter {
 	public void setLongDescription(String longDescription) {
 		this.longDescription = longDescription;
 	}
+	
+	@Override
+	public String getLongDescription() {
+		return longDescription;
+	}
 
 	@Override
 	public Class<? extends Object> getClassType() {
 		return classType;
-	}
-
-	@Override
-	public String getLongDescription() {
-		return longDescription;
 	}
 
 	/**
@@ -106,6 +108,16 @@ public class SimParameter implements HummingbirdParameter {
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		String oldValue = this.name;
+		this.name = name;
+		propertyChangeSupport.firePropertyChange("name", oldValue, this.name);
 	}
 
 	@Override
