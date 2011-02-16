@@ -1,5 +1,7 @@
 package org.hbird.rcpgui.telemetry.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,13 +10,15 @@ import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
 import org.hbird.rcpgui.telemetry.TelemetryActivator;
 
-public class ModelCreator implements ParameterObserver {
+public class ParameterSource extends AbstractPropChangeModelObject implements ParameterObserver {
 
-	List<TelemetryParameter> parameters;
+	private Map<String, TelemetryParameter> liveParameters = new HashMap<String, TelemetryParameter>();
+	private List<TelemetryParameter> liveParameterList = new ArrayList<TelemetryParameter>();
+
 
 	private final ParameterProvider parameterProvider;
 
-	public ModelCreator() {
+	public ParameterSource() {
 		parameterProvider = (ParameterProvider) TelemetryActivator.getParameterProviderServices().getService();
 		parameterProvider.addObserver(this);
 		try {
@@ -27,11 +31,16 @@ public class ModelCreator implements ParameterObserver {
 	}
 
 	@Override
-	public void paramterRecieved(final Parameter parameter) {
+	public void parameterRecieved(final Parameter parameter) {
 		System.out.println("Telemetry view received a parameter");
 		System.out.println(parameter.toString());
-		parameters.add(createTelemetryParameter(parameter));
+		final Object oldLiveParameterList = liveParameterList;
+		final TelemetryParameter param = createTelemetryParameter(parameter);
+		liveParameters.put(param.getName(), param);
+		liveParameterList = new ArrayList<TelemetryParameter>(liveParameters.values());
+		firePropertyChange("liveParameterList", oldLiveParameterList, liveParameterList);
 	}
+
 
 	private TelemetryParameter createTelemetryParameter(final Parameter parameter) {
 		final Map<String, Object> properties = parameter.getParameterProperties();
@@ -40,18 +49,11 @@ public class ModelCreator implements ParameterObserver {
 	}
 
 	/**
-	 * @return the parameters
+	 * @return the liveParameterList
 	 */
-	public List<TelemetryParameter> getParameters() {
-		return parameters;
+	public List<TelemetryParameter> getLiveParameterList() {
+		return liveParameterList;
 	}
 
-	/**
-	 * @param parameters
-	 *            the parameters to set
-	 */
-	public void setParameters(final List<TelemetryParameter> parameters) {
-		this.parameters = parameters;
-	}
 
 }

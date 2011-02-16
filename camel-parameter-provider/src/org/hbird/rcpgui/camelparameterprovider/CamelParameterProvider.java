@@ -51,7 +51,7 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	 */
 	private void notifyObservers(final Parameter parameter) {
 		for (final ParameterObserver po : observers) {
-			po.paramterRecieved(parameter);
+			po.parameterRecieved(parameter);
 		}
 	}
 

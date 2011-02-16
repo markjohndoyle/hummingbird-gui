@@ -4,5 +4,5 @@ import org.hbird.rcpgui.parameterprovider.model.Parameter;
 
 public interface ParameterObserver {
 
-	void paramterRecieved(Parameter parameter);
+	void parameterRecieved(Parameter parameter);
 }

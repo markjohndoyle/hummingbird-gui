@@ -9,11 +9,11 @@
             id="org.hbird.rcpgui.telemetry">
       </category>
       <view
-            name="TelemetryTable"
-            icon="icons/sample.gif"
             category="org.hbird.rcpgui.telemetry"
-            class="org.hbird.rcpgui.telemetry.views.TelemetryTable"
-            id="org.hbird.rcpgui.telemetry.views.TelemetryTable">
+            class="org.hbird.rcpgui.telemetry.views.TelemetryView"
+            icon="icons/transmit_blue.png"
+            id="org.hbird.rcpgui.telemetry.views.TelemetryView"
+            name="Telemetry">
       </view>
    </extension>
    <extension
@@ -21,10 +21,11 @@
       <perspectiveExtension
             targetID="org.eclipse.jdt.ui.JavaPerspective">
          <view
+               id="org.hbird.rcpgui.telemetry.views.TelemetryTable"
                ratio="0.5"
+               relationship="left"
                relative="org.eclipse.ui.views.TaskList"
-               relationship="right"
-               id="org.hbird.rcpgui.telemetry.views.TelemetryTable">
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>
