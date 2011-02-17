@@ -21,13 +21,6 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	public ParameterSource() {
 		parameterProvider = (ParameterProvider) TelemetryActivator.getParameterProviderServices().getService();
 		parameterProvider.addObserver(this);
-		try {
-			parameterProvider.start();
-		}
-		catch (final Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -55,5 +48,12 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		return liveParameterList;
 	}
 
+	public final void stopLiveProvision() throws Exception {
+		parameterProvider.stopTelemetryProvision();
+	}
+
+	public final void startLiveProvision() throws Exception {
+		parameterProvider.startTelemetryProvision();
+	}
 
 }

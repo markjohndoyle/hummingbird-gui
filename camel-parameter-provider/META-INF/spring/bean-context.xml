@@ -22,8 +22,8 @@
 	</bean>
 
 	<!--The came route used to retrieve packets for the gui. Can be altered -->
-	<camelContext id="route" xmlns="http://camel.apache.org/schema/spring" autoStartup="false">
-		<route>
+	<camelContext id="camelContextBean" xmlns="http://camel.apache.org/schema/spring">
+		<route id="fromJmsProcessedParametersOut" autoStartup="false">
 			<from uri="jms:queue:processedParametersOut" />
 			<to uri="bean:camelParameterProvider?method=parameterIn" />
 		</route>

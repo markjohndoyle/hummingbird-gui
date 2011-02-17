@@ -13,13 +13,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * @author Mark Doyle
+ * 
+ */
 public class CamelParameterProvider implements ParameterProvider, ApplicationContextAware {
 
+	private static final String PROVIDER_NAME = "Camel Parameter provider";
 	private ApplicationContext ac = null;
 	private List<ParameterObserver> observers;
 
 	public CamelParameterProvider() {
-		System.out.println("CamelParameterProvider constructed");
 	}
 
 	@Override
@@ -55,23 +59,30 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		}
 	}
 
-	@Override
-	public void start() throws Exception {
-		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("route");
 
-		// now start Camel manually
-		camel.start();
+	@Override
+	public void startTelemetryProvision() throws Exception {
+		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
+		// if (camel.isStopped()) {
+		// camel.start();
+		// }
+		camel.startRoute("fromJmsProcessedParametersOut");
 	}
 
 	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-
+	public void stopTelemetryProvision() throws Exception {
+		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
+		camel.stopRoute("fromJmsProcessedParametersOut");
 	}
 
 	@Override
 	public void setApplicationContext(final ApplicationContext actx) throws BeansException {
 		this.ac = actx;
+	}
+
+	@Override
+	public String getProviderName() {
+		return PROVIDER_NAME;
 	}
 
 }

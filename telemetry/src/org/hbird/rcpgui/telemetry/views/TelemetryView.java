@@ -32,7 +32,7 @@ public class TelemetryView extends ViewPart {
 	private Table telemetryTable;
 	private ParameterSource parametersModel = new ParameterSource();
 	private TableViewer tableViewer;
-	private TableColumn nameColumn;
+	private TableColumn tblclmnNameColumn;
 
 	public TelemetryView() {
 	}
@@ -59,21 +59,21 @@ public class TelemetryView extends ViewPart {
 				telemetryTable.setLinesVisible(true);
 				{
 					final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-					nameColumn = tableViewerColumn.getColumn();
-					tcl_composite.setColumnData(nameColumn, new ColumnPixelData(150, true, true));
-					nameColumn.setText("Parameter Name");
+					tblclmnNameColumn = tableViewerColumn.getColumn();
+					tcl_composite.setColumnData(tblclmnNameColumn, new ColumnPixelData(150, true, true));
+					tblclmnNameColumn.setText("Parameter Name");
 				}
 				{
 					final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-					final TableColumn valueColumn = tableViewerColumn.getColumn();
-					tcl_composite.setColumnData(valueColumn, new ColumnPixelData(150, true, true));
-					valueColumn.setText("Value");
+					final TableColumn tblclmnValueColumn = tableViewerColumn.getColumn();
+					tcl_composite.setColumnData(tblclmnValueColumn, new ColumnPixelData(150, true, true));
+					tblclmnValueColumn.setText("Value");
 				}
 				{
 					final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-					final TableColumn tblclmnSpacecraftTimestamp = tableViewerColumn.getColumn();
-					tcl_composite.setColumnData(tblclmnSpacecraftTimestamp, new ColumnPixelData(150, true, true));
-					tblclmnSpacecraftTimestamp.setText("Spacecraft Timestamp");
+					final TableColumn tblclmnSpacecraftTimestampColumn = tableViewerColumn.getColumn();
+					tcl_composite.setColumnData(tblclmnSpacecraftTimestampColumn, new ColumnPixelData(150, true, true));
+					tblclmnSpacecraftTimestampColumn.setText("Spacecraft Timestamp");
 				}
 				{
 					final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
@@ -84,18 +84,11 @@ public class TelemetryView extends ViewPart {
 			}
 		}
 
-		createActions();
 		initializeToolBar();
 		initializeMenu();
 		m_bindingContext = initDataBindings();
 	}
 
-	/**
-	 * Create the actions.
-	 */
-	private void createActions() {
-		// Create the actions
-	}
 
 	/**
 	 * Initialize the toolbar.
@@ -122,13 +115,28 @@ public class TelemetryView extends ViewPart {
 		tableViewer.setContentProvider(listContentProvider);
 		//
 		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] {
-				"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
+			"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
 		final IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersModel,
-				"liveParameterList");
+		"liveParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 		//
 		return bindingContext;
+	}
+
+	/**
+	 * @return the parametersModel
+	 */
+	public ParameterSource getParametersModel() {
+		return parametersModel;
+	}
+
+	/**
+	 * @param parametersModel
+	 *            the parametersModel to set
+	 */
+	public void setParametersModel(final ParameterSource parametersModel) {
+		this.parametersModel = parametersModel;
 	}
 }
