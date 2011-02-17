@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jogl-native-libs-winx64
+Bundle-SymbolicName: org.hbird.rcpgui.jogl-native-libs-winx64
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Hummingbird org
+Fragment-Host: org.hbird.rcpgui.worldwind-globe;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-NativeCode: nativelibs/gluegen-rt.dll;
+ nativelibs/jogl_cg.dll;
+ nativelibs/jogl_awt.dll;
+ nativelibs/jogl.dll;
+ osname=Windows7;
+ processor=x86-64
