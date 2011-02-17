@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.hbird.rcpgui.worldwind-globe.category.globe"
+            class="org.hbird.rcpgui.worldwindglobe.views.MainGlobeView"
+            icon="icons/world.png"
+            id="org.hbird.rcpgui.worldwindglobe.views.MainGlobe"
+            name="Orbit globe"
+            restorable="true">
+      </view>
+      <category
+            id="org.hbird.rcpgui.worldwind-globe.category.globe"
+            name="Globe">
+      </category>
+   </extension>
+      <extension
+            point="org.eclipse.ui.perspectiveExtensions">
+         <perspectiveExtension
+               targetID="org.eclipse.jdt.ui.JavaPerspective">
+            <view
+                  id="org.hbird.rcpgui.worldwindglobe.views.MainGlobe"
+                  minimized="false"
+                  ratio="1"
+                  relationship="right"
+                  standalone="true"
+                  visible="true">
+            </view>
+         </perspectiveExtension>
+      </extension>
+</plugin>
