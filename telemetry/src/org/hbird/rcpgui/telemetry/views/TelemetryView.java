@@ -1,10 +1,14 @@
 package org.hbird.rcpgui.telemetry.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -12,15 +16,20 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.telemetry.TelemetryActivator;
 import org.hbird.rcpgui.telemetry.model.ParameterSource;
 import org.hbird.rcpgui.telemetry.model.TelemetryParameter;
 
@@ -30,11 +39,20 @@ public class TelemetryView extends ViewPart {
 
 	public static final String ID = "org.hbird.rcpgui.telemetry.views.TelemetryView"; //$NON-NLS-1$
 	private Table telemetryTable;
-	private ParameterSource parametersModel = new ParameterSource();
+	private ParameterSource parametersSource = new ParameterSource();
 	private TableViewer tableViewer;
 	private TableColumn tblclmnNameColumn;
 
+	private List<ParameterProvider> parameterProviderServices = new ArrayList<ParameterProvider>();
+	private ComboViewer comboViewer;
+
 	public TelemetryView() {
+		final Object[] serviceObjects = TelemetryActivator.getParameterProviderServices().getServices();
+		if (serviceObjects.length > 0) {
+			for (final Object o : serviceObjects) {
+				parameterProviderServices.add((ParameterProvider) o);
+			}
+		}
 	}
 
 	/**
@@ -46,6 +64,21 @@ public class TelemetryView extends ViewPart {
 	public void createPartControl(final Composite parent) {
 		final Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(1, false));
+		{
+			final Composite composite = new Composite(container, SWT.NONE);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			composite.setLayout(new GridLayout(2, false));
+			{
+				final Label lblTmProvider = new Label(composite, SWT.NONE);
+				lblTmProvider.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				lblTmProvider.setText("TM provider");
+			}
+			{
+				comboViewer = new ComboViewer(composite, SWT.NONE);
+				final Combo combo = comboViewer.getCombo();
+				combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+			}
+		}
 		{
 			final Composite composite = new Composite(container, SWT.NONE);
 			composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -89,7 +122,6 @@ public class TelemetryView extends ViewPart {
 		m_bindingContext = initDataBindings();
 	}
 
-
 	/**
 	 * Initialize the toolbar.
 	 */
@@ -108,6 +140,22 @@ public class TelemetryView extends ViewPart {
 	public void setFocus() {
 		// Set the focus
 	}
+
+	/**
+	 * @return the parametersModel
+	 */
+	public ParameterSource getParametersModel() {
+		return parametersSource;
+	}
+
+	public void setParameterProviderServices(final List<ParameterProvider> parameterProviderServices) {
+		this.parameterProviderServices = parameterProviderServices;
+	}
+
+	public List<ParameterProvider> getParameterProviderServices() {
+		return parameterProviderServices;
+	}
+
 	protected DataBindingContext initDataBindings() {
 		final DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -118,25 +166,19 @@ public class TelemetryView extends ViewPart {
 			"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
-		final IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersModel,
+		final IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersSource,
 		"liveParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 		//
+		final ObservableListContentProvider listContentProvider_1 = new ObservableListContentProvider();
+		comboViewer.setContentProvider(listContentProvider_1);
+		//
+		final IObservableMap observeMap = PojoObservables.observeMap(listContentProvider_1.getKnownElements(), ParameterProvider.class, "providerName");
+		comboViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
+		//
+		final WritableList writableList = new WritableList(parameterProviderServices, ParameterProvider.class);
+		comboViewer.setInput(writableList);
+		//
 		return bindingContext;
-	}
-
-	/**
-	 * @return the parametersModel
-	 */
-	public ParameterSource getParametersModel() {
-		return parametersModel;
-	}
-
-	/**
-	 * @param parametersModel
-	 *            the parametersModel to set
-	 */
-	public void setParametersModel(final ParameterSource parametersModel) {
-		this.parametersModel = parametersModel;
 	}
 }

@@ -31,13 +31,13 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	@Override
-	public void start(BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 
 		// Register
-		setParameterProviderServices(new ServiceTracker(context, ParameterProvider.class.getName(), null));
-		getParameterProviderServices().open();
+		parameterProviderServices = new ServiceTracker(context, ParameterProvider.class.getName(), null);
+		parameterProviderServices.open();
 		System.out.println("Bundle activation stage: ParameterProvider services tracking count = " + parameterProviderServices.getTrackingCount());
 	}
 
@@ -47,7 +47,7 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	@Override
-	public void stop(BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}
@@ -68,11 +68,11 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	 *            the path
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
+	public static ImageDescriptor getImageDescriptor(final String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
-	public static void setParameterProviderServices(ServiceTracker frameProviderServices) {
+	public static void setParameterProviderServices(final ServiceTracker frameProviderServices) {
 		TelemetryActivator.parameterProviderServices = frameProviderServices;
 	}
 

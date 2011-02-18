@@ -15,7 +15,6 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	private Map<String, TelemetryParameter> liveParameters = new HashMap<String, TelemetryParameter>();
 	private List<TelemetryParameter> liveParameterList = new ArrayList<TelemetryParameter>();
 
-
 	private final ParameterProvider parameterProvider;
 
 	public ParameterSource() {
@@ -46,6 +45,10 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	 */
 	public List<TelemetryParameter> getLiveParameterList() {
 		return liveParameterList;
+	}
+
+	public final String getProviderName() {
+		return parameterProvider.getProviderName();
 	}
 
 	public final void stopLiveProvision() throws Exception {
