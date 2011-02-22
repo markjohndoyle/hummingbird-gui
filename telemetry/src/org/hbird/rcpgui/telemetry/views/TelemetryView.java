@@ -39,7 +39,7 @@ public class TelemetryView extends ViewPart {
 
 	public static final String ID = "org.hbird.rcpgui.telemetry.views.TelemetryView"; //$NON-NLS-1$
 	private Table telemetryTable;
-	private ParameterSource parametersSource = new ParameterSource();
+	private final ParameterSource parametersSource;
 	private TableViewer tableViewer;
 	private TableColumn tblclmnNameColumn;
 
@@ -47,6 +47,7 @@ public class TelemetryView extends ViewPart {
 	private ComboViewer comboViewer;
 
 	public TelemetryView() {
+		parametersSource = new ParameterSource(true);
 		final Object[] serviceObjects = TelemetryActivator.getParameterProviderServices().getServices();
 		if (serviceObjects.length > 0) {
 			for (final Object o : serviceObjects) {
@@ -163,11 +164,11 @@ public class TelemetryView extends ViewPart {
 		tableViewer.setContentProvider(listContentProvider);
 		//
 		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] {
-			"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
+				"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
 		final IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersSource,
-		"liveParameterList");
+				"liveParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 		//
 		final ObservableListContentProvider listContentProvider_1 = new ObservableListContentProvider();

@@ -24,6 +24,7 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	private List<ParameterObserver> observers;
 
 	public CamelParameterProvider() {
+		System.out.println("Constructing new camel provider");
 	}
 
 	@Override
@@ -54,18 +55,26 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	 * @param parameter
 	 */
 	private void notifyObservers(final Parameter parameter) {
-		for (final ParameterObserver po : observers) {
-			po.parameterRecieved(parameter);
+		System.out.println("Notifying " + observers.size() + " observers");
+		if (observers != null) {
+			for (final ParameterObserver po : observers) {
+				if (po.isRequestingAllParameters()) {
+					po.parameterRecieved(parameter);
+				}
+				else {
+					List<String> pnames = po.getInterestList();
+					String paramName = (String) parameter.getParameterProperties().get("ParameterName");
+					if (pnames.contains(paramName)) {
+						po.parameterRecieved(parameter);
+					}
+				}
+			}
 		}
 	}
-
 
 	@Override
 	public void startTelemetryProvision() throws Exception {
 		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
-		// if (camel.isStopped()) {
-		// camel.start();
-		// }
 		camel.startRoute("fromJmsProcessedParametersOut");
 	}
 

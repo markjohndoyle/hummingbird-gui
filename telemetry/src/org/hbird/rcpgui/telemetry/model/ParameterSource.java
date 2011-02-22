@@ -12,19 +12,23 @@ import org.hbird.rcpgui.telemetry.TelemetryActivator;
 
 public class ParameterSource extends AbstractPropChangeModelObject implements ParameterObserver {
 
-	private Map<String, TelemetryParameter> liveParameters = new HashMap<String, TelemetryParameter>();
+
+	private final Map<String, TelemetryParameter> liveParameters = new HashMap<String, TelemetryParameter>();
 	private List<TelemetryParameter> liveParameterList = new ArrayList<TelemetryParameter>();
 
 	private final ParameterProvider parameterProvider;
+	private final boolean requestAll;
+	private List<String> interestList;
 
-	public ParameterSource() {
+	public ParameterSource(boolean requestAll) {
+		this.requestAll = requestAll;
 		parameterProvider = (ParameterProvider) TelemetryActivator.getParameterProviderServices().getService();
 		parameterProvider.addObserver(this);
 	}
 
 	@Override
 	public void parameterRecieved(final Parameter parameter) {
-		System.out.println("Telemetry view received a parameter");
+		System.out.println("Parameter Source received a parameter");
 		System.out.println(parameter.toString());
 		final Object oldLiveParameterList = liveParameterList;
 		final TelemetryParameter param = createTelemetryParameter(parameter);
@@ -57,6 +61,20 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	public final void startLiveProvision() throws Exception {
 		parameterProvider.startTelemetryProvision();
+	}
+
+	@Override
+	public List<String> getInterestList() {
+		return interestList;
+	}
+
+	@Override
+	public boolean isRequestingAllParameters() {
+		return requestAll;
+	}
+
+	public void setInterestList(List<String> interestList) {
+		this.interestList = interestList;
 	}
 
 }

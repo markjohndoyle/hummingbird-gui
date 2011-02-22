@@ -8,8 +8,10 @@
 						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
 
-	<!-- Create a camel paramter provider bean for use by the services-context (Spring SM)-->
-	<bean id="camelParameterProvider" class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProvider">
+	<!-- Create a camel parameter provider bean for use by the services-context (Spring SM)-->
+	<bean 
+		id="camelParameterProvider" 
+		class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProvider">
 	</bean>
 
 	<!-- Create a jms endpoint for the route used by this provider-->
@@ -24,7 +26,7 @@
 	<!--The came route used to retrieve packets for the gui. Can be altered -->
 	<camelContext id="camelContextBean" xmlns="http://camel.apache.org/schema/spring">
 		<route id="fromJmsProcessedParametersOut" autoStartup="false">
-			<from uri="jms:queue:processedParametersOut" />
+			<from uri="jms:topic:processedParametersOut" />
 			<to uri="bean:camelParameterProvider?method=parameterIn" />
 		</route>
 	</camelContext>

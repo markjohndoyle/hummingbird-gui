@@ -1,5 +1,6 @@
 package org.hbird.rcpgui.parameterprovider;
 
+
 /**
  * 
  * @author Mark Doyle
@@ -14,6 +15,7 @@ public interface ParameterProvider {
 	 *             if there are exceptional circumstances...
 	 */
 	void startTelemetryProvision() throws Exception;
+
 
 	/**
 	 * Stop live telemetry flow
@@ -36,4 +38,5 @@ public interface ParameterProvider {
 	 * @return
 	 */
 	String getProviderName();
+
 }

@@ -7,10 +7,10 @@
 						   http://www.springframework.org/schema/osgi 
 						   http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
 
-	<osgi:list 
-		id="parameterProviderServices" 
-		interface="org.hbird.rcpgui.parameterprovider.ParameterProvider">
-	</osgi:list>
+<!--	<osgi:list -->
+<!--		id="parameterProviderServices" -->
+<!--		interface="org.hbird.rcpgui.parameterprovider.ParameterProvider">-->
+<!--	</osgi:list>-->
 
 
 </beans>
