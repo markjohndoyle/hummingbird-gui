@@ -8,13 +8,17 @@ import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.IconLayer;
+import gov.nasa.worldwind.layers.RenderableLayer;
+import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.render.UserFacingIcon;
 import gov.nasa.worldwind.render.WWIcon;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -34,6 +38,8 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	final static WorldWindowGLCanvas worldCanvas = new WorldWindowGLCanvas();
 	private final ParameterSource telemetryIn;
 	private WWIcon satelliteIcon;
+	private final List<Position> trailPositions = new ArrayList<Position>();
+	private Polyline trailLine;
 
 	// Initialize the default WW layers
 	static {
@@ -54,6 +60,24 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		interestList.add("LONGITUDE");
 		interestList.add("LATITUDE");
 		telemetryIn.setInterestList(interestList);
+	}
+
+	private final void loadSat() {
+		// Testing
+		IconLayer iconLayer = new IconLayer();
+		satelliteIcon = new UserFacingIcon("icons/satellite_48_hot.png", new Position(LatLon.fromDegrees(49.872098, 8.63534), 40000.00));
+		iconLayer.addIcon(satelliteIcon);
+		RenderableLayer trailLayer = new RenderableLayer();
+
+
+		trailLine = new Polyline();
+		trailLine.setPathType(Polyline.GREAT_CIRCLE);
+		trailLine.setColor(Color.MAGENTA);
+
+		trailLayer.addRenderable(trailLine);
+
+		worldCanvas.getModel().getLayers().add(iconLayer);
+		worldCanvas.getModel().getLayers().add(trailLayer);
 	}
 
 	@Override
@@ -86,13 +110,10 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		Label lblLongitude = new Label(composite, SWT.NONE);
 		lblLongitude.setText("New Label");
 
-		// Testing
-		IconLayer iconLayer = new IconLayer();
-		satelliteIcon = new UserFacingIcon("icons/satellite_48_hot.png", new Position(LatLon.fromDegrees(49.872098, 8.63534), 40000.00));
-		iconLayer.addIcon(satelliteIcon);
-		worldCanvas.getModel().getLayers().add(iconLayer);
 
 		initBindingToTmSource();
+
+		loadSat();
 
 	}
 
@@ -107,10 +128,15 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		}
 
 		this.satelliteIcon.setPosition(new Position(lat, lon, currPos.getAltitude()));
+		trailPositions.add(new Position(lat, lon, currPos.getAltitude()));
+		trailLine.setPositions(trailPositions);
 
+		Iterator<Position> it = trailLine.getPositions().iterator();
+		while (it.hasNext()) {
+			System.out.println("Trail pos = " + it);
+			it.next();
+		}
 		worldCanvas.redraw();
-
-
 	}
 
 	private final void initBindingToTmSource() {
