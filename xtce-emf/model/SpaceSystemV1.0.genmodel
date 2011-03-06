@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/xtce-emf/src"
+    modelPluginID="xtce-emf" modelName="SpaceSystemV1" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>file:/C:/Users/mark/Dropbox/SpaceSystemV1.0.xsd</foreignModel>
+  <genPackages prefix="Xtce" basePackage="org.omg.space" resource="XML" disposableProviderFactory="true"
+      loadInitialization="true" literalsInterface="false" ecorePackage="xtce.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//BasisType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//BasisType/perSecond"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//BasisType/perContainerUpdate"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//BitOrderType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//BitOrderType/leastSignificantBitFirst"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//BitOrderType/mostSignificantBitFirst"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//CharacterWidthType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//CharacterWidthType/_8"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//CharacterWidthType/_16"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ComparisonOperatorsType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_1"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_2"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_3"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_4"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ComparisonOperatorsType/_5"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ConsequenceLevelType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/none"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/watch"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/warning"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/distress"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/critical"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ConsequenceLevelType/severe"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//DataSourceType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//DataSourceType/telemetered"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//DataSourceType/derived"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//DataSourceType/constant"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//DataSourceType/local"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//EncodingType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType/UTF8"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType/UTF16"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//EncodingType2">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/unsigned"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/signMagnitude"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/twosCompliment"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/onesCompliment"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/BCD"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType2/packedBCD"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//EncodingType3">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType3/IEEE7541985"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EncodingType3/MILSTD1750A"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//EpochTypeMember1">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//EpochTypeMember1/TAI"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//FlagBitTypeType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//FlagBitTypeType/zeros"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//FlagBitTypeType/ones"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//MathOperatorsType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/_"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/_1"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/mult"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/div"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/mod"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/exp"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/bitor"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/bitand"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//MathOperatorsType/bitxor"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//NotationType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//NotationType/normal"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//NotationType/scientific"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//NotationType/engineering"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//PcmTypeType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/NRZL"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/NRZM"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/NRZS"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/BiPhaseL"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/BiPhaseM"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//PcmTypeType/BiPhaseS"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//RadixType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//RadixType/Decimal"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//RadixType/Hexadecimal"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//RadixType/Octal"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//RadixType/Binary"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ReferenceLocationType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceLocationType/containerStart"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceLocationType/containerEnd"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceLocationType/previousEntry"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceLocationType/nextEntry"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ReferenceType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceType/start"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceType/end"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ReferenceType1">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceType1/start"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ReferenceType1/end"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//SizeInBitsType1">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType1/_32"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType1/_64"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType1/_128"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//SizeInBitsType2">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType2/_32"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType2/_64"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//SizeInBitsType2/_128"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//TypeType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//TypeType/Even"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//TypeType/Odd"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//UnitsType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//UnitsType/seconds"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//UnitsType/years"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//UnitsType/picoseconds"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//UnitsType/days"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//UnitsType/month"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//ValidationStatusType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Working"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Draft"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Test"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Validated"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Released"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//ValidationStatusType/Withdrawn"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//VerificationToWaitForType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/transferredToRange"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/sentFromRange"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/received"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/accepted"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/queued"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/executing"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerificationToWaitForType/complete"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xtce.ecore#//VerifierToTriggerOnType">
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/release"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/transferredToRange"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/sentFromRange"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/received"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/accepted"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/queued"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/executing"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/complete"/>
+      <genEnumLiterals ecoreEnumLiteral="xtce.ecore#//VerifierToTriggerOnType/failed"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="xtce.ecore#//BasisTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//BinaryType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//BitOrderTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//CharacterWidthTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ComparisonOperatorsTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ConsequenceLevelTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//DataSourceTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//EncodingTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//EncodingTypeObject1"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//EncodingTypeObject2"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//EpochType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//EpochTypeMember1Object"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//FixedIntegerValueType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//FlagBitTypeTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//HexadecimalType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//MathOperatorsTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//NameReferenceType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//NameType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//NotationTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//OctalType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//PcmTypeTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//RadixTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ReferenceLocationTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ReferenceTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ReferenceTypeObject1"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//RelativeTimeType"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//SizeInBitsTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//SizeInBitsTypeObject1"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//TypeTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//UnitsTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//ValidationStatusTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//VerificationToWaitForTypeObject"/>
+    <genDataTypes ecoreDataType="xtce.ecore#//VerifierToTriggerOnTypeObject"/>
+    <genClasses ecoreClass="xtce.ecore#//AbsoluteTimeDataType"/>
+    <genClasses ecoreClass="xtce.ecore#//AcceptedVerifierType"/>
+    <genClasses ecoreClass="xtce.ecore#//AlarmConditionsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmConditionsType/watchAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmConditionsType/warningAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmConditionsType/distressAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmConditionsType/critialAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmConditionsType/severeAlarm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AlarmRangesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmRangesType/watchRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmRangesType/warningRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmRangesType/distressRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmRangesType/criticalRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AlarmRangesType/severeRange"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AlarmRangesType/appliesToCalibratedValues"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AlgorithmSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//AlgorithmSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//AlgorithmSetType/customAlgorithm"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//AlgorithmSetType/mathAlgorithm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AlgorithmTextType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AlgorithmTextType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AlgorithmTextType/language"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AliasSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AliasSetType/alias"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AliasType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AliasType/alias"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AliasType/nameSpace"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ANDedConditionsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ANDedConditionsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ANDedConditionsType/condition"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ANDedConditionsType/oRedConditions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumementArrayTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumementArrayTypeType/arrayType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumementArrayTypeType/numberOfDimensions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentAssignmentListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentAssignmentListType/argumentAssignment"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentAssignmentType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentAssignmentType/argumentName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentAssignmentType/argumentValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentListType/argument"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentListType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentListType1/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentListType1/argument"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentRefEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentRefEntryType/argumentRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentType1/argumentTypeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArgumentTypeSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ArgumentTypeSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/stringArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/enumeratedArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/integerArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/binaryArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/floatArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/booleanArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/relativeTimeAgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/absoluteTimeArgumentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ArgumentTypeSetType/argumementArrayType"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArrayParameterRefEntryType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ArrayParameterRefEntryType/dimensionList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArrayParameterRefEntryType/lastEntryForThisArrayInstance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArrayParameterRefEntryType/parameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ArrayParameterTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArrayParameterTypeType/arrayTypeRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ArrayParameterTypeType/numberOfDimensions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AuthorSetType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AuthorSetType/author"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//AutoInvertType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//AutoInvertType/invertAlgorithm"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//AutoInvertType/badFramesToAutoInvert"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BaseContainerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseContainerType/restrictionCriteria"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BaseContainerType/containerRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BaseContainerType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseContainerType1/restrictionCriteria"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BaseContainerType1/containerRef"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtce.ecore#//BaseDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseDataType/unitSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseDataType/binaryDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseDataType/floatDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseDataType/integerDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseDataType/stringDataEncoding"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BaseMetaCommandType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseMetaCommandType/argumentAssignmentList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BaseMetaCommandType/metaCommandRef"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtce.ecore#//BaseTimeDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseTimeDataType/encoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BaseTimeDataType/referenceTime"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BinaryDataEncodingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BinaryDataEncodingType/sizeInBits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BinaryDataEncodingType/fromBinaryTransformAlgorithm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BinaryDataEncodingType/toBinaryTransformAlgorithm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BinaryDataType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BinaryDataType/initialValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BlockMetaCommandType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BlockMetaCommandType/metaCommandStepList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BooleanDataType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BooleanDataType/initialValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BooleanDataType/oneStringValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//BooleanDataType/zeroStringValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//BooleanExpressionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BooleanExpressionType/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BooleanExpressionType/aNDedConditions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//BooleanExpressionType/oRedConditions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ByteOrderType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ByteOrderType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ByteOrderType/byte"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ByteType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ByteType/byteSignificance"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CalibratorType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CalibratorType/splineCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CalibratorType/polynomialCalibrator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CalibratorType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ChangeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ChangeType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CommandContainerEntryListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//CommandContainerEntryListType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/parameterRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/parameterSegmentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/containerRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/containerSegmentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/streamSegmentEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/indirectParameterRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/arrayParameterRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/argumentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/arrayArgumentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerEntryListType/fixedValueEntry"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CommandContainerSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerSetType/commandContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CommandContainerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerType/entryList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandContainerType/baseContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CommandMetaDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/parameterTypeSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/parameterSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/argumentTypeSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/metaCommandSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/commandContainerSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/streamSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandMetaDataType/algorithmSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CommandVerifierType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/comparison"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/comparisonList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/booleanExpression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/containerRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/parameterValueChange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CommandVerifierType/customAlgorithm"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CommandVerifierType/timeToWait"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ComparisonCheckType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ComparisonCheckType/parameterInstanceRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ComparisonCheckType/comparisonOperator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ComparisonCheckType/parameterInstanceRef1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ComparisonCheckType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ComparisonListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ComparisonListType/comparison"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ComparisonListType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ComparisonListType1/comparison"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ComparisonType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ComparisonType/comparisonOperator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ComparisonType/value1"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CompleteVerifierType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CompleteVerifierType/returnParmRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ConditionalAlarmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ConditionalAlarmType/staticAlarmConditions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ConditionalAlarmType/changePerSecondAlarmConditions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ConstantType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ConstantType/constantName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ConstantType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContainerRefEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerRefEntryType/containerRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContainerRefSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContainerRefSetType/containerRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContainerRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerRefType/containerRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContainerSegmentRefEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerSegmentRefEntryType/containerRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerSegmentRefEntryType/order"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerSegmentRefEntryType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContainerSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ContainerSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ContainerSetType/sequenceContainer"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtce.ecore#//ContainerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContainerType/defaultRateInStream"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContainerType/rateInStreamSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContainerType/binaryEncoding"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextAlarmListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextAlarmListType/contextAlarm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextAlarmListType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextAlarmListType1/contextAlarm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextAlarmListType2">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextAlarmListType2/contextAlarm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextAlarmListType3">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextAlarmListType3/contextAlarm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextAlarmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextAlarmType/contextMatch"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorListType/contextCalibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorListType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorListType1/contextCalibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorListType2">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorListType2/contextCalibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorListType3">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorListType3/contextCalibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorListType4">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorListType4/contextCalibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType/useWhenCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType/calibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType1/useWhenCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType1/calibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorType2">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType2/contextMatch"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType2/calibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextCalibratorType3">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType3/useWhenCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextCalibratorType3/calibrator"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextSignificanceListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextSignificanceListType/contextSignificance"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ContextSignificanceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextSignificanceType/contextMatch"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ContextSignificanceType/significance"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CRCType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CRCType/polynomial"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CRCType/bitsFromReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CRCType/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//CustomStreamType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CustomStreamType/encodingAlgorithm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//CustomStreamType/decodingAlgorithm"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CustomStreamType/decodedStreamRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//CustomStreamType/encodedStreamRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DataEncodingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DataEncodingType/errorDetectCorrect"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DataEncodingType/byteOrderList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DataEncodingType/bitOrder"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DecimalRangeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DecimalRangeType/maxExclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DecimalRangeType/maxInclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DecimalRangeType/minExclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DecimalRangeType/minInclusive"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DecimalValueType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DecimalValueType/fixedValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DecimalValueType/dynamicValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DefaultsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DefaultsType/defaultDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DefaultsType/parameterTimeAssociation"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DimensionListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DimensionListType/dimension"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DimensionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DimensionType/startingIndex"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DimensionType/endingIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DiscreteLookupListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DiscreteLookupListType/discreteLookup"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DiscreteLookupType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DiscreteLookupType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DocumentRoot/spaceSystem"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DynamicValueType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DynamicValueType/parameterInstanceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DynamicValueType/linearAdjustment"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//DynamicValueType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DynamicValueType1/parameterInstanceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//DynamicValueType1/linearAdjustment"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//EncodingType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EncodingType1/binaryDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EncodingType1/floatDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EncodingType1/integerDataEncoding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EncodingType1/stringDataEncoding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//EncodingType1/offset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//EncodingType1/scale"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//EncodingType1/units"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//EntryListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//EntryListType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/parameterRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/parameterSegmentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/containerRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/containerSegmentRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/streamSegmentEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/indirectParameterRefEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//EntryListType/arrayParameterRefEntry"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//EnumeratedDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EnumeratedDataType/enumerationList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//EnumeratedDataType/initialValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//EnumerationListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//EnumerationListType/enumeration"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ErrorDetectCorrectType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ErrorDetectCorrectType/parity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ErrorDetectCorrectType/cRC"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ExecutionVerifierType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ExecutionVerifierType/percentComplete"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ExternalAlgorithmSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ExternalAlgorithmSetType/externalAlgorithm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ExternalAlgorithmType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ExternalAlgorithmType/algorithmLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ExternalAlgorithmType/implementationName"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FixedFrameStreamType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FixedFrameStreamType/syncStrategy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FixedFrameStreamType/frameLengthInBits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FixedFrameStreamType/syncApertureInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FixedFrameSyncStrategyType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FixedFrameSyncStrategyType/syncPattern"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FixedValueEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FixedValueEntryType/binaryValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FixedValueEntryType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FlagType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FlagType/flagBitType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FlagType/flagSizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FloatArgumentTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatArgumentTypeType/defaultAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatArgumentTypeType/contextAlarmList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FloatDataEncodingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatDataEncodingType/defaultCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatDataEncodingType/contextCalibratorList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FloatDataEncodingType/encoding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FloatDataEncodingType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FloatDataType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FloatDataType/initialValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//FloatDataType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FloatParameterTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatParameterTypeType/defaultAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FloatParameterTypeType/contextAlarmList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//FrameStreamType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FrameStreamType/containerRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FrameStreamType/serviceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//FrameStreamType/streamRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//HeaderType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//HeaderType/authorSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//HeaderType/noteSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//HeaderType/historySet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HeaderType/classification"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HeaderType/classificationInstructions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HeaderType/date"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HeaderType/validationStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HeaderType/version"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//HistorySetType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//HistorySetType/history"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IndirectParameterRefEntryType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IndirectParameterRefEntryType/parameterInstance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IndirectParameterRefEntryType/aliasNameSpace"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//InputAlgorithmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//InputAlgorithmType/inputSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//InputOutputAlgorithmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//InputOutputAlgorithmType/outputSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InputOutputAlgorithmType/thread"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//InputOutputTriggerAlgorithmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//InputOutputTriggerAlgorithmType/triggerSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InputOutputTriggerAlgorithmType/priority"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InputOutputTriggerAlgorithmType/triggerContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//InputSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//InputSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//InputSetType/parameterInstanceRef"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//InputSetType/constant"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerArgumentTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerArgumentTypeType/defaultAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerArgumentTypeType/contextAlarmList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerDataEncodingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerDataEncodingType/defaultCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerDataEncodingType/contextCalibratorList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerDataEncodingType/encoding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerDataEncodingType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerDataType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerDataType/initialValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerDataType/signed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerDataType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerParameterTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerParameterTypeType/defaultAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerParameterTypeType/contextAlarmList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerRangeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerRangeType/max"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerRangeType/min"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//IntegerValueType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//IntegerValueType/fixedValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerValueType/dynamicValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//IntegerValueType/discreteLookupList"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//InterlockType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InterlockType/scopeToSpaceSystem"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InterlockType/suspendable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InterlockType/verificationProgressPercentage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//InterlockType/verificationToWaitFor"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//LeadingSizeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LeadingSizeType/sizeInBitsOfSizeTag"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//LinearAdjustmentType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LinearAdjustmentType/intercept"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LinearAdjustmentType/slope"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//LinearAdjustmentType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LinearAdjustmentType1/intercept"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LinearAdjustmentType1/slope"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//LocationInContainerInBitsType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//LocationInContainerInBitsType/referenceLocation"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MatchCriteriaType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MatchCriteriaType/comparison"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MatchCriteriaType/comparisonList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MatchCriteriaType/booleanExpression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MatchCriteriaType/customAlgorithm"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MathAlgorithmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MathAlgorithmType/mathOperation"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MathOperationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MathOperationType/parameterInstanceRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MathOperationType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MathOperationType/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MathOperationType/parameterInstanceRef1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MathOperationType/value1"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MathOperationType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MathOperationType1/triggerSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MathOperationType1/outputParameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MessageRefSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MessageRefSetType/messageRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MessageRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MessageRefType/messageRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MessageSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MessageSetType/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MessageSetType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MessageType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MessageType/matchCriteria"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MessageType/containRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MetaCommandSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//MetaCommandSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandSetType/metaCommand"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MetaCommandSetType/metaCommandRef"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandSetType/blockMetaCommand"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MetaCommandStepListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandStepListType/metaCommandStep"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MetaCommandStepType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandStepType/argumentList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MetaCommandStepType/metaCommandRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//MetaCommandType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/baseMetaCommand"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MetaCommandType/systemName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/argumentList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/commandContainer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/transmissionConstraintList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/defaultSignificance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/contextSignificanceList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/interlock"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/verifiers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//MetaCommandType/parameterToSetList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//MetaCommandType/abstract"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NameDescriptionType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NameDescriptionType/longDescription"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NameDescriptionType/aliasSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NameDescriptionType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NameDescriptionType/shortDescription"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NoteSetType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NoteSetType/note"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NumberFormatType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/maximumFractionDigits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/maximumIntegerDigits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/minimumFractionDigits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/minimumIntegerDigits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/negativePrefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/negativeSuffix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/notation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/numberBase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/positivePrefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/positiveSuffix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberFormatType/showThousandsGrouping"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NumberToStringType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//NumberToStringType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//NumberToStringType/valueEnumeration"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//NumberToStringType/rangeEnumeration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumberToStringType/numberFormat"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NumericAlarmConditionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericAlarmConditionType/staticAlarmRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericAlarmConditionType/changePerSecondAlarmRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericAlarmConditionType/conditionalAlarm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericAlarmConditionType/customAlarm"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumericAlarmConditionType/minViolations"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//NumericDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericDataType/toString"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericDataType/validRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericDataType/defaultCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//NumericDataType/contextCalibratorList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//NumericDataType/validRangeAppliesToCalibrated"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//OffsetType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//OffsetType/offsetSizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ORedConditionsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ORedConditionsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ORedConditionsType/condition"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ORedConditionsType/aNDedConditions"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//OutputParameterRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//OutputParameterRefType/outputName"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//OutputSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//OutputSetType/outputParameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterInstanceRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterInstanceRefType/inputName"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterInstanceRefType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterInstanceRefType1/instance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterInstanceRefType1/useCalibratedValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterPropertiesType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterPropertiesType/systemName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterPropertiesType/validityCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterPropertiesType/physicalAddressSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterPropertiesType/timeAssociation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterPropertiesType/dataSource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterPropertiesType/readOnly"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterRefEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterRefEntryType/parameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterRefType/triggerName"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterRefType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterRefType1/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterRefType1/parameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterSegmentRefEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterSegmentRefEntryType/order"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterSegmentRefEntryType/parameterRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterSegmentRefEntryType/sizeInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterSetType/parameter"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterSetType/parameterRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterToSetListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterToSetListType/parameterToSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterToSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterToSetType/parameterRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterToSetType/derivation"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterToSetType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterToSetType1/verifierToTriggerOn"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterType/parameterProperties"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterType/parameterTypeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterTypeSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//ParameterTypeSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/stringParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/enumeratedParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/integerParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/binaryParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/floatParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/booleanParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/relativeTimeParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/absoluteTimeParameterType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//ParameterTypeSetType/arrayParameterType"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParameterValueChangeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterValueChangeType/parameterRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ParameterValueChangeType/change"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ParityType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParityType/bitsFromReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParityType/reference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ParityType/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtce.ecore#//PCMStreamType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PCMStreamType/bitRateInBPS"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PCMStreamType/inverted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PCMStreamType/pcmType"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//PhysicalAddressSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//PhysicalAddressSetType/physicalAddress"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//PhysicalAddressType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//PhysicalAddressType/subAddress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PhysicalAddressType/sourceAddress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PhysicalAddressType/sourceName"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//PhysicalAddressType1"/>
+    <genClasses ecoreClass="xtce.ecore#//PolynomialType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//PolynomialType/term"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//PropertyType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//PropertyType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//PropertyType/property"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//PropertyType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//QueuedVerifierType"/>
+    <genClasses ecoreClass="xtce.ecore#//RangeEnumerationType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//RangeEnumerationType/label"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RateInStreamSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//RateInStreamSetType/rateInStream"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RateInStreamType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//RateInStreamType/streamRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RateInStreamType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//RateInStreamType1/basis"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//RateInStreamType1/maximumValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//RateInStreamType1/minimumValue"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ReceivedVerifierType"/>
+    <genClasses ecoreClass="xtce.ecore#//ReferenceTimeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ReferenceTimeType/offsetFrom"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ReferenceTimeType/epoch"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RelativeTimeDataType"/>
+    <genClasses ecoreClass="xtce.ecore#//RepeatType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//RepeatType/count"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//RepeatType/offset"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RestrictionCriteriaType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//RestrictionCriteriaType/nextContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//RestrictionCriteriaType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//RestrictionCriteriaType1/nextContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SentFromRangeVerifierType"/>
+    <genClasses ecoreClass="xtce.ecore#//SequenceContainerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SequenceContainerType/entryList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SequenceContainerType/baseContainer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SequenceContainerType/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SequenceContainerType/idlePattern"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SequenceEntryType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SequenceEntryType/locationInContainerInBits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SequenceEntryType/repeatEntry"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SequenceEntryType/includeCondition"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ServiceRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ServiceRefType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ServiceRefType/serviceRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ServiceSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ServiceSetType/service"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ServiceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ServiceType/messageRefSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//ServiceType/containerRefSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SignificanceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SignificanceType/consequenceLevel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SignificanceType/reasonForWarning"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SignificanceType/spaceSystemAtRisk"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SimpleAlgorithmType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SimpleAlgorithmType/algorithmText"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SimpleAlgorithmType/externalAlgorithmSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SizeInBitsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SizeInBitsType/fixed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SizeInBitsType/terminationChar"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SizeInBitsType/leadingSize"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SpaceSystemType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/header"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/telemetryMetaData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/commandMetaData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/serviceSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/defaults"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SpaceSystemType/spaceSystem"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SplineCalibratorType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SplineCalibratorType/splinePoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SplineCalibratorType/extrapolate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SplineCalibratorType/order"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SplinePointType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SplinePointType/calibrated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SplinePointType/order"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SplinePointType/raw"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//StreamRefType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StreamRefType/streamRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//StreamSegmentEntryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StreamSegmentEntryType/order"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StreamSegmentEntryType/sizeInBits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StreamSegmentEntryType/streamRef"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//StreamSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//StreamSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//StreamSetType/fixedFrameStream"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//StreamSetType/variableFrameStream"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//StreamSetType/customStream"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//StringDataEncodingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataEncodingType/defaultCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataEncodingType/contextCalibratorList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataEncodingType/sizeInBits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StringDataEncodingType/encoding"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//StringDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataType/sizeRangeInCharacters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataType/defaultCalibrator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//StringDataType/contextCalibratorList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StringDataType/characterWidth"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StringDataType/initialValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//StringDataType/restrictionPattern"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SyncPatternType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType/bitLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType/mask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType/maskLengthInBits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType/pattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType/patternLengthInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SyncPatternType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType1/bitLocationFromStartOfContainer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType1/mask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType1/maskLengthInBits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType1/pattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncPatternType1/patternLengthInBits"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SyncStrategyType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SyncStrategyType/autoInvert"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncStrategyType/checkToLockGoodFrames"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncStrategyType/maxBitErrorsInSyncPattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//SyncStrategyType/verifyToLockGoodFrames"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SyncStrategyType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SyncStrategyType1/flag"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//SyncStrategyType2">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//SyncStrategyType2/syncPattern"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TelemetryMetaDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/parameterTypeSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/parameterSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/containerSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/messageSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/streamSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TelemetryMetaDataType/algorithmSet"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TermType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TermType/coefficient"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TermType/exponent"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TimeAssociationType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TimeAssociationType/interpolateTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TimeAssociationType/offset"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TransferredToRangeVerifierType"/>
+    <genClasses ecoreClass="xtce.ecore#//TransmissionConstraintListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//TransmissionConstraintListType/transmissionConstraint"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TransmissionConstraintType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TransmissionConstraintType/suspendable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TransmissionConstraintType/timeOut"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//TriggerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//TriggerType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xtce.ecore#//TriggerType/parameterRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TriggerType/triggerFrequency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TriggerType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//TriggerType/triggerRate"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//UnitSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//UnitSetType/unit"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//UnitType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xtce.ecore#//UnitType/mixed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//UnitType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//UnitType/factor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//UnitType/power"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//ValidRangeType"/>
+    <genClasses ecoreClass="xtce.ecore#//ValueEnumerationType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ValueEnumerationType/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtce.ecore#//ValueEnumerationType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//VariableFrameStreamType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VariableFrameStreamType/syncStrategy"/>
+    </genClasses>
+    <genClasses ecoreClass="xtce.ecore#//VerifiersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/transferredToRangeVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/sentFromRangeVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/receivedVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/acceptedVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/queuedVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/executionVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/completeVerifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtce.ecore#//VerifiersType/failedVerifier"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
