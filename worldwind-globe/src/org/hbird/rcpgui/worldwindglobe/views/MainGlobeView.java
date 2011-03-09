@@ -31,6 +31,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 import org.hbird.rcpgui.telemetry.model.ParameterSource;
 import org.hbird.rcpgui.telemetry.model.TelemetryParameter;
+import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
+import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
 
 public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 
@@ -40,6 +42,8 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	private WWIcon satelliteIcon;
 	private final List<Position> trailPositions = new ArrayList<Position>();
 	private Polyline trailLine;
+
+	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
 
 	// Initialize the default WW layers
 	static {
@@ -67,13 +71,11 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		IconLayer iconLayer = new IconLayer();
 		satelliteIcon = new UserFacingIcon("icons/satellite_48_hot.png", new Position(LatLon.fromDegrees(49.872098, 8.63534), 40000.00));
 		iconLayer.addIcon(satelliteIcon);
+
 		RenderableLayer trailLayer = new RenderableLayer();
-
-
 		trailLine = new Polyline();
 		trailLine.setPathType(Polyline.GREAT_CIRCLE);
 		trailLine.setColor(Color.MAGENTA);
-
 		trailLayer.addRenderable(trailLine);
 
 		worldCanvas.getModel().getLayers().add(iconLayer);
@@ -115,6 +117,15 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 
 		loadSat();
 
+		loadGroundStations();
+
+	}
+
+	private void loadGroundStations() {
+		RenderableLayer groundStationLayer = new RenderableLayer();
+		groundStationLayer.addRenderable(EstrackStations.REDU_STATION);
+
+		worldCanvas.getModel().getLayers().add(groundStationLayer);
 	}
 
 	private final void moveSatellite(Angle lat, Angle lon) {
