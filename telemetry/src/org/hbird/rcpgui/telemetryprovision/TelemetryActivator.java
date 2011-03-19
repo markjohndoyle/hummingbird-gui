@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.telemetry;
+package org.hbird.rcpgui.telemetryprovision;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -52,6 +52,14 @@ public class TelemetryActivator extends AbstractUIPlugin {
 		super.stop(context);
 	}
 
+	public static ServiceTracker getParameterProviderServices() {
+		return parameterProviderServices;
+	}
+
+	public static void setParameterProviderServices(final ServiceTracker frameProviderServices) {
+		TelemetryActivator.parameterProviderServices = frameProviderServices;
+	}
+
 	/**
 	 * Returns the shared instance
 	 * 
@@ -70,13 +78,5 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(final String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-
-	public static void setParameterProviderServices(final ServiceTracker frameProviderServices) {
-		TelemetryActivator.parameterProviderServices = frameProviderServices;
-	}
-
-	public static ServiceTracker getParameterProviderServices() {
-		return parameterProviderServices;
 	}
 }

@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.telemetry.model;
+package org.hbird.rcpgui.telemetryprovision.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

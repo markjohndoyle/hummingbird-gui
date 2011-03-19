@@ -3,9 +3,10 @@
 <plugin>
 
    <extension
-         id="application"
+         id="com.logica.hummingbird.hummingbirdmcscore.application"
          point="org.eclipse.core.runtime.applications">
-      <application>
+      <application
+            icon="icons/transmit_blue.png">
          <run
                class="com.logica.hummingbird.hummingbirdmcscore.HummingbirdCoreApplication">
          </run>
@@ -16,7 +17,7 @@
       <perspective
             class="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
             id="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
-            name="MCS Home">
+            name="%perspective.name">
       </perspective>
    </extension>
    <extension
@@ -92,14 +93,14 @@
             locationURI="menu:org.eclipse.ui.main.menu?">
          <menu
                id="com.logica.hummingbird.hummingbirdmcscore.menus.file"
-               label="File"
-               mnemonic="F">
+               label="%menu.label"
+               mnemonic="%menu.mnemonic">
             <command
                   commandId="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
-                  label="Exit"
-                  mnemonic="x"
+                  label="%command.label"
+                  mnemonic="%command.mnemonic"
                   style="push"
-                  tooltip="Exits the control system">
+                  tooltip="%command.tooltip">
             </command>
          </menu>
       </menuContribution>
@@ -108,7 +109,7 @@
          point="org.eclipse.ui.commands">
       <command
             id="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
-            name="Exit">
+            name="%command.name">
       </command>
    </extension>
    <extension

@@ -43,9 +43,9 @@ public class Cone implements Renderable {
 	@Override
 	public void render(DrawContext dc) {
 		this.topCenter = dc.getGlobe().computePointFromPosition(new LatLon(this.lat, this.lon), 0.0);
-		System.out.println("top center = " + topCenter);
+		// System.out.println("top center = " + topCenter);
 		Position pos = dc.getGlobe().computePositionFromPoint(this.topCenter);
-		System.out.println("position = " + pos);
+		// System.out.println("position = " + pos);
 		// Position p = globe.computePositionFromPoint(this.topCenter);
 
 		javax.media.opengl.GL gl = dc.getGL();

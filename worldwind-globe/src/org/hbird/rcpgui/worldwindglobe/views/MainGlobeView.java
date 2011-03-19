@@ -18,9 +18,12 @@ import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -29,12 +32,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
-import org.hbird.rcpgui.telemetry.model.ParameterSource;
-import org.hbird.rcpgui.telemetry.model.TelemetryParameter;
+import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
+import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
 
 public class MainGlobeView extends ViewPart implements PropertyChangeListener {
+	private DataBindingContext m_bindingContext;
 
 	public static final String ID = "org.hbird.rcpgui.worldwindglobe.views.MainGlobe";
 	final static WorldWindowGLCanvas worldCanvas = new WorldWindowGLCanvas();
@@ -44,6 +48,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	private Polyline trailLine;
 
 	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
+	private Label lblLatitude;
 
 	// Initialize the default WW layers
 	static {
@@ -103,14 +108,11 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		parent.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(1, false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-		Label lblLatitude = new Label(composite, SWT.NONE);
-		lblLatitude.setText("New Label");
-
-		Label lblLongitude = new Label(composite, SWT.NONE);
-		lblLongitude.setText("New Label");
+		lblLatitude = new Label(composite, SWT.NONE);
+		lblLatitude.setText("false");
 
 
 		initBindingToTmSource();
@@ -118,6 +120,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		loadSat();
 
 		loadGroundStations();
+		m_bindingContext = initDataBindings();
 
 	}
 
@@ -139,14 +142,10 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		}
 
 		this.satelliteIcon.setPosition(new Position(lat, lon, currPos.getAltitude()));
-		trailPositions.add(new Position(lat, lon, currPos.getAltitude()));
-		trailLine.setPositions(trailPositions);
-
-		Iterator<Position> it = trailLine.getPositions().iterator();
-		while (it.hasNext()) {
-			System.out.println("Trail pos = " + it);
-			it.next();
+		synchronized (trailPositions) {
+			trailPositions.add(new Position(lat, lon, currPos.getAltitude()));
 		}
+		trailLine.setPositions(trailPositions);
 		worldCanvas.redraw();
 	}
 
@@ -180,5 +179,15 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 			}
 		}
 		moveSatellite(lat, lon);
+	}
+
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
+		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
+		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
+		//
+		return bindingContext;
 	}
 }

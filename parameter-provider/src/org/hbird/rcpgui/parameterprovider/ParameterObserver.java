@@ -6,6 +6,11 @@ import org.hbird.rcpgui.parameterprovider.model.Parameter;
 
 public interface ParameterObserver {
 
+	/**
+	 * Called by the parameter provider whenever it receives a new Parameter
+	 * 
+	 * @param parameter
+	 */
 	void parameterRecieved(Parameter parameter);
 
 	/**
@@ -16,7 +21,7 @@ public interface ParameterObserver {
 	List<String> getInterestList();
 
 	/**
-	 * return a boolean if interested in all parameters. Any interest list will be ignored is this is true.
+	 * return a boolean if interested in all parameters. Any interest list will be ignored if this is true.
 	 * 
 	 * @return
 	 */

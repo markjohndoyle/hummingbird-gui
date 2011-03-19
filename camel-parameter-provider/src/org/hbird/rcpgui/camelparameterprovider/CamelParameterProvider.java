@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class CamelParameterProvider implements ParameterProvider, ApplicationContextAware {
 
-	private static final String PROVIDER_NAME = "Camel Parameter provider";
+	private static final String PROVIDER_NAME = "Camel provider";
 	private ApplicationContext ac = null;
 	private List<ParameterObserver> observers;
 
@@ -76,12 +76,14 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	public void startTelemetryProvision() throws Exception {
 		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
 		camel.startRoute("fromJmsProcessedParametersOut");
+		boolean provisionActive = true;
 	}
 
 	@Override
 	public void stopTelemetryProvision() throws Exception {
 		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
 		camel.stopRoute("fromJmsProcessedParametersOut");
+		boolean provisionActive = false;
 	}
 
 	@Override

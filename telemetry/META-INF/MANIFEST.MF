@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Telemetry
-Bundle-SymbolicName: org.hbird.rcpgui.telemetry; singleton:=true
+Bundle-SymbolicName: org.hbird.rcpgui.telemetry-provision;singleton:=true
 Bundle-Version: 0.0.1.SNAPSHOT
-Bundle-Activator: org.hbird.rcpgui.telemetry.TelemetryActivator
+Bundle-Activator: org.hbird.rcpgui.telemetryprovision.TelemetryActivator
 Bundle-Vendor: Hummingbird org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -16,4 +16,6 @@ Require-Bundle: org.eclipse.ui,
  com.ibm.icu
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.hbird.rcpgui.telemetry.model
+Export-Package: org.hbird.rcpgui.telemetryprovision.model,
+ org.hbird.rcpgui.telemetryprovision.services,
+ org.hbird.rcpgui.telemetryprovision.source

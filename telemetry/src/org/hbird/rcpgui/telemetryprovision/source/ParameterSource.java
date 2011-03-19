@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.telemetry.model;
+package org.hbird.rcpgui.telemetryprovision.source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,9 @@ import java.util.Map;
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
-import org.hbird.rcpgui.telemetry.TelemetryActivator;
+import org.hbird.rcpgui.telemetryprovision.TelemetryActivator;
+import org.hbird.rcpgui.telemetryprovision.model.AbstractPropChangeModelObject;
+import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
 public class ParameterSource extends AbstractPropChangeModelObject implements ParameterObserver {
 
@@ -19,6 +21,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	private final ParameterProvider parameterProvider;
 	private final boolean requestAll;
 	private List<String> interestList;
+	private boolean provisionActive = false;
 
 	public ParameterSource(boolean requestAll) {
 		this.requestAll = requestAll;
@@ -57,10 +60,12 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	public final void stopLiveProvision() throws Exception {
 		parameterProvider.stopTelemetryProvision();
+		this.setProvisionActive(false);
 	}
 
 	public final void startLiveProvision() throws Exception {
 		parameterProvider.startTelemetryProvision();
+		this.setProvisionActive(true);
 	}
 
 	@Override
@@ -75,6 +80,16 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	public void setInterestList(List<String> interestList) {
 		this.interestList = interestList;
+	}
+
+	public boolean getProvisionActive() {
+		return this.provisionActive;
+	}
+
+	public void setProvisionActive(boolean provisionActive) {
+		boolean oldVal = this.provisionActive;
+		this.provisionActive = provisionActive;
+		firePropertyChange("provisionActive", oldVal, provisionActive);
 	}
 
 }
