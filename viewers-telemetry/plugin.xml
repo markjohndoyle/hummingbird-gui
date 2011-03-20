@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="org.hbird.rcpgui.telemetry.views.TelemetryView"
+            icon="icons/transmit_blue.png"
+            id="org.hbird.rcpgui.telemetry.views.telemetryView"
+            name="Telemetry viewer"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.hbird.rcpgui.telemetry.commands.tmProvision"
+            name="Telemetry provision">
+      </category>
+      <command
+            categoryId="org.hbird.rcpgui.telemetry.commands.tmProvision"
+            id="org.hbird.rcpgui.telemetry.commands.stopLiveTmProvision"
+            name="Stop TM live provision">
+      </command>
+      <command
+            categoryId="org.hbird.rcpgui.telemetry.commands.tmProvision"
+            id="org.hbird.rcpgui.telemetry.commands.startLiveTmProvision"
+            name="Start TM live provision">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.hbird.rcpgui.telemetry.commands.stopLiveTmProvision"
+            class="org.hbird.rcpgui.telemetry.handlers.StopLiveTmProvision">
+      </handler>
+      <handler
+            class="org.hbird.rcpgui.telemetry.handlers.StartliveTmProvision"
+            commandId="org.hbird.rcpgui.telemetry.commands.startLiveTmProvision">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <viewerContribution
+            id="org.hbird.rcpgui.viewers.telemetry.TelemetryViewContribution"
+            targetID="viewers-telemetry.viewerContribution1">
+         <menu
+               id="org.hbird.rcpgui.viewers.telemetry.TelemetryViewContribution.menu"
+               label="label">
+         </menu>
+      </viewerContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="toolbar:org.hbird.rcpgui.telemetry.views.telemetryView?after=additions">
+         <command
+               commandId="org.hbird.rcpgui.telemetry.commands.startLiveTmProvision"
+               icon="icons/transmit_go.png"
+               style="push"
+               tooltip="Start live telemetry provision">
+         </command>
+         <command
+               commandId="org.hbird.rcpgui.telemetry.commands.stopLiveTmProvision"
+               icon="icons/transmit_delete.png"
+               style="push"
+               tooltip="Stop live telemetry provision">
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>
