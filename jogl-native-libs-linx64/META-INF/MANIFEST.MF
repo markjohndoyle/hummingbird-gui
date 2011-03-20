@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jogl-native-libs-linx64
+Bundle-SymbolicName: org.hbird.rcpgui.jogl-native-libs-linx64
+Bundle-Version: 1.0.0
+Bundle-Vendor: Hummingbird org
+Fragment-Host: org.hbird.rcpgui.worldwind-globe;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-NativeCode: nativelibs/libgluegen-rt.so;
+ nativelibs/libjogl_awt.so;
+ nativelibs/libjogl.so;
+ osname=Linux;
+ processor=x86-64
+ 
