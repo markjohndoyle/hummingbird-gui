@@ -174,7 +174,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 			if (param.getName().equals("LONGITUDE")) {
 				lon = Angle.fromDegrees(Double.parseDouble(param.getValue()));
 			}
-			else if (param.getName().equals("LONGITUDE")) {
+			else if (param.getName().equals("LATITUDE")) {
 				lat = Angle.fromDegrees(Double.parseDouble(param.getValue()));
 			}
 		}
