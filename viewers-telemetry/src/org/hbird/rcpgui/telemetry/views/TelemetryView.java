@@ -109,12 +109,6 @@ public class TelemetryView extends ViewPart {
 					tcl_composite.setColumnData(tblclmnSpacecraftTimestampColumn, new ColumnPixelData(150, true, true));
 					tblclmnSpacecraftTimestampColumn.setText("Spacecraft Timestamp");
 				}
-				{
-					final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-					final TableColumn tblclmnShortDescription = tableViewerColumn.getColumn();
-					tcl_composite.setColumnData(tblclmnShortDescription, new ColumnPixelData(150, true, true));
-					tblclmnShortDescription.setText("Short description");
-				}
 			}
 		}
 
