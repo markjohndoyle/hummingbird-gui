@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class CamelParameterProvider implements ParameterProvider, ApplicationContextAware {
 
-	private static final String PROVIDER_NAME = "Camel provider";
+	private static final String PROVIDER_NAME = "Camel";
 	private ApplicationContext ac = null;
 	private List<ParameterObserver> observers;
 
