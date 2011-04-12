@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Viewers-telemetry
-Bundle-SymbolicName: rg.hbird.rcpgui.viewers.telemetry;singleton:=true
+Bundle-SymbolicName: org.hbird.rcpgui.viewers.telemetry;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.hbird.rcpgui.telemetry.ViewersTelemetryActivator
 Require-Bundle: org.eclipse.ui,
