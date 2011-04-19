@@ -21,10 +21,12 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	private List<ParameterProvider> parameterProviderServices = new ArrayList<ParameterProvider>();
 
 
+	/** TODO don't like this dual map/list thing. It only exists because I didn't understand Jface binding! FIX PLEASE! **/
 	private final Map<String, TelemetryParameter> liveParameters = new HashMap<String, TelemetryParameter>();
 	private List<TelemetryParameter> liveParameterList = new ArrayList<TelemetryParameter>();
-	private final boolean requestAll;
-	private List<String> interestList;
+
+	// private final boolean requestAll;
+	// private List<String> interestList;
 	private boolean provisionActive = false;
 
 
@@ -36,7 +38,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 			}
 		}
 
-		this.requestAll = requestAll;
+		// this.requestAll = requestAll;
 
 		// Use the first service by default
 		parameterProvider = parameterProviderServices.get(0);
@@ -61,6 +63,10 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		return new TelemetryParameter(properties, value);
 	}
 
+	public final void filterNames(List<String> parameterNames) {
+		this.parameterProvider.addParameterNamesFitler(parameterNames);
+	}
+
 	/**
 	 * @return the liveParameterList
 	 */
@@ -83,19 +89,19 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		this.setProvisionActive(true);
 	}
 
-	@Override
-	public List<String> getInterestList() {
-		return interestList;
-	}
-
-	@Override
-	public boolean isRequestingAllParameters() {
-		return requestAll;
-	}
-
-	public void setInterestList(List<String> interestList) {
-		this.interestList = interestList;
-	}
+	// @Override
+	// public List<String> getInterestList() {
+	// return interestList;
+	// }
+	//
+	// @Override
+	// public boolean isRequestingAllParameters() {
+	// return requestAll;
+	// }
+	//
+	// public void setInterestList(List<String> interestList) {
+	// this.interestList = interestList;
+	// }
 
 	public boolean getProvisionActive() {
 		return this.provisionActive;

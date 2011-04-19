@@ -49,6 +49,13 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	}
 
 
+	@Override
+	public void addParameterNamesFitler(List<String> parameterNames) {
+		ParameterFilterer filter = (ParameterFilterer) ac.getBean("parameterFilterer");
+		filter.setParameterNames(parameterNames);
+	}
+
+
 	/**
 	 * Notifies all parameter observers of the new parameter.
 	 * 
@@ -58,16 +65,17 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		System.out.println("Notifying " + observers.size() + " observers");
 		if (observers != null) {
 			for (final ParameterObserver po : observers) {
-				if (po.isRequestingAllParameters()) {
-					po.parameterRecieved(parameter);
-				}
-				else {
-					List<String> pnames = po.getInterestList();
-					String paramName = (String) parameter.getParameterProperties().get("ParameterName");
-					if (pnames.contains(paramName)) {
-						po.parameterRecieved(parameter);
-					}
-				}
+				po.parameterRecieved(parameter);
+				// if (po.isRequestingAllParameters()) {
+				// po.parameterRecieved(parameter);
+				// }
+				// else {
+				// List<String> pnames = po.getInterestList();
+				// String paramName = (String) parameter.getParameterProperties().get("ParameterName");
+				// if (pnames.contains(paramName)) {
+				// po.parameterRecieved(parameter);
+				// }
+				// }
 			}
 		}
 	}
