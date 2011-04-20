@@ -1,11 +1,11 @@
 package org.hbird.rcpgui.telemetryprovision.services;
 
-import org.hbird.rcpgui.telemetryprovision.TelemetryActivator;
+import org.hbird.rcpgui.telemetryprovision.TelemetryProvisionActivator;
 
 public class TelemetryProviderServiceFactory {
 
 	public static final Object[] getServices() {
-		final Object[] serviceObjects = TelemetryActivator.getParameterProviderServices().getServices();
+		final Object[] serviceObjects = TelemetryProvisionActivator.getParameterProviderServices().getServices();
 		return serviceObjects;
 	}
 }

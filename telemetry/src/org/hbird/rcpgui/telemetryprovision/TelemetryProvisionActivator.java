@@ -9,20 +9,20 @@ import org.osgi.util.tracker.ServiceTracker;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class TelemetryActivator extends AbstractUIPlugin {
+public class TelemetryProvisionActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.hbird.rcpgui.telemetry"; //$NON-NLS-1$
 
 	// The shared instance
-	private static TelemetryActivator plugin;
+	private static TelemetryProvisionActivator plugin;
 
-	private static volatile ServiceTracker parameterProviderServices;
+	private static volatile ServiceTracker parameterProviderServiceTracker;
 
 	/**
 	 * The constructor
 	 */
-	public TelemetryActivator() {
+	public TelemetryProvisionActivator() {
 	}
 
 	/*
@@ -36,9 +36,9 @@ public class TelemetryActivator extends AbstractUIPlugin {
 		plugin = this;
 
 		// Register
-		parameterProviderServices = new ServiceTracker(context, ParameterProvider.class.getName(), null);
-		parameterProviderServices.open();
-		System.out.println("Bundle activation stage: ParameterProvider services tracking count = " + parameterProviderServices.getTrackingCount());
+		parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
+		parameterProviderServiceTracker.open();
+		System.out.println("Bundle activation stage: ParameterProvider services tracking count = " + parameterProviderServiceTracker.getTrackingCount());
 	}
 
 	/*
@@ -53,11 +53,11 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	}
 
 	public static ServiceTracker getParameterProviderServices() {
-		return parameterProviderServices;
+		return parameterProviderServiceTracker;
 	}
 
 	public static void setParameterProviderServices(final ServiceTracker frameProviderServices) {
-		TelemetryActivator.parameterProviderServices = frameProviderServices;
+		TelemetryProvisionActivator.parameterProviderServiceTracker = frameProviderServices;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class TelemetryActivator extends AbstractUIPlugin {
 	 * 
 	 * @return the shared instance
 	 */
-	public static TelemetryActivator getDefault() {
+	public static TelemetryProvisionActivator getDefault() {
 		return plugin;
 	}
 

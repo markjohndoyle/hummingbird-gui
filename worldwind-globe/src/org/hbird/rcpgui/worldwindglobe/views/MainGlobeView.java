@@ -68,7 +68,9 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		List<String> interestList = new ArrayList<String>();
 		interestList.add("LONGITUDE");
 		interestList.add("LATITUDE");
-		telemetryIn.setInterestList(interestList);
+
+		telemetryIn.filterNames(interestList);
+		// telemetryIn.setInterestList(interestList);
 	}
 
 	private final void loadSat() {

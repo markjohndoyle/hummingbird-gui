@@ -1,5 +1,7 @@
 package org.hbird.rcpgui.parameterprovider;
 
+import java.util.List;
+
 
 /**
  * 
@@ -31,6 +33,8 @@ public interface ParameterProvider {
 	 * @param po
 	 */
 	void addObserver(ParameterObserver po);
+
+	void addParameterNamesFitler(List<String> parameterNames);
 
 	/**
 	 * Return the provider name. Useful for User interfaces where multiple providers are supported.

@@ -22,11 +22,17 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean name="parameterFilterer" class="org.hbird.rcpgui.camelparameterprovider.ParameterFilterer">
+	</bean>
 
 	<!--The came route used to retrieve packets for the gui. Can be altered -->
 	<camelContext id="camelContextBean" xmlns="http://camel.apache.org/schema/spring">
 		<route id="fromJmsProcessedParametersOut" autoStartup="false">
 			<from uri="jms:topic:processedParametersOut" />
+			<camel:filter>
+				<camel:method bean="parameterFilterer"></camel:method>
+			</camel:filter>
 			<to uri="bean:camelParameterProvider?method=parameterIn" />
 		</route>
 	</camelContext>

@@ -1,8 +1,5 @@
 package org.hbird.rcpgui.telemetry.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.beans.PojoObservables;
@@ -10,10 +7,12 @@ import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -30,7 +29,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
-import org.hbird.rcpgui.telemetryprovision.services.TelemetryProviderServiceFactory;
 import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
 
 public class TelemetryView extends ViewPart {
@@ -43,17 +41,10 @@ public class TelemetryView extends ViewPart {
 	private TableViewer tableViewer;
 	private TableColumn tblclmnNameColumn;
 
-	private List<ParameterProvider> parameterProviderServices = new ArrayList<ParameterProvider>();
 	private ComboViewer comboViewer;
 
 	public TelemetryView() {
 		parametersSource = new ParameterSource(true);
-		final Object[] serviceObjects = TelemetryProviderServiceFactory.getServices();
-		if (serviceObjects.length > 0) {
-			for (final Object o : serviceObjects) {
-				parameterProviderServices.add((ParameterProvider) o);
-			}
-		}
 	}
 
 	/**
@@ -143,36 +134,31 @@ public class TelemetryView extends ViewPart {
 		return parametersSource;
 	}
 
-	public void setParameterProviderServices(final List<ParameterProvider> parameterProviderServices) {
-		this.parameterProviderServices = parameterProviderServices;
-	}
-
-	public List<ParameterProvider> getParameterProviderServices() {
-		return parameterProviderServices;
-	}
-
 	protected DataBindingContext initDataBindings() {
-		final DataBindingContext bindingContext = new DataBindingContext();
+		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		final ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
 		//
-		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] {
-				"name", "value", "spacecraftTimestamp", "shortDescription", "longDescription" });
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] { "name",
+				"value", "spacecraftTimestamp", "shortDescription", "longDescription" });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
-		final IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersSource,
-				"liveParameterList");
+		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersSource, "liveParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 		//
-		final ObservableListContentProvider listContentProvider_1 = new ObservableListContentProvider();
+		ObservableListContentProvider listContentProvider_1 = new ObservableListContentProvider();
 		comboViewer.setContentProvider(listContentProvider_1);
 		//
-		final IObservableMap observeMap = PojoObservables.observeMap(listContentProvider_1.getKnownElements(), ParameterProvider.class, "providerName");
+		IObservableMap observeMap = PojoObservables.observeMap(listContentProvider_1.getKnownElements(), ParameterProvider.class, "providerName");
 		comboViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
 		//
-		final WritableList writableList = new WritableList(parameterProviderServices, ParameterProvider.class);
+		WritableList writableList = new WritableList(parametersSource.getParameterProviderServices(), ParameterProvider.class);
 		comboViewer.setInput(writableList);
+		//
+		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(comboViewer);
+		IObservableValue parameterSourceCurrentParameterProviderValue = BeansObservables.observeValue(parametersSource, "parameterProvider");
+		bindingContext.bindValue(comboViewerObserveSingleSelection, parameterSourceCurrentParameterProviderValue, null, null);
 		//
 		return bindingContext;
 	}
