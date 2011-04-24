@@ -18,7 +18,9 @@ import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
@@ -65,32 +67,14 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	public MainGlobeView() {
 		telemetryIn = new ParameterSource(false);
 
-		List<String> interestList = new ArrayList<String>();
-		interestList.add("LONGITUDE");
-		interestList.add("LATITUDE");
-
-		telemetryIn.filterNames(interestList);
-		// telemetryIn.setInterestList(interestList);
-	}
-
-	private final void loadSat() {
-		// Testing
-		IconLayer iconLayer = new IconLayer();
-		satelliteIcon = new UserFacingIcon("icons/satellite_48_hot.png", new Position(LatLon.fromDegrees(49.872098, 8.63534), 40000.00));
-		iconLayer.addIcon(satelliteIcon);
-
-		RenderableLayer trailLayer = new RenderableLayer();
-		trailLine = new Polyline();
-		trailLine.setPathType(Polyline.GREAT_CIRCLE);
-		trailLine.setColor(Color.MAGENTA);
-		trailLayer.addRenderable(trailLine);
-
-		worldCanvas.getModel().getLayers().add(iconLayer);
-		worldCanvas.getModel().getLayers().add(trailLayer);
+		Set<String> parameterNameFilterSet = new HashSet<String>();
+		parameterNameFilterSet.add("LONGITUDE");
+		parameterNameFilterSet.add("LATITUDE");
+		telemetryIn.addNamesFilter(parameterNameFilterSet);
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 		// GUI: an SWT composite on top
 		Composite top = new Composite(parent, SWT.EMBEDDED);
@@ -126,12 +110,48 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 
 	}
 
+	public ParameterSource getTelemetryIn() {
+		return telemetryIn;
+	}
+
+	private final void initBindingToTmSource() {
+		this.telemetryIn.addPropertyChangeListener("liveParameterList", this);
+	}
+
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
+		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
+		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
+		//
+		return bindingContext;
+	}
+
 	private void loadGroundStations() {
 		RenderableLayer groundStationLayer = new RenderableLayer();
 		groundStationLayer.addRenderable(EstrackStations.REDU_STATION);
 
 		worldCanvas.getModel().getLayers().add(groundStationLayer);
 	}
+
+
+	private final void loadSat() {
+		// Testing
+		IconLayer iconLayer = new IconLayer();
+		satelliteIcon = new UserFacingIcon("icons/satellite_48_hot.png", new Position(LatLon.fromDegrees(49.872098, 8.63534), 40000.00));
+		iconLayer.addIcon(satelliteIcon);
+
+		RenderableLayer trailLayer = new RenderableLayer();
+		trailLine = new Polyline();
+		trailLine.setPathType(Polyline.GREAT_CIRCLE);
+		trailLine.setColor(Color.MAGENTA);
+		trailLayer.addRenderable(trailLine);
+
+		worldCanvas.getModel().getLayers().add(iconLayer);
+		worldCanvas.getModel().getLayers().add(trailLayer);
+	}
+
 
 	private final void moveSatellite(Angle lat, Angle lon) {
 		Position currPos = this.satelliteIcon.getPosition();
@@ -151,24 +171,9 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		worldCanvas.redraw();
 	}
 
-	private final void initBindingToTmSource() {
-		this.telemetryIn.addPropertyChangeListener("liveParameterList", this);
-	}
-
 
 	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
-
-
-	public ParameterSource getTelemetryIn() {
-		return telemetryIn;
-	}
-
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
+	public void propertyChange(final PropertyChangeEvent evt) {
 		List<TelemetryParameter> newTmList = (List<TelemetryParameter>) evt.getNewValue();
 		Angle lon = null;
 		Angle lat = null;
@@ -183,13 +188,8 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		moveSatellite(lat, lon);
 	}
 
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
-		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
-		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
-		//
-		return bindingContext;
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
 	}
 }

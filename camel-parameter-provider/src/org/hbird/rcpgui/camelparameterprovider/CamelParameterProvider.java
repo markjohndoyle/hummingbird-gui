@@ -3,6 +3,7 @@ package org.hbird.rcpgui.camelparameterprovider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.camel.Message;
 import org.apache.camel.spring.SpringCamelContext;
@@ -36,9 +37,51 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	}
 
 
+	@Override
+	public void addParameterNameFitler(final String parameterName) {
+		getParameterNameFilter().addParameterNameFitler(parameterName);
+	}
+
+	@Override
+	public void addParameterNamesFitler(final Set<String> parameterNames) {
+		if (parameterNames == null) {
+			getParameterNameFilter().setParameterNames(parameterNames);
+		}
+		else {
+			for (String newFilter : parameterNames) {
+				getParameterNameFilter().addParameterNameFitler(newFilter);
+			}
+		}
+	}
+
+	private ParameterNameFilterer getParameterNameFilter() {
+		return (ParameterNameFilterer) ac.getBean("parameterFilterer");
+	}
+
+	@Override
+	public String getProviderName() {
+		return PROVIDER_NAME;
+	}
+
+	/**
+	 * Notifies all parameter observers of the new parameter.
+	 * 
+	 * @param parameter
+	 */
+	private void notifyObservers(final Parameter parameter) {
+		// System.out.println("Notifying " + observers.size() + " observers");s
+		if (observers != null) {
+			for (final ParameterObserver po : observers) {
+				po.parameterRecieved(parameter);
+			}
+		}
+	}
+
 	public void parameterIn(final Message parameterMsg) {
 		final Map<String, Object> headers = parameterMsg.getHeaders();
 		final Object parameterValue = parameterMsg.getBody();
+
+		System.out.println("Param received: " + headers.get("ParameterName"));
 
 		// Create basic parameter object
 		final Parameter parameter = new Parameter();
@@ -48,36 +91,19 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		notifyObservers(parameter);
 	}
 
-
 	@Override
-	public void addParameterNamesFitler(List<String> parameterNames) {
-		ParameterFilterer filter = (ParameterFilterer) ac.getBean("parameterFilterer");
-		filter.setParameterNames(parameterNames);
+	public void removeAllParameterNameFilters() {
+		getParameterNameFilter().removeAllParameterNameFilters();
 	}
 
+	@Override
+	public void removeParameterNameFilter(final String parameterName) {
+		getParameterNameFilter().removeParameterNameFilter(parameterName);
+	}
 
-	/**
-	 * Notifies all parameter observers of the new parameter.
-	 * 
-	 * @param parameter
-	 */
-	private void notifyObservers(final Parameter parameter) {
-		System.out.println("Notifying " + observers.size() + " observers");
-		if (observers != null) {
-			for (final ParameterObserver po : observers) {
-				po.parameterRecieved(parameter);
-				// if (po.isRequestingAllParameters()) {
-				// po.parameterRecieved(parameter);
-				// }
-				// else {
-				// List<String> pnames = po.getInterestList();
-				// String paramName = (String) parameter.getParameterProperties().get("ParameterName");
-				// if (pnames.contains(paramName)) {
-				// po.parameterRecieved(parameter);
-				// }
-				// }
-			}
-		}
+	@Override
+	public void setApplicationContext(final ApplicationContext actx) throws BeansException {
+		this.ac = actx;
 	}
 
 	@Override
@@ -92,16 +118,6 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
 		camel.stopRoute("fromJmsProcessedParametersOut");
 		boolean provisionActive = false;
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext actx) throws BeansException {
-		this.ac = actx;
-	}
-
-	@Override
-	public String getProviderName() {
-		return PROVIDER_NAME;
 	}
 
 }

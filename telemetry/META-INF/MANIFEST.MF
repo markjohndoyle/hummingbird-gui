@@ -19,4 +19,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.hbird.rcpgui.telemetryprovision.model,
  org.hbird.rcpgui.telemetryprovision.services,
- org.hbird.rcpgui.telemetryprovision.source
+ org.hbird.rcpgui.telemetryprovision.source;uses:="org.hbird.rcpgui.parameterprovider,org.hbird.rcpgui.telemetryprovision.model,org.hbird.rcpgui.parameterprovider.model"
