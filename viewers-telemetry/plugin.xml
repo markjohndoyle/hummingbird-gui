@@ -11,6 +11,13 @@
             name="Telemetry viewer"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="org.hbird.rcpgui.telemetry.views.ParameterChart"
+            id="org.hbird.rcpgui.telemetry.views.ParameterChart"
+            name="Parameter chart"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
