@@ -29,7 +29,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	private boolean provisionActive = false;
 
 
-	public ParameterSource(final boolean requestAll) {
+	public ParameterSource() {
 		final Object[] serviceObjects = TelemetryProvisionActivator.getParameterProviderServices().getServices();
 		if (serviceObjects.length > 0) {
 			for (final Object o : serviceObjects) {

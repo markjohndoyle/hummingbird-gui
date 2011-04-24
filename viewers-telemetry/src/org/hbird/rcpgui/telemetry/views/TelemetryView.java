@@ -109,7 +109,7 @@ public class TelemetryView extends ViewPart {
 	private Button btnClearQuickFilter;
 
 	public TelemetryView() {
-		parametersSource = new ParameterSource(true);
+		parametersSource = new ParameterSource();
 	}
 
 	/**

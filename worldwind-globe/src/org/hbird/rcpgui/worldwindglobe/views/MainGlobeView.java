@@ -65,7 +65,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 
 
 	public MainGlobeView() {
-		telemetryIn = new ParameterSource(false);
+		telemetryIn = new ParameterSource();
 
 		Set<String> parameterNameFilterSet = new HashSet<String>();
 		parameterNameFilterSet.add("LONGITUDE");
