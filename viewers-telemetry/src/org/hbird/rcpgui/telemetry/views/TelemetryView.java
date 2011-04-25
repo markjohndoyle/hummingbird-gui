@@ -1,5 +1,7 @@
 package org.hbird.rcpgui.telemetry.views;
 
+import java.util.Iterator;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
@@ -15,7 +17,10 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -35,6 +40,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
@@ -143,6 +150,27 @@ public class TelemetryView extends ViewPart {
 			telemetryTableComposite.setLayout(tcl_telemetryTableComposite);
 			{
 				tableViewer = new TableViewer(telemetryTableComposite, SWT.BORDER | SWT.FULL_SELECTION);
+				tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+					@Override
+					public void doubleClick(final DoubleClickEvent event) {
+						// TODO Migrate to commands? Would be able to open a chart from more places efficiently.
+						TableViewer tableViewer = (TableViewer) event.getSource();
+						StructuredSelection selection = (StructuredSelection) tableViewer.getSelection();
+						Iterator<TelemetryParameter> it = selection.iterator();
+						try {
+							ParameterChart chartView = (ParameterChart) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+									.showView(ParameterChart.ID);
+							while (it.hasNext()) {
+								TelemetryParameter parameter = it.next();
+								chartView.addParameter(parameter.getName());
+							}
+						}
+						catch (PartInitException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
 				tableViewer.setColumnProperties(new String[] {});
 				telemetryTable = tableViewer.getTable();
 				telemetryTable.setHeaderVisible(true);

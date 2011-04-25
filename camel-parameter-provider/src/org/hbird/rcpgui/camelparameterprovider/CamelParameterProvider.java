@@ -77,11 +77,16 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		}
 	}
 
+	/**
+	 * TODO Remove camel dependency. Saying that annotations are just as much a dependency.
+	 * 
+	 * @param parameterMsg
+	 */
 	public void parameterIn(final Message parameterMsg) {
 		final Map<String, Object> headers = parameterMsg.getHeaders();
 		final Object parameterValue = parameterMsg.getBody();
 
-		System.out.println("Param received: " + headers.get("ParameterName"));
+		// System.out.println("Param received: " + headers.get("ParameterName"));
 
 		// Create basic parameter object
 		final Parameter parameter = new Parameter();
