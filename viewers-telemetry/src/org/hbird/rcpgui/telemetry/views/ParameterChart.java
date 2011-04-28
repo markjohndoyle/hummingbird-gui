@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
@@ -22,11 +22,16 @@ import javax.swing.JRootPane;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
-import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
 
 /**
  * A chart view that can track multiple parameters on the same chart in Real time (effectively).
@@ -35,11 +40,10 @@ import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
  * 
  */
 public class ParameterChart extends ViewPart {
-
 	protected static final String ID = "org.hbird.rcpgui.telemetry.views.ParameterChart"; //$NON-NLS-1$
 
 	/** The parameter names that are being charted */
-	private Set<String> parameterNames;
+	private Set<String> parameterNames = new HashSet<String>();
 
 	/** Source of telemetered parameters */
 	private final ParameterSource parameterSource;
@@ -52,6 +56,8 @@ public class ParameterChart extends ViewPart {
 
 	/** The chart component. This is a Swing component bridged into SWT so use AWT classes for things like Color */
 	private ZoomableChart chart;
+
+	private SortedSet<ITrace2D> existingTraces;
 
 	/**
 	 * @wbp.parser.constructor
@@ -77,9 +83,11 @@ public class ParameterChart extends ViewPart {
 		if (this.parameterNames == null) {
 			return;
 		}
+		if (this.parameterNames.size() == 0) {
+			return;
+		}
 
-		// Get this existing traces
-		SortedSet<ITrace2D> existingTraces = chart.getTraces();
+		existingTraces = chart.getTraces();
 
 		// for every parameter to chart - create a trace and data collector and add them to the chart.
 		for (String parameterName : parameterNames) {
@@ -100,7 +108,7 @@ public class ParameterChart extends ViewPart {
 				// Create an ITrace:
 				// Note that dynamic charts need limited amount of values - 200 in this case. TODO make this
 				// configurable.
-				ITrace2D trace = new Trace2DLtd(200, parameterName);
+				ITrace2D trace = new Trace2DLtd(500, parameterName);
 
 				// Assign is a random colour
 				trace.setColor(createRandomAwtColor());
@@ -111,6 +119,7 @@ public class ParameterChart extends ViewPart {
 				// TODO make latency configurable
 				ParameterDataCollector collector = new ParameterDataCollector(trace, 50, parameterName);
 				this.collectors.add(collector);
+
 			}
 		}
 	}
@@ -142,26 +151,36 @@ public class ParameterChart extends ViewPart {
 
 	@Override
 	public void createPartControl(final Composite parent) {
+		parent.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(final DisposeEvent e) {
+				stopAllCollectors();
+			}
+		});
+		parent.setLayout(new GridLayout(1, false));
+		createTraces();
 		// Component create
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		// Component create
-		Composite composite_1 = new Composite(composite, SWT.EMBEDDED);
-		// Component create
-		Frame frame = SWT_AWT.new_Frame(composite_1);
+		Composite chartComposite = new Composite(parent, SWT.EMBEDDED);
+		chartComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		chartComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Panel panel = new Panel();
-		frame.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		SashForm sashChartList = new SashForm(chartComposite, SWT.SMOOTH);
 
-		JRootPane rootPane = new JRootPane();
-		panel.add(rootPane);
+		Composite awtSwtBridgeComposite = new Composite(sashChartList, SWT.EMBEDDED);
+		awtSwtBridgeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Frame frameChart = SWT_AWT.new_Frame(awtSwtBridgeComposite);
+
+		Panel panelChart = new Panel();
+		frameChart.add(panelChart);
+		panelChart.setLayout(new BorderLayout(0, 0));
+
+		JRootPane rootPaneChart = new JRootPane();
+		panelChart.add(rootPaneChart);
 
 		chart = new ZoomableChart();
-		createTraces();
-		rootPane.getContentPane().add(chart, BorderLayout.CENTER);
-
-		this.startAllCollectors();
+		rootPaneChart.getContentPane().add(chart, BorderLayout.CENTER);
+		sashChartList.setWeights(new int[] { 411 });
 	}
 
 	@Override
@@ -177,10 +196,9 @@ public class ParameterChart extends ViewPart {
 	private final java.awt.Color createRandomAwtColor() {
 		Random random = new Random();
 		final float hue = random.nextFloat();
-		// Saturation between 0.1 and 0.3
-		final float saturation = (random.nextInt(2000) + 1000) / 10000f;
+		final float saturation = random.nextFloat();
 		final float luminance = 0.9f;
-		return new Color(hue, saturation, luminance);
+		return new Color(Color.HSBtoRGB(hue, saturation, luminance));
 	}
 
 	public Set<String> getParameterNames() {
@@ -190,7 +208,6 @@ public class ParameterChart extends ViewPart {
 	public void setParameterNames(final Set<String> parameterNames) {
 		this.parameterNames = parameterNames;
 	}
-
 
 	public void addParameter(final String parameterName) {
 		if (this.parameterNames == null) {
@@ -209,6 +226,7 @@ public class ParameterChart extends ViewPart {
 	 */
 	private class ParameterDataCollector extends ADataCollector {
 		int counter = 0;
+		TracePoint2D lastTracePoint;
 		private final String parameterName;
 
 		public ParameterDataCollector(final ITrace2D trace, final long latency, final String parameterName) {
@@ -218,23 +236,29 @@ public class ParameterChart extends ViewPart {
 
 		@Override
 		public ITracePoint2D collectData() {
-			List<TelemetryParameter> parameters = parameterSource.getLiveParameterList();
-			TelemetryParameter parameter = null;
+			System.out.println(parameterSource);
 
-			for (TelemetryParameter param : parameters) {
-				if (StringUtils.equals(parameterName, param.getName())) {
-					parameter = param;
-				}
-			}
+			Map<String, TelemetryParameter> parameters = parameterSource.getLiveParameters();
+
+			TelemetryParameter parameter = parameters.get(parameterName);
 
 			TracePoint2D tracePoint;
-			if (parameter.getSpacecraftTimestamp() == null) {
+			if (parameter == null) {
+				if (lastTracePoint != null) {
+					tracePoint = lastTracePoint;
+				}
+				else {
+					tracePoint = new TracePoint2D(0, 0);
+				}
+			}
+			else if (parameter.getSpacecraftTimestamp() == null) {
 				tracePoint = new TracePoint2D(++counter, Double.parseDouble(parameter.getValue()));
 			}
 			else {
 				tracePoint = new TracePoint2D(parameter.getSpacecraftTimestamp().getTime(), Double.parseDouble(parameter.getValue()));
 			}
 
+			lastTracePoint = tracePoint;
 			return tracePoint;
 		}
 
@@ -242,6 +266,4 @@ public class ParameterChart extends ViewPart {
 			return parameterName;
 		}
 	}
-
-
 }

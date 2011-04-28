@@ -45,8 +45,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
-import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
 
 /**
  * Simple telemetry viewer
@@ -169,6 +169,7 @@ public class TelemetryView extends ViewPart {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						System.out.println(parametersSource);
 					}
 				});
 				tableViewer.setColumnProperties(new String[] {});
