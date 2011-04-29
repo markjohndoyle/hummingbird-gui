@@ -3,7 +3,6 @@ package org.hbird.rcpgui.telemetry.charting;
 import info.monitorenter.gui.chart.ITrace2D;
 import info.monitorenter.gui.chart.ITracePoint2D;
 import info.monitorenter.gui.chart.TracePoint2D;
-import info.monitorenter.gui.chart.io.ADataCollector;
 
 import java.util.Map;
 
@@ -16,11 +15,12 @@ import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
  * @author Mark Doyle
  * 
  */
-public class ParameterDataCollector extends ADataCollector {
+public class ParameterDataCollector extends PropertyChangeDataCollector {
 	private int counter = 0;
 	private final String parameterName;
 	private final ParameterSource parameterSource;
 	private TracePoint2D lastTracePoint;
+	private boolean tracing;
 
 	public ParameterDataCollector(final ITrace2D trace, final long latency, final ParameterSource parameterSource, final String parameterName) {
 		super(trace, latency);
@@ -54,7 +54,36 @@ public class ParameterDataCollector extends ADataCollector {
 		return tracePoint;
 	}
 
+	@Override
+	public void start() {
+		boolean oldValue = this.isRunning();
+		super.start();
+		this.tracing = true;
+		firePropertyChange("tracing", oldValue, this.tracing);
+	}
+
+	@Override
+	public void stop() {
+		boolean oldValue = this.isRunning();
+		super.stop();
+		this.tracing = false;
+		firePropertyChange("tracing", oldValue, this.tracing);
+	}
+
 	public String getParameterName() {
 		return parameterName;
+	}
+
+	public void setTracing(final boolean tracing) {
+		if (tracing) {
+			this.start();
+		}
+		else {
+			this.start();
+		}
+	}
+
+	public boolean isTracing() {
+		return tracing;
 	}
 }

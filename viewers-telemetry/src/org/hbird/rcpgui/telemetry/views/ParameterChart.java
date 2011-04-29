@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.rcpgui.telemetry.charting.ParameterDataCollector;
-import org.hbird.rcpgui.telemetry.charting.TraceCollectorModel;
+import org.hbird.rcpgui.telemetry.models.TraceCollectorModel;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
@@ -74,6 +74,7 @@ public class ParameterChart extends ViewPart {
 	private TableViewer tableViewer;
 	private Table activeTraceTable;
 	private TableViewer activeTraceTableViewer;
+	private TableViewerColumn tableViewerColumn_3;
 
 	/**
 	 * @wbp.parser.constructor
@@ -238,7 +239,7 @@ public class ParameterChart extends ViewPart {
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(activeTraceTableViewer, SWT.NONE);
+		tableViewerColumn_3 = new TableViewerColumn(activeTraceTableViewer, SWT.NONE);
 		TableColumn tblclmnActive = tableViewerColumn_3.getColumn();
 		tblclmnActive.setWidth(100);
 		tblclmnActive.setText("Active");
@@ -298,8 +299,8 @@ public class ParameterChart extends ViewPart {
 		ObservableSetContentProvider setContentProvider = new ObservableSetContentProvider();
 		activeTraceTableViewer.setContentProvider(setContentProvider);
 		//
-		IObservableMap[] observeMaps_1 = PojoObservables.observeMaps(setContentProvider.getKnownElements(), ParameterDataCollector.class, new String[] {
-				"parameterName", "running" });
+		IObservableMap[] observeMaps_1 = BeansObservables.observeMaps(setContentProvider.getKnownElements(), ParameterDataCollector.class, new String[] {
+				"parameterName", "tracing" });
 		activeTraceTableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps_1));
 		//
 		IObservableSet traceCollectorModelCollectorsObserveSet = BeansObservables.observeSet(Realm.getDefault(), traceCollectorModel, "collectors");

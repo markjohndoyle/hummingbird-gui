@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.telemetry.charting;
+package org.hbird.rcpgui.telemetry.models;
 
 import info.monitorenter.gui.chart.ITrace2D;
 
@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.hbird.rcpgui.telemetry.charting.ParameterDataCollector;
 import org.hbird.rcpgui.telemetryprovision.model.AbstractPropChangeModelObject;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 
