@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.rcpgui.telemetry.charting.ParameterDataCollector;
-import org.hbird.rcpgui.telemetry.models.TraceCollectorModel;
+import org.hbird.rcpgui.telemetry.charting.TraceCollectorModel;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
@@ -194,6 +194,7 @@ public class ParameterChart extends ViewPart {
 		panelChart.add(rootPaneChart);
 
 		chart = new ZoomableChart();
+		chart.setUseAntialiasing(true);
 		rootPaneChart.getContentPane().add(chart, BorderLayout.CENTER);
 
 		Composite composite = new Composite(sashChartList, SWT.NONE);
