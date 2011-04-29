@@ -34,8 +34,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
-import org.hbird.rcpgui.telemetryprovision.source.ParameterSource;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
 
