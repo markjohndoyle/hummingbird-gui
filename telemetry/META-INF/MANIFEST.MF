@@ -7,7 +7,7 @@ Bundle-Activator: org.hbird.rcpgui.telemetryprovision.TelemetryProvisionActivato
 Bundle-Vendor: Hummingbird org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- parameter-provider;bundle-version="0.0.1",
+ parameter-provider;bundle-version="0.0.1";visibility:=reexport,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.core.databinding.observable,
@@ -18,5 +18,4 @@ Require-Bundle: org.eclipse.ui,
  org.apache.commons.lang;bundle-version="2.5.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.hbird.rcpgui.telemetryprovision.model,
- org.hbird.rcpgui.telemetryprovision.services
+Export-Package: org.hbird.rcpgui.telemetryprovision.model

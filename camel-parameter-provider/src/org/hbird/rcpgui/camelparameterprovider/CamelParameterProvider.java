@@ -5,24 +5,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.CamelContextAware;
 import org.apache.camel.Message;
-import org.apache.camel.spring.SpringCamelContext;
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 /**
  * @author Mark Doyle
  * 
  */
-public class CamelParameterProvider implements ParameterProvider, ApplicationContextAware {
+public class CamelParameterProvider implements ParameterProvider, CamelContextAware {
 
 	private static final String PROVIDER_NAME = "Camel";
-	private ApplicationContext ac = null;
+	private CamelContext camelContext;
 	private List<ParameterObserver> observers;
+	private ParameterNameFilterer parameterNameFilter;
 
 	public CamelParameterProvider() {
 		System.out.println("Constructing new camel provider");
@@ -38,24 +38,29 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 
 
 	@Override
-	public void addParameterNameFitler(final String parameterName) {
-		getParameterNameFilter().addParameterNameFitler(parameterName);
+	public void addParameterNameFitler(final String parameterName) throws NoParameterNameFiltererSetException {
+		checkForFilter();
+		parameterNameFilter.addParameterNameFitler(parameterName);
 	}
 
 	@Override
-	public void addParameterNamesFitler(final Set<String> parameterNames) {
+	public void addParameterNamesFitler(final Set<String> parameterNames) throws NoParameterNameFiltererSetException {
+		checkForFilter();
+
 		if (parameterNames == null) {
-			getParameterNameFilter().setParameterNames(parameterNames);
+			parameterNameFilter.setParameterNames(parameterNames);
 		}
 		else {
 			for (String newFilter : parameterNames) {
-				getParameterNameFilter().addParameterNameFitler(newFilter);
+				parameterNameFilter.addParameterNameFitler(newFilter);
 			}
 		}
 	}
 
-	private ParameterNameFilterer getParameterNameFilter() {
-		return (ParameterNameFilterer) ac.getBean("parameterFilterer");
+	private void checkForFilter() throws NoParameterNameFiltererSetException {
+		if (parameterNameFilter == null) {
+			throw new NoParameterNameFiltererSetException();
+		}
 	}
 
 	@Override
@@ -86,8 +91,6 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 		final Map<String, Object> headers = parameterMsg.getHeaders();
 		final Object parameterValue = parameterMsg.getBody();
 
-		// System.out.println("Param received: " + headers.get("ParameterName"));
-
 		// Create basic parameter object
 		final Parameter parameter = new Parameter();
 		parameter.setValue(parameterValue);
@@ -97,32 +100,45 @@ public class CamelParameterProvider implements ParameterProvider, ApplicationCon
 	}
 
 	@Override
-	public void removeAllParameterNameFilters() {
-		getParameterNameFilter().removeAllParameterNameFilters();
+	public void removeAllParameterNameFilters() throws NoParameterNameFiltererSetException {
+		checkForFilter();
+		parameterNameFilter.removeAllParameterNameFilters();
 	}
 
 	@Override
-	public void removeParameterNameFilter(final String parameterName) {
-		getParameterNameFilter().removeParameterNameFilter(parameterName);
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext actx) throws BeansException {
-		this.ac = actx;
+	public void removeParameterNameFilter(final String parameterName) throws NoParameterNameFiltererSetException {
+		checkForFilter();
+		parameterNameFilter.removeParameterNameFilter(parameterName);
 	}
 
 	@Override
 	public void startTelemetryProvision() throws Exception {
-		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
-		camel.startRoute("fromJmsProcessedParametersOut");
+		getCamelContext().startRoute("fromJmsProcessedParametersOut");
 		boolean provisionActive = true;
 	}
 
 	@Override
 	public void stopTelemetryProvision() throws Exception {
-		final SpringCamelContext camel = (SpringCamelContext) ac.getBean("camelContextBean");
-		camel.stopRoute("fromJmsProcessedParametersOut");
+		getCamelContext().stopRoute("fromJmsProcessedParametersOut");
 		boolean provisionActive = false;
+	}
+
+	@Override
+	public CamelContext getCamelContext() {
+		return camelContext;
+	}
+
+	@Override
+	public void setCamelContext(final CamelContext arg0) {
+		this.camelContext = arg0;
+	}
+
+	public void setParameterNameFilter(final ParameterNameFilterer parameterNameFilter) {
+		this.parameterNameFilter = parameterNameFilter;
+	}
+
+	public ParameterNameFilterer getParameterNameFilter() {
+		return parameterNameFilter;
 	}
 
 }

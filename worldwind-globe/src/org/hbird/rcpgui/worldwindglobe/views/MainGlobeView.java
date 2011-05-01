@@ -34,6 +34,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
@@ -70,7 +71,13 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		Set<String> parameterNameFilterSet = new HashSet<String>();
 		parameterNameFilterSet.add("LONGITUDE");
 		parameterNameFilterSet.add("LATITUDE");
-		telemetryIn.addNamesFilter(parameterNameFilterSet);
+		try {
+			telemetryIn.addNamesFilter(parameterNameFilterSet);
+		}
+		catch (NoParameterNameFiltererSetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
