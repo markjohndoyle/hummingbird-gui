@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
 import org.hbird.rcpgui.telemetryprovision.TelemetryProvisionActivator;
 
@@ -38,11 +39,11 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		parameterProvider.addObserver(this);
 	}
 
-	public void addNameFilter(final String paramName) {
+	public void addNameFilter(final String paramName) throws NoParameterNameFiltererSetException {
 		parameterProvider.addParameterNameFitler(paramName);
 	}
 
-	public final void addNamesFilter(final Set<String> parameterNames) {
+	public final void addNamesFilter(final Set<String> parameterNames) throws NoParameterNameFiltererSetException {
 		this.parameterProvider.addParameterNamesFitler(parameterNames);
 	}
 
@@ -68,7 +69,6 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	}
 
 	public final String getProviderName() {
-		System.out.println("Getting provider name");
 		return parameterProvider.getProviderName();
 	}
 
@@ -87,7 +87,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		firePropertyChange("liveParameterList", oldLiveParameterList, liveParameterList);
 	}
 
-	public final void removeParameterNameFilter(final String name) {
+	public final void removeParameterNameFilter(final String name) throws NoParameterNameFiltererSetException {
 		parameterProvider.removeParameterNameFilter(name);
 	}
 

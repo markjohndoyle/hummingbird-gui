@@ -45,6 +45,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
@@ -292,14 +293,28 @@ public class TelemetryView extends ViewPart {
 		// If the current filter is not the same as the new filter...
 		if (!StringUtils.equals(currentQuickfilter, quickFilter.getText())) {
 			// remove the old filter (only one quick filter at a time)
-			parametersSource.removeParameterNameFilter(currentQuickfilter);
+			try {
+				parametersSource.removeParameterNameFilter(currentQuickfilter);
+			}
+			catch (NoParameterNameFiltererSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 		}
 
 		if (!StringUtils.isBlank(quickFilter.getText())) {
 			// set the new filter to the current filter
 			currentQuickfilter = quickFilter.getText();
 			// add the new filter to the parameter source to restrict what TM parameters we receive.
-			parametersSource.addNameFilter(currentQuickfilter);
+			try {
+				parametersSource.addNameFilter(currentQuickfilter);
+			}
+			catch (NoParameterNameFiltererSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 			quickFilterEnabled = true;
 		}
 		else {
@@ -317,7 +332,14 @@ public class TelemetryView extends ViewPart {
 		quickFilter.setText(QUICK_FILTER_DEFAULT_TEXT);
 		quickFilterEnabled = false;
 		if (currentQuickfilter != null) {
-			parametersSource.removeParameterNameFilter(currentQuickfilter);
+			try {
+				parametersSource.removeParameterNameFilter(currentQuickfilter);
+			}
+			catch (NoParameterNameFiltererSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 		}
 		currentQuickfilter = null;
 	}
