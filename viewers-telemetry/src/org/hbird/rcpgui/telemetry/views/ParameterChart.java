@@ -196,6 +196,7 @@ public class ParameterChart extends ViewPart {
 
 		chart = new ZoomableChart();
 		chart.setUseAntialiasing(true);
+		chart.setDoubleBuffered(true);
 		rootPaneChart.getContentPane().add(chart, BorderLayout.CENTER);
 
 		Composite composite = new Composite(sashChartList, SWT.NONE);
@@ -306,6 +307,7 @@ public class ParameterChart extends ViewPart {
 		IObservableSet traceCollectorModelCollectorsObserveSet = BeansObservables.observeSet(Realm.getDefault(), traceCollectorModel, "collectors");
 		activeTraceTableViewer.setInput(traceCollectorModelCollectorsObserveSet);
 		//
+
 		return bindingContext;
 	}
 }
