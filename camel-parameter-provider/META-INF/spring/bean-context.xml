@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:osgi="http://www.springframework.org/schema/osgi"
-	   xmlns:camel="http://camel.apache.org/schema/spring"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
 						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<bean id="parameterFilterer" class="org.hbird.rcpgui.camelparameterprovider.ParameterNameFilterer">
+
+	<bean id="parameterFilterer"
+		class="org.hbird.rcpgui.camelparameterprovider.ParameterNameFilterer">
 	</bean>
 
-	<!-- Create a camel parameter provider bean for use by the services-context (Spring DM) -->
-	<!-- We use the bundle scope so a new instance is created for each access -->
-	<bean 
-		id="camelParameterProvider" 
-		class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProvider" autowire="autodetect">
+	<!--
+	 Create a camel parameter provider bean for use by the services-context.xml 
+	 (Spring DM).
+	-->
+	<bean id="camelParameterProvider"
+		class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProvider"
+		autowire="autodetect"
+		scope="bundle">
+		<property name="processParametersSource" value="fromJmsProcessedParametersOut"></property>
 	</bean>
 
-	<!-- Create a jms endpoint for the route used by this provider-->
+	<!-- Create a jms endpoint for the route used by this provider -->
 	<bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
 		<property name="connectionFactory">
 			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
@@ -25,17 +30,9 @@
 			</bean>
 		</property>
 	</bean>
-	
 
-	<!--The came route used to retrieve packets for the gui. Can be altered -->
+	<!--The camel context used by OSGi camel services to host routes -->
 	<camelContext id="camelContextBean" xmlns="http://camel.apache.org/schema/spring">
-		<route id="fromJmsProcessedParametersOut" autoStartup="false">
-			<from uri="jms:topic:processedParametersOut" />
-			<camel:filter>
-				<camel:method bean="parameterFilterer"></camel:method>
-				<to uri="bean:camelParameterProvider?method=parameterIn" />
-			</camel:filter>
-		</route>
 	</camelContext>
 
 </beans>

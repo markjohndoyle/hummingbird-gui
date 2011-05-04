@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelContextAware;
 import org.apache.camel.Message;
+import org.apache.camel.builder.RouteBuilder;
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
@@ -19,6 +20,7 @@ import org.hbird.rcpgui.parameterprovider.model.Parameter;
  */
 public class CamelParameterProvider implements ParameterProvider, CamelContextAware {
 
+	private String processParametersSource;
 	private static final String PROVIDER_NAME = "Camel";
 	private CamelContext camelContext;
 	private List<ParameterObserver> observers;
@@ -26,6 +28,32 @@ public class CamelParameterProvider implements ParameterProvider, CamelContextAw
 
 	public CamelParameterProvider() {
 		System.out.println("Constructing new camel provider");
+	}
+
+	/**
+	 * @param routeName
+	 * 
+	 */
+	public void addInitialRoute(final String routeName) {
+		try {
+			getCamelContext().addRoutes(new RouteBuilder() {
+				// <from uri="jms:topic:processedParametersOut" />
+				// <camel:filter>
+				// <camel:method bean="parameterFilterer"></camel:method>
+				// <to uri="bean:camelParameterProvider?method=parameterIn" />
+				// </camel:filter>
+				@Override
+				public void configure() throws Exception {
+					System.out.println("Adding initial route");
+					from("jms:topic:processedParametersOut").routeId(routeName).noAutoStartup().filter().method(parameterNameFilter)
+							.to("bean:camelParameterProvider");
+				}
+			});
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -113,13 +141,16 @@ public class CamelParameterProvider implements ParameterProvider, CamelContextAw
 
 	@Override
 	public void startTelemetryProvision() throws Exception {
-		getCamelContext().startRoute("fromJmsProcessedParametersOut");
+		if (getCamelContext().getRoutes().size() == 0) {
+			addInitialRoute(processParametersSource + this.hashCode());
+		}
+		getCamelContext().startRoute(processParametersSource);
 		boolean provisionActive = true;
 	}
 
 	@Override
 	public void stopTelemetryProvision() throws Exception {
-		getCamelContext().stopRoute("fromJmsProcessedParametersOut");
+		getCamelContext().stopRoute(processParametersSource);
 		boolean provisionActive = false;
 	}
 
@@ -139,6 +170,14 @@ public class CamelParameterProvider implements ParameterProvider, CamelContextAw
 
 	public ParameterNameFilterer getParameterNameFilter() {
 		return parameterNameFilter;
+	}
+
+	public String getProcessParametersSource() {
+		return this.processParametersSource;
+	}
+
+	public void setProcessParametersSource(final String processParametersSource) {
+		this.processParametersSource = processParametersSource;
 	}
 
 }
