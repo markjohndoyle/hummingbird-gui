@@ -38,16 +38,15 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
 
+
    <plugins>
-      <plugin id="PacketProviderInterface"/>
+      <plugin id="JChart2D"/>
       <plugin id="camel-parameter-provider"/>
       <plugin id="com.google.gson"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.ibm.icu.source"/>
-      <plugin id="com.logica.hummingbird.CamelPacketProvider"/>
       <plugin id="com.logica.hummingbird.SimulatorPlugin"/>
       <plugin id="com.logica.hummingbird.commons"/>
-      <plugin id="com.logica.hummingbird.frame-broker"/>
       <plugin id="com.logica.hummingbird.hummingbirdmcscore"/>
       <plugin id="com.logica.hummingbird.simulator"/>
       <plugin id="com.logica.hummingbird.space-system-model"/>
@@ -112,6 +111,8 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.equinox.concurrent"/>
       <plugin id="org.eclipse.equinox.http.jetty"/>
       <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.launcher"/>
+      <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.p2.core"/>
       <plugin id="org.eclipse.equinox.p2.engine"/>
       <plugin id="org.eclipse.equinox.p2.metadata"/>
@@ -120,14 +121,13 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.equinox.servletbridge.extensionbundle" fragment="true"/>
       <plugin id="org.eclipse.gef"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
-      <plugin id="org.eclipse.osgi" version="3.6.0.v20100517"/>
+      <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
@@ -145,7 +145,8 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.hbird.rcpgui.jogl-native-libs-winx64" fragment="true"/>
-      <plugin id="org.hbird.rcpgui.telemetry"/>
+      <plugin id="org.hbird.rcpgui.telemetry-provision"/>
+      <plugin id="org.hbird.rcpgui.viewers.telemetry"/>
       <plugin id="org.hbird.rcpgui.worldwind-globe"/>
       <plugin id="org.mortbay.jetty.server"/>
       <plugin id="org.mortbay.jetty.util"/>
@@ -166,6 +167,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
    </plugins>
 
    <configurations>
+      <plugin id="JChart2D" autoStart="false" startLevel="0" />
       <plugin id="camel-parameter-provider" autoStart="true" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
       <plugin id="com.logica.hummingbird.hummingbirdmcscore" autoStart="false" startLevel="0" />
@@ -175,6 +177,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="com.springsource.org.apache.commons.logging" autoStart="false" startLevel="0" />
       <plugin id="commons-management" autoStart="false" startLevel="0" />
       <plugin id="javax.servlet" autoStart="false" startLevel="0" />
+      <plugin id="jcl104.over.slf4j" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.activemq-camel" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.activemq-core" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.kahadb" autoStart="false" startLevel="0" />
@@ -205,7 +208,8 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.swt" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui.workbench" autoStart="false" startLevel="0" />
-      <plugin id="org.hbird.rcpgui.telemetry" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.telemetry-provision" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.viewers.telemetry" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.worldwind-globe" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.aop" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.beans" autoStart="false" startLevel="0" />

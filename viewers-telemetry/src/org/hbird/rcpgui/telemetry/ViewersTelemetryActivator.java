@@ -1,7 +1,9 @@
 package org.hbird.rcpgui.telemetry;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -13,6 +15,8 @@ public class ViewersTelemetryActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static ViewersTelemetryActivator plugin;
+
+	private static ServiceTracker parameterProviderServiceTracker;
 
 	/**
 	 * The constructor
@@ -26,9 +30,14 @@ public class ViewersTelemetryActivator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	@Override
-	public void start(BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
+		parameterProviderServiceTracker.open();
+		System.out.println("Bundle activation stage (telemetry provision): ParameterProvider services tracking count = "
+				+ parameterProviderServiceTracker.getTrackingCount());
 	}
 
 	/*
@@ -37,7 +46,7 @@ public class ViewersTelemetryActivator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	@Override
-	public void stop(BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}
@@ -49,6 +58,10 @@ public class ViewersTelemetryActivator extends AbstractUIPlugin {
 	 */
 	public static ViewersTelemetryActivator getDefault() {
 		return plugin;
+	}
+
+	public static ServiceTracker getParameterProviderServiceTracker() {
+		return ViewersTelemetryActivator.parameterProviderServiceTracker;
 	}
 
 }

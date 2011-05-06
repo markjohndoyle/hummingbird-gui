@@ -9,7 +9,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -43,6 +45,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.telemetry.ViewersTelemetryActivator;
 import org.hbird.rcpgui.telemetry.charting.ParameterDataCollector;
 import org.hbird.rcpgui.telemetry.models.TraceCollectorModel;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
@@ -75,12 +79,21 @@ public class ParameterChart extends ViewPart {
 	private Table activeTraceTable;
 	private TableViewer activeTraceTableViewer;
 	private TableViewerColumn tableViewerColumn_3;
+	private List<ParameterProvider> parameterProviderServices;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
 	public ParameterChart() {
-		this.parameterSource = new ParameterSource();
+		final Object[] serviceObjects = ViewersTelemetryActivator.getParameterProviderServiceTracker().getServices();
+		if (serviceObjects.length > 0) {
+			this.parameterProviderServices = new ArrayList<ParameterProvider>(serviceObjects.length);
+			for (final Object o : serviceObjects) {
+				parameterProviderServices.add((ParameterProvider) o);
+			}
+		}
+
+		this.parameterSource = new ParameterSource(parameterProviderServices.get(0));
 	}
 
 	/**

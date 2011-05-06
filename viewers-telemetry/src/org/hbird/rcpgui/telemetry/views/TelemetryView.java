@@ -1,6 +1,8 @@
 package org.hbird.rcpgui.telemetry.views;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -46,6 +48,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
+import org.hbird.rcpgui.telemetry.ViewersTelemetryActivator;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
@@ -104,7 +107,7 @@ public class TelemetryView extends ViewPart {
 	private DataBindingContext m_bindingContext;
 	public static final String ID = "org.hbird.rcpgui.telemetry.views.TelemetryView"; //$NON-NLS-1$
 	private Table telemetryTable;
-	private final ParameterSource parametersSource;
+	private final ParameterSource parameterSource;
 	private TableViewer tableViewer;
 
 	private TableColumn tblclmnNameColumn;
@@ -116,8 +119,18 @@ public class TelemetryView extends ViewPart {
 
 	private Button btnClearQuickFilter;
 
+	private List<ParameterProvider> parameterProviderServices;
+
 	public TelemetryView() {
-		parametersSource = new ParameterSource();
+		final Object[] serviceObjects = ViewersTelemetryActivator.getParameterProviderServiceTracker().getServices();
+		if (serviceObjects.length > 0) {
+			this.parameterProviderServices = new ArrayList<ParameterProvider>(serviceObjects.length);
+			for (final Object o : serviceObjects) {
+				parameterProviderServices.add((ParameterProvider) o);
+			}
+		}
+
+		this.parameterSource = new ParameterSource(parameterProviderServices.get(0));
 	}
 
 	/**
@@ -170,7 +183,7 @@ public class TelemetryView extends ViewPart {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						System.out.println(parametersSource);
+						System.out.println(parameterSource);
 					}
 				});
 				tableViewer.setColumnProperties(new String[] {});
@@ -252,9 +265,8 @@ public class TelemetryView extends ViewPart {
 	 * @return the parametersModel
 	 */
 	public ParameterSource getParametersModel() {
-		return parametersSource;
+		return parameterSource;
 	}
-
 
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
@@ -266,7 +278,7 @@ public class TelemetryView extends ViewPart {
 				"value", "spacecraftTimestamp", "shortDescription", "longDescription" });
 		tableViewer.setLabelProvider(new FilterAwareObservableMapLabelProvider(observeMaps));
 		//
-		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parametersSource, "liveParameterList");
+		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parameterSource, "liveParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 		//
 		ObservableListContentProvider listContentProvider_1 = new ObservableListContentProvider();
@@ -275,11 +287,11 @@ public class TelemetryView extends ViewPart {
 		IObservableMap observeMap = PojoObservables.observeMap(listContentProvider_1.getKnownElements(), ParameterProvider.class, "providerName");
 		comboViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
 		//
-		WritableList writableList = new WritableList(parametersSource.getParameterProviderServices(), ParameterProvider.class);
+		WritableList writableList = new WritableList(parameterSource.getParameterProviderServices(), ParameterProvider.class);
 		comboViewer.setInput(writableList);
 		//
 		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(comboViewer);
-		IObservableValue parameterSourceCurrentParameterProviderValue = BeansObservables.observeValue(parametersSource, "parameterProvider");
+		IObservableValue parameterSourceCurrentParameterProviderValue = BeansObservables.observeValue(parameterSource, "parameterProvider");
 		bindingContext.bindValue(comboViewerObserveSingleSelection, parameterSourceCurrentParameterProviderValue, null, null);
 		//
 		return bindingContext;
@@ -294,7 +306,7 @@ public class TelemetryView extends ViewPart {
 		if (!StringUtils.equals(currentQuickfilter, quickFilter.getText())) {
 			// remove the old filter (only one quick filter at a time)
 			try {
-				parametersSource.removeParameterNameFilter(currentQuickfilter);
+				parameterSource.removeParameterNameFilter(currentQuickfilter);
 			}
 			catch (NoParameterNameFiltererSetException e) {
 				// TODO Auto-generated catch block
@@ -308,7 +320,7 @@ public class TelemetryView extends ViewPart {
 			currentQuickfilter = quickFilter.getText();
 			// add the new filter to the parameter source to restrict what TM parameters we receive.
 			try {
-				parametersSource.addNameFilter(currentQuickfilter);
+				parameterSource.addNameFilter(currentQuickfilter);
 			}
 			catch (NoParameterNameFiltererSetException e) {
 				// TODO Auto-generated catch block
@@ -333,7 +345,7 @@ public class TelemetryView extends ViewPart {
 		quickFilterEnabled = false;
 		if (currentQuickfilter != null) {
 			try {
-				parametersSource.removeParameterNameFilter(currentQuickfilter);
+				parameterSource.removeParameterNameFilter(currentQuickfilter);
 			}
 			catch (NoParameterNameFiltererSetException e) {
 				// TODO Auto-generated catch block

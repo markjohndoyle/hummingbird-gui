@@ -2,7 +2,6 @@ package org.hbird.rcpgui.telemetryprovision;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -36,10 +35,10 @@ public class TelemetryProvisionActivator extends AbstractUIPlugin {
 		plugin = this;
 
 		// Register
-		parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
-		parameterProviderServiceTracker.open();
-		System.out.println("Bundle activation stage (telemetry provision): ParameterProvider services tracking count = "
-				+ parameterProviderServiceTracker.getTrackingCount());
+		// parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
+		// parameterProviderServiceTracker.open();
+		// System.out.println("Bundle activation stage (telemetry provision): ParameterProvider services tracking count = "
+		// + parameterProviderServiceTracker.getTrackingCount());
 	}
 
 	/*

@@ -34,9 +34,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
+import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
 import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
+import org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
 
@@ -53,6 +55,8 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
 	private Label lblLatitude;
 
+	private List<ParameterProvider> parameterProviderServices;
+
 	// Initialize the default WW layers
 	static {
 		initWorldWindLayerModel();
@@ -64,9 +68,17 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		worldCanvas.setModel(model);
 	}
 
-
 	public MainGlobeView() {
-		telemetryIn = new ParameterSource();
+
+		final Object[] serviceObjects = WorldwindGlobeActivator.getParameterProviderServiceTracker().getServices();
+		if (serviceObjects.length > 0) {
+			this.parameterProviderServices = new ArrayList<ParameterProvider>(serviceObjects.length);
+			for (final Object o : serviceObjects) {
+				parameterProviderServices.add((ParameterProvider) o);
+			}
+		}
+
+		this.telemetryIn = new ParameterSource(parameterProviderServices.get(0));
 
 		Set<String> parameterNameFilterSet = new HashSet<String>();
 		parameterNameFilterSet.add("LONGITUDE");
@@ -107,7 +119,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		lblLatitude = new Label(composite, SWT.NONE);
 		lblLatitude.setText("false");
 
-
 		initBindingToTmSource();
 
 		loadSat();
@@ -142,7 +153,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		worldCanvas.getModel().getLayers().add(groundStationLayer);
 	}
 
-
 	private final void loadSat() {
 		// Testing
 		IconLayer iconLayer = new IconLayer();
@@ -158,7 +168,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		worldCanvas.getModel().getLayers().add(iconLayer);
 		worldCanvas.getModel().getLayers().add(trailLayer);
 	}
-
 
 	private final void moveSatellite(Angle lat, Angle lon) {
 		Position currPos = this.satelliteIcon.getPosition();
@@ -177,7 +186,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		trailLine.setPositions(trailPositions);
 		worldCanvas.redraw();
 	}
-
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {

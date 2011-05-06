@@ -10,7 +10,6 @@ import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
-import org.hbird.rcpgui.telemetryprovision.TelemetryProvisionActivator;
 
 public class ParameterSource extends AbstractPropChangeModelObject implements ParameterObserver {
 
@@ -26,18 +25,23 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	private boolean provisionActive = false;
 
-	public ParameterSource() {
-		final Object[] serviceObjects = TelemetryProvisionActivator.getParameterProviderServices().getServices();
-		if (serviceObjects.length > 0) {
-			for (final Object o : serviceObjects) {
-				parameterProviderServices.add((ParameterProvider) o);
-			}
-		}
-
-		// Use the first service by default
-		parameterProvider = parameterProviderServices.get(0);
-		parameterProvider.addObserver(this);
+	public ParameterSource(final ParameterProvider parameterProvider) {
+		this.parameterProvider = parameterProvider;
+		this.parameterProvider.addObserver(this);
 	}
+
+	// public ParameterSource() {
+	// final Object[] serviceObjects = TelemetryProvisionActivator.getParameterProviderServices().getServices();
+	// if (serviceObjects.length > 0) {
+	// for (final Object o : serviceObjects) {
+	// parameterProviderServices.add((ParameterProvider) o);
+	// }
+	// }
+	//
+	// // Use the first service by default
+	// parameterProvider = parameterProviderServices.get(0);
+	// parameterProvider.addObserver(this);
+	// }
 
 	public void addNameFilter(final String paramName) throws NoParameterNameFiltererSetException {
 		parameterProvider.addParameterNameFitler(paramName);
