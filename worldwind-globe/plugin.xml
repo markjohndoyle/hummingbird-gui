@@ -49,12 +49,21 @@
                id="org.hbird.rcpgui.worldwind-globe.commands.startLiveTracking"
                name="Start live tracking">
          </command>
+         <command
+               categoryId="org.hbird.rcpgui.worldwind-globe.category.tracking"
+               id="org.hbird.rcpgui.worldwind-globe.commands.stopLiveTracking"
+               name="Stop live tracking">
+         </command>
       </extension>
       <extension
             point="org.eclipse.ui.handlers">
          <handler
                class="org.hbird.rcpgui.worldwindglobe.handlers.StartLiveTracking"
                commandId="org.hbird.rcpgui.worldwind-globe.commands.startLiveTracking">
+         </handler>
+         <handler
+               class="org.hbird.rcpgui.worldwindglobe.handlers.StopLiveTracking"
+               commandId="org.hbird.rcpgui.worldwind-globe.commands.stopLiveTracking">
          </handler>
       </extension>
       <extension
@@ -64,7 +73,14 @@
             <command
                   commandId="org.hbird.rcpgui.worldwind-globe.commands.startLiveTracking"
                   icon="icons/satellite_24_hot.png"
+                  style="push"
                   tooltip="Start live tracking">
+            </command>
+            <command
+                  commandId="org.hbird.rcpgui.worldwind-globe.commands.stopLiveTracking"
+                  icon="icons/satellite_24_hot-red.png"
+                  style="push"
+                  tooltip="Stop live tracking">
             </command>
          </menuContribution>
       </extension>
