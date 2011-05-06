@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: PacketProviderInterface
-Bundle-SymbolicName: PacketProviderInterface
-Bundle-Version: 0.0.1
-Bundle-Vendor: logica
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: com.logica.hummingbird.tele;bundle-version="0.0.1"
-Export-Package: com.logica.hummingbird.packetprovider
