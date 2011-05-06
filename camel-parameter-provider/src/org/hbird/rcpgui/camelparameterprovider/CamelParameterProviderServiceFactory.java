@@ -8,23 +8,31 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 
 /**
- * {@link ServiceFactory} that creates a {@link CamelParameterProvider} to satisfy the {@link ParameterProvider} service
- * interface.
+ * {@link ServiceFactory} that creates a {@link CamelParameterProvider} to satisfy the {@link ParameterProvider} OSGi
+ * service interface.
  * 
  * The Factory creates a unique id from the consumer bundle name and version which is used by the
- * {@link CamelParameterProvider}.
+ * {@link CamelParameterProvider} to identify their own routes in the shared {@link CamelContext}.
  * 
  * @author Mark Doyle
  * 
  */
 public class CamelParameterProviderServiceFactory implements ServiceFactory, CamelContextAware {
 
+	/** {@link CamelContext} which is injected into this class via Spring */
 	private CamelContext camel;
+
+	/**
+	 * The source of the parameters. This is passed to the instantiated {@link CamelParameterProvider}s and used by them
+	 * as the source of their routes.
+	 */
+	private String parameterSourceUri;
 
 	@Override
 	public Object getService(final Bundle bundle, final ServiceRegistration registration) {
 		System.out.println("ServiceFactory is producing");
-		CamelParameterProvider camelParameterProvider = new CamelParameterProvider(new String(bundle.getSymbolicName() + ":" + bundle.getVersion()));
+		String bundleUID = new String(bundle.getSymbolicName() + ":" + bundle.getVersion());
+		CamelParameterProvider camelParameterProvider = new CamelParameterProvider(bundleUID, parameterSourceUri);
 		camelParameterProvider.setCamelContext(camel);
 		camelParameterProvider.setParameterNameFilter(new ParameterNameFilterer());
 		return camelParameterProvider;
@@ -43,6 +51,14 @@ public class CamelParameterProviderServiceFactory implements ServiceFactory, Cam
 	@Override
 	public void setCamelContext(final CamelContext arg0) {
 		this.camel = arg0;
+	}
+
+	public void setParameterSourceUri(final String parameterSourceUri) {
+		this.parameterSourceUri = parameterSourceUri;
+	}
+
+	public String getParameterSourceUri() {
+		return parameterSourceUri;
 	}
 
 }

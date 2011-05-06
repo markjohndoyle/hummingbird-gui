@@ -22,8 +22,8 @@ import org.hbird.rcpgui.parameterprovider.model.Parameter;
  */
 public class CamelParameterProvider implements ParameterProvider {
 
-	// FIXME Push to service factory to externalise (facotry is spring bean)
-	private String processParametersSource = "fromJmsProcessedParametersOut";
+	// FIXME Push to service factory to externalise (factory is spring bean)
+	private String parameterSourceUri;
 
 	private static final String PROVIDER_NAME = "Camel";
 	private CamelContext camelContext;
@@ -32,36 +32,10 @@ public class CamelParameterProvider implements ParameterProvider {
 	private List<ParameterObserver> observers;
 	private final String consumerServiceID;
 
-	public CamelParameterProvider(final String bundleUID) {
+	public CamelParameterProvider(final String bundleUID, final String parameterSourceUri) {
 		System.out.println("Constructing new camel provider for bundle " + bundleUID);
-		consumerServiceID = bundleUID;
-	}
-
-	private class ParmeterRouter extends RouteBuilder {
-
-		private final CamelParameterProvider destination;
-		private final String routeName;
-		private final String methodName;
-
-		public ParmeterRouter(final String routeName, final CamelParameterProvider destination, final String methodName) {
-			this.destination = destination;
-			this.methodName = methodName;
-			this.routeName = routeName;
-		}
-
-		@Override
-		public void configure() throws Exception {
-			System.out.println("Adding initial route with id " + consumerServiceID);
-			//@formatter:off
-			from("jms:topic:processedParametersOut").
-				routeId(routeName).
-				noAutoStartup().
-			filter().
-				method(parameterNameFilter).
-			bean(destination, methodName);
-			//@formatter:on
-		}
-
+		this.consumerServiceID = bundleUID;
+		this.parameterSourceUri = parameterSourceUri;
 	}
 
 	/**
@@ -187,7 +161,7 @@ public class CamelParameterProvider implements ParameterProvider {
 
 	@Override
 	public void stopTelemetryProvision() throws Exception {
-		getCamelContext().stopRoute(processParametersSource);
+		getCamelContext().stopRoute(parameterSourceUri);
 	}
 
 	public CamelContext getCamelContext() {
@@ -208,11 +182,55 @@ public class CamelParameterProvider implements ParameterProvider {
 	}
 
 	public String getProcessParametersSource() {
-		return this.processParametersSource;
+		return this.parameterSourceUri;
 	}
 
 	public void setProcessParametersSource(final String processParametersSource) {
-		this.processParametersSource = processParametersSource;
+		this.parameterSourceUri = processParametersSource;
+	}
+
+	public String getParameterSourceUri() {
+		return parameterSourceUri;
+	}
+
+	public void setParameterSourceUri(final String parameterSourceUri) {
+		this.parameterSourceUri = parameterSourceUri;
+	}
+
+	/**
+	 * This specialised {@link RouteBuilder} configures a route that collects parameter messages from
+	 * processParamterSource through a default name filter to the instance of the enclosing class (
+	 * {@link CamelParameterProvider}).
+	 * 
+	 * 
+	 * @author Mark Doyle
+	 * 
+	 */
+	private class ParmeterRouter extends RouteBuilder {
+
+		private final CamelParameterProvider destination;
+		private final String routeName;
+		private final String methodName;
+
+		public ParmeterRouter(final String routeName, final CamelParameterProvider destination, final String methodName) {
+			this.destination = destination;
+			this.methodName = methodName;
+			this.routeName = routeName;
+		}
+
+		@Override
+		public void configure() throws Exception {
+			System.out.println("Adding initial route with id " + consumerServiceID);
+			//@formatter:off
+			from(parameterSourceUri).
+				routeId(routeName).
+				noAutoStartup().
+			filter().
+				method(parameterNameFilter).
+			bean(destination, methodName);
+			//@formatter:on
+		}
+
 	}
 
 }
