@@ -36,8 +36,8 @@ public class WorldwindGlobeActivator extends AbstractUIPlugin {
 
 		parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
 		parameterProviderServiceTracker.open();
-		System.out.println("Bundle activation stage (telemetry provision): ParameterProvider services tracking count = "
-				+ parameterProviderServiceTracker.getTrackingCount());
+		System.out
+				.println("Bundle activation stage (globe): ParameterProvider services tracking count = " + parameterProviderServiceTracker.getTrackingCount());
 	}
 
 	/*

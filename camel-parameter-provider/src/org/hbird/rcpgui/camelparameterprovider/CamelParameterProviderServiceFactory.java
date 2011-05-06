@@ -32,8 +32,7 @@ public class CamelParameterProviderServiceFactory implements ServiceFactory, Cam
 	public Object getService(final Bundle bundle, final ServiceRegistration registration) {
 		System.out.println("ServiceFactory is producing");
 		String bundleUID = new String(bundle.getSymbolicName() + ":" + bundle.getVersion());
-		CamelParameterProvider camelParameterProvider = new CamelParameterProvider(bundleUID, parameterSourceUri);
-		camelParameterProvider.setCamelContext(camel);
+		CamelParameterProvider camelParameterProvider = new CamelParameterProvider(camel, bundleUID, parameterSourceUri);
 		camelParameterProvider.setParameterNameFilter(new ParameterNameFilterer());
 		return camelParameterProvider;
 	}

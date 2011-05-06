@@ -17,32 +17,38 @@ import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetE
 import org.hbird.rcpgui.parameterprovider.model.Parameter;
 
 /**
+ * Implements the {@link ParameterProvider} interface which is registered as a service using Spring DM.
+ * 
+ * The Spring files are located in META-INF/spring as is the convention.
+ * 
  * @author Mark Doyle
  * 
  */
 public class CamelParameterProvider implements ParameterProvider {
 
-	// FIXME Push to service factory to externalise (factory is spring bean)
 	private String parameterSourceUri;
 
 	private static final String PROVIDER_NAME = "Camel";
-	private CamelContext camelContext;
+	private final CamelContext camelContext;
 	private ParameterNameFilterer parameterNameFilter;
 
 	private List<ParameterObserver> observers;
 	private final String consumerServiceID;
 
-	public CamelParameterProvider(final String bundleUID, final String parameterSourceUri) {
+	public CamelParameterProvider(final CamelContext camelContext, final String bundleUID, final String parameterSourceUri) {
 		System.out.println("Constructing new camel provider for bundle " + bundleUID);
 		this.consumerServiceID = bundleUID;
 		this.parameterSourceUri = parameterSourceUri;
+		this.camelContext = camelContext;
 	}
 
 	/**
+	 * Adds this providers route to the camel context.
+	 * 
 	 * @param routeName
 	 * 
 	 */
-	public void addUnfilteredParameterRoute(final String routeName) {
+	private void addUnfilteredParameterRoute(final String routeName) {
 		try {
 			getCamelContext().addRoutes(new ParmeterRouter(routeName, this, "parameterIn"));
 		}
@@ -55,7 +61,6 @@ public class CamelParameterProvider implements ParameterProvider {
 
 	@Override
 	public void addObserver(final ParameterObserver po) {
-		System.out.println("Adding observer to provider " + this.hashCode());
 		if (observers == null) {
 			observers = new ArrayList<ParameterObserver>(1);
 		}
@@ -82,6 +87,13 @@ public class CamelParameterProvider implements ParameterProvider {
 		}
 	}
 
+	/**
+	 * Checks if a {@link ParameterNameFilterer} has been set on this. If not the route cannot be filtered.
+	 * 
+	 * FIXME Drop the exception and log it here? Can't fix it in a higher layer as it would be an installation issue.
+	 * 
+	 * @throws NoParameterNameFiltererSetException
+	 */
 	private void checkForFilter() throws NoParameterNameFiltererSetException {
 		if (parameterNameFilter == null) {
 			throw new NoParameterNameFiltererSetException();
@@ -113,8 +125,6 @@ public class CamelParameterProvider implements ParameterProvider {
 	 * @param parameterMsg
 	 */
 	public void parameterIn(final Message parameterMsg) {
-		System.out.println("Received on provider " + this.hashCode());
-
 		final Map<String, Object> headers = parameterMsg.getHeaders();
 		final Object parameterValue = parameterMsg.getBody();
 
@@ -125,6 +135,7 @@ public class CamelParameterProvider implements ParameterProvider {
 
 		notifyObservers(parameter);
 	}
+
 
 	@Override
 	public void removeAllParameterNameFilters() throws NoParameterNameFiltererSetException {
@@ -140,8 +151,6 @@ public class CamelParameterProvider implements ParameterProvider {
 
 	@Override
 	public void startTelemetryProvision() throws Exception {
-		System.out.println("Adding route to " + consumerServiceID + " specific service ");
-
 		Iterator<Route> it = getCamelContext().getRoutes().iterator();
 		boolean routeAlreadyPresent = false;
 		while (it.hasNext()) {
@@ -155,22 +164,16 @@ public class CamelParameterProvider implements ParameterProvider {
 			addUnfilteredParameterRoute(consumerServiceID);
 		}
 
-		System.out.println("No. routes = " + getCamelContext().getRoutes().size());
 		getCamelContext().startRoute(consumerServiceID);
 	}
 
 	@Override
 	public void stopTelemetryProvision() throws Exception {
-		getCamelContext().stopRoute(parameterSourceUri);
+		getCamelContext().stopRoute(consumerServiceID);
 	}
 
 	public CamelContext getCamelContext() {
 		return camelContext;
-	}
-
-	public void setCamelContext(final CamelContext arg0) {
-		System.out.println("Set camel context called");
-		this.camelContext = arg0;
 	}
 
 	public void setParameterNameFilter(final ParameterNameFilterer parameterNameFilter) {
@@ -179,14 +182,6 @@ public class CamelParameterProvider implements ParameterProvider {
 
 	public ParameterNameFilterer getParameterNameFilter() {
 		return parameterNameFilter;
-	}
-
-	public String getProcessParametersSource() {
-		return this.parameterSourceUri;
-	}
-
-	public void setProcessParametersSource(final String processParametersSource) {
-		this.parameterSourceUri = processParametersSource;
 	}
 
 	public String getParameterSourceUri() {

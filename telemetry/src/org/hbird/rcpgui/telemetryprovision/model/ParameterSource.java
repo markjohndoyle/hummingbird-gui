@@ -30,19 +30,6 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		this.parameterProvider.addObserver(this);
 	}
 
-	// public ParameterSource() {
-	// final Object[] serviceObjects = TelemetryProvisionActivator.getParameterProviderServices().getServices();
-	// if (serviceObjects.length > 0) {
-	// for (final Object o : serviceObjects) {
-	// parameterProviderServices.add((ParameterProvider) o);
-	// }
-	// }
-	//
-	// // Use the first service by default
-	// parameterProvider = parameterProviderServices.get(0);
-	// parameterProvider.addObserver(this);
-	// }
-
 	public void addNameFilter(final String paramName) throws NoParameterNameFiltererSetException {
 		parameterProvider.addParameterNameFitler(paramName);
 	}
@@ -82,8 +69,6 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	@Override
 	public void parameterRecieved(final Parameter parameter) {
-		// System.out.println("Parameter Source received a parameter");
-		// System.out.println(parameter.toString());
 		final Object oldLiveParameterList = liveParameterList;
 		final TelemetryParameter param = createTelemetryParameter(parameter);
 		liveParameters.put(param.getName(), param);
@@ -103,7 +88,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		this.parameterProviderServices = parameterProviderServices;
 	}
 
-	public void setProvisionActive(final boolean provisionActive) {
+	private void setProvisionActive(final boolean provisionActive) {
 		boolean oldVal = this.provisionActive;
 		this.provisionActive = provisionActive;
 		firePropertyChange("provisionActive", oldVal, provisionActive);
