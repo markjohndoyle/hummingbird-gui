@@ -251,7 +251,7 @@ public class TelemetryView extends ViewPart {
 						resetQuickFiltering();
 					}
 				});
-				btnClearQuickFilter.setImage(ResourceManager.getPluginImage("rg.hbird.rcpgui.viewers.telemetry", "icons/cross-script.png"));
+				btnClearQuickFilter.setImage(ResourceManager.getPluginImage("org.hbird.rcpgui.viewers.telemetry", "icons/cross-script.png"));
 			}
 		}
 		m_bindingContext = initDataBindings();
