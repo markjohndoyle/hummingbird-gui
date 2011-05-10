@@ -50,7 +50,7 @@ public class CamelParameterProvider implements ParameterProvider {
 	 */
 	private void addUnfilteredParameterRoute(final String routeName) {
 		try {
-			getCamelContext().addRoutes(new ParmeterRouter(routeName, this, "parameterIn"));
+			getCamelContext().addRoutes(new ParametersRouter(routeName, this, "parameterIn"));
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -136,7 +136,6 @@ public class CamelParameterProvider implements ParameterProvider {
 		notifyObservers(parameter);
 	}
 
-
 	@Override
 	public void removeAllParameterNameFilters() throws NoParameterNameFiltererSetException {
 		checkForFilter();
@@ -201,13 +200,13 @@ public class CamelParameterProvider implements ParameterProvider {
 	 * @author Mark Doyle
 	 * 
 	 */
-	private class ParmeterRouter extends RouteBuilder {
+	private class ParametersRouter extends RouteBuilder {
 
 		private final CamelParameterProvider destination;
 		private final String routeName;
 		private final String methodName;
 
-		public ParmeterRouter(final String routeName, final CamelParameterProvider destination, final String methodName) {
+		public ParametersRouter(final String routeName, final CamelParameterProvider destination, final String methodName) {
 			this.destination = destination;
 			this.methodName = methodName;
 			this.routeName = routeName;
@@ -221,7 +220,7 @@ public class CamelParameterProvider implements ParameterProvider {
 				routeId(routeName).
 				noAutoStartup().
 			filter().
-				method(parameterNameFilter).
+				expression(bean(parameterNameFilter, "isParameterNameFiltered")).
 			bean(destination, methodName);
 			//@formatter:on
 		}

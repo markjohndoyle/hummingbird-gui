@@ -6,17 +6,6 @@
 						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
 						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<!--
-		Create a camel parameter provider service factory bean for use by the services-context.xml 
-		(Spring DM).
-	-->
-	<bean id="camelParameterProviderServiceFactory"
-		  class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProviderServiceFactory">
-		  <property name="parameterSourceUri" value="jms:topic:processedParametersOut"></property>
-	</bean>
-	
-	
-
 	<!-- 
 		Create a JMS endpoint for use by the camel providers in creating routes.
 		Camel OSGi will scan the spring context for beans so you don't have to worry about why this isn't injected anywhere.
@@ -30,12 +19,25 @@
 		</property>
 	</bean>
 
+	
+	
+	<!--
+		Create a camel parameter provider service factory bean for use by the services-context.xml 
+		(Spring DM).
+	-->
+	<bean id="camelParameterProviderServiceFactory"
+		  class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProviderServiceFactory">
+		  <property name="parameterSourceUri" value="jms:topic:processedParametersOut"></property>
+	</bean>
+	
+		
+
 	<!--
 		The camel context used by OSGi camel services to host routes. 
 		The CamelParameterProviderServiceFactory is CamelContext aware so it will be injected with a reference to this.
 		All camel provider instances will share this context.
 	 -->
-	<camelContext id="camelContextBean" xmlns="http://camel.apache.org/schema/spring">
-	</camelContext>
+	<camel:camelContext id="camelContextBean">
+	</camel:camelContext>
 
 </beans>

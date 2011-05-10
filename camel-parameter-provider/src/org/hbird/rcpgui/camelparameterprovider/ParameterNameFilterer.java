@@ -47,7 +47,7 @@ public class ParameterNameFilterer {
 	 * @param headerParameterName
 	 * @return
 	 */
-	public final boolean matches(@Header("ParameterName") final String headerParameterName) {
+	public final boolean isParameterNameFiltered(@Header("ParameterName") final String headerParameterName) {
 		boolean result = false;
 
 		if (parameterNames == null) {
