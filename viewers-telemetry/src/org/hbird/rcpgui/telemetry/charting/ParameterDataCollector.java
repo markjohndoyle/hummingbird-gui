@@ -15,7 +15,7 @@ import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
  * @author Mark Doyle
  * 
  */
-public class ParameterDataCollector extends PropertyChangeDataCollector {
+public class ParameterDataCollector extends PropertyChange {
 	private int counter = 0;
 	private final String parameterName;
 	private final ParameterSource parameterSource;

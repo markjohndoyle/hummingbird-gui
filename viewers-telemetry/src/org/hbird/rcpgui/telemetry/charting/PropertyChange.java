@@ -6,11 +6,11 @@ import info.monitorenter.gui.chart.io.ADataCollector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public abstract class PropertyChangeDataCollector extends ADataCollector {
+public abstract class PropertyChange extends ADataCollector {
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-	public PropertyChangeDataCollector(final ITrace2D trace, final long latency) {
+	public PropertyChange(final ITrace2D trace, final long latency) {
 		super(trace, latency);
 	}
 
