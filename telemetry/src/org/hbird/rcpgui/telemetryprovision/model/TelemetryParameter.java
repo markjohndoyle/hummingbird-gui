@@ -38,4 +38,10 @@ public class TelemetryParameter {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return "TelemetryParameter [name=" + name + ", shortDescription=" + shortDescription + ", longDescription=" + longDescription
+				+ ", spacecraftTimestamp=" + spacecraftTimestamp + ", value=" + value + "]";
+	}
+
 }
