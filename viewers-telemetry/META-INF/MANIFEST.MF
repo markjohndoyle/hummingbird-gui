@@ -12,8 +12,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.databinding;bundle-version="1.4.0",
  org.eclipse.core.databinding.beans;bundle-version="1.2.100",
  org.hbird.rcpgui.telemetry-provision;bundle-version="0.0.1",
- org.apache.commons.lang;bundle-version="2.5.0",
  JChart2D;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
+Import-Package: com.google.common.collect;version="9.0.0",
+ org.apache.commons.lang;version="2.6.0",
+ org.hbird.transport.commons.collections

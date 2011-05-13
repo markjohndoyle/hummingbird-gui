@@ -5,6 +5,7 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
+            category="org.hbird.rcpgui.viewers-telemetry.telemetryViewCategory"
             class="org.hbird.rcpgui.telemetry.views.TelemetryView"
             icon="icons/transmit_blue.png"
             id="org.hbird.rcpgui.telemetry.views.telemetryView"
@@ -13,10 +14,23 @@
       </view>
       <view
             allowMultiple="true"
+            category="org.hbird.rcpgui.viewers-telemetry.telemetryViewCategory"
             class="org.hbird.rcpgui.telemetry.views.ParameterChart"
             icon="icons/chart_curve.png"
             id="org.hbird.rcpgui.telemetry.views.ParameterChart"
             name="Parameter chart"
+            restorable="true">
+      </view>
+      <category
+            id="org.hbird.rcpgui.viewers-telemetry.telemetryViewCategory"
+            name="Telemetry Viewers">
+      </category>
+      <view
+            category="org.hbird.rcpgui.viewers-telemetry.telemetryViewCategory"
+            class="org.hbird.rcpgui.telemetry.views.TelemetryStreamerView"
+            icon="icons/transmit_blue.png"
+            id="org.hbird.rcpgui.telemetry.views.telemetryStreamView"
+            name="Telemetry streamer view"
             restorable="true">
       </view>
    </extension>
