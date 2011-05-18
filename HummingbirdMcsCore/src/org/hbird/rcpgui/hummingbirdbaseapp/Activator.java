@@ -1,4 +1,4 @@
-package com.logica.hummingbird.hummingbirdmcscore;
+package org.hbird.rcpgui.hummingbirdbaseapp;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

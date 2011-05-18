@@ -1,25 +1,28 @@
 /**
  * 
  */
-package com.logica.hummingbird.hummingbirdmcscore.perspectives;
+package org.hbird.rcpgui.hummingbirdbaseapp.perspectives;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 /**
  * @author doylemr
- *
+ * 
  */
 public class McsHomePerspective implements IPerspectiveFactory {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
 	 */
 	@Override
-	public void createInitialLayout(IPageLayout layout) {
+	public void createInitialLayout(final IPageLayout layout) {
 		addFastViews(layout);
+		layout.setEditorAreaVisible(false);
 	}
 
-	private void addFastViews(IPageLayout layout) {
+	private void addFastViews(final IPageLayout layout) {
 	}
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.logica.hummingbird.hummingbirdmcscore.componentlogger;
+package org.hbird.rcpgui.hummingbirdbaseapp.componentlogger;
 
 /**
  * @author Mark Doyle

@@ -1,4 +1,4 @@
-package com.logica.hummingbird.hummingbirdmcscore;
+package org.hbird.rcpgui.hummingbirdbaseapp;
 
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
@@ -6,7 +6,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	private static final String DEFAULT_PERSPECTIVE_ID = "com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective";
+	private static final String DEFAULT_PERSPECTIVE_ID = "org.hbird.rcpgui.hummingbirdbaseapp.perspectives.McsHomePerspective";
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);

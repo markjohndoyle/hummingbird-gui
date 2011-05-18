@@ -1,4 +1,4 @@
-package com.logica.hummingbird.hummingbirdmcscore;
+package org.hbird.rcpgui.hummingbirdbaseapp;
 import org.eclipse.ui.intro.IntroContentDetector;
 
 

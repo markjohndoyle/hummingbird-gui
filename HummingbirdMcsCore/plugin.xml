@@ -3,20 +3,20 @@
 <plugin>
 
    <extension
-         id="com.logica.hummingbird.hummingbirdmcscore.application"
+         id="org.hbird.rcpgui.hummingbirdbaseapp.application"
          point="org.eclipse.core.runtime.applications">
       <application
             icon="icons/transmit_blue.png">
          <run
-               class="com.logica.hummingbird.hummingbirdmcscore.HummingbirdCoreApplication">
+               class="org.hbird.rcpgui.hummingbirdbaseapp.HummingbirdCoreApplication">
          </run>
       </application>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
-            id="com.logica.hummingbird.hummingbirdmcscore.perspectives.McsHomePerspective"
+            class="org.hbird.rcpgui.hummingbirdbaseapp.perspectives.McsHomePerspective"
+            id="org.hbird.rcpgui.hummingbirdbaseapp.perspectives.McsHomePerspective"
             name="%perspective.name">
       </perspective>
    </extension>
@@ -24,7 +24,7 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="com.logica.hummingbird.hummingbirdmcscore.application"
+            application="org.hbird.rcpgui.hummingbirdbaseapp.application"
             name="Hummingbird - Mission Control System">
          <property
                name="windowImages"
@@ -63,19 +63,19 @@
          point="org.eclipse.ui.intro">
       <intro
             class="org.eclipse.ui.intro.config.CustomizableIntroPart"
-            id="com.logica.hummingbird.hummingbirdmcscore.intro">
+            id="org.hbird.rcpgui.hummingbirdbaseapp.intro">
       </intro>
       <introProductBinding
-            introId="com.logica.hummingbird.hummingbirdmcscore.intro"
-            productId="com.logica.hummingbird.hummingbirdmcscore.product">
+            introId="org.hbird.rcpgui.hummingbirdbaseapp.intro"
+            productId="org.hbird.rcpgui.hummingbirdbaseapp.product">
       </introProductBinding>
    </extension>
    <extension
          point="org.eclipse.ui.intro.config">
       <config
             content="introContent.xml"
-            id="com.logica.hummingbird.hummingbirdmcscore.introConfigId"
-            introId="com.logica.hummingbird.hummingbirdmcscore.intro">
+            id="org.hbird.rcpgui.hummingbirdbaseapp.introConfigId"
+            introId="org.hbird.rcpgui.hummingbirdbaseapp.intro">
          <presentation
                home-page-id="root">
             <implementation
@@ -92,11 +92,11 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu?">
          <menu
-               id="com.logica.hummingbird.hummingbirdmcscore.menus.file"
+               id="org.hbird.rcpgui.hummingbirdbaseapp.menus.file"
                label="%menu.label"
                mnemonic="%menu.mnemonic">
             <command
-                  commandId="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
+                  commandId="org.hbird.rcpgui.hummingbirdbaseapp.commands.exit"
                   label="%command.label"
                   mnemonic="%command.mnemonic"
                   style="push"
@@ -108,7 +108,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="com.logica.hummingbird.hummingbirdmcscore.commands.exit"
+            id="org.hbird.rcpgui.hummingbirdbaseapp.commands.exit"
             name="%command.name">
       </command>
    </extension>

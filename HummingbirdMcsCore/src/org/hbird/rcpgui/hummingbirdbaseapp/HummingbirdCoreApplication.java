@@ -1,4 +1,4 @@
-package com.logica.hummingbird.hummingbirdmcscore;
+package org.hbird.rcpgui.hummingbirdbaseapp;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;

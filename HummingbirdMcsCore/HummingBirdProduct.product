@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Hummingbird - Mission Control System" uid="com.logica.hummingbird.hummingbirdmcscore.product" id="com.logica.hummingbird.hummingbirdmcscore.product" application="com.logica.hummingbird.hummingbirdmcscore.application" version="1.0.0" useFeatures="false" includeLaunchers="true">
+<product name="Hummingbird - Mission Control System" uid="org.hbird.rcpgui.hummingbirdbaseapp.product" id="org.hbird.rcpgui.hummingbirdbaseapp.product" application="org.hbird.rcpgui.hummingbirdbaseapp.application" version="1.0.0" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <text>
@@ -21,7 +21,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
    <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
 
    <splash
-      location="com.logica.hummingbird.hummingbirdmcscore"
+      location="org.hbird.rcpgui.hummingbirdbaseapp"
       startupProgressRect="5,5,445,15"
       startupMessageRect="7,320,445,20"
       startupForegroundColor="000000" />
@@ -32,7 +32,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       </win>
    </launcher>
 
-   <intro introId="com.logica.hummingbird.hummingbirdmcscore.intro"/>
+   <intro introId="org.hbird.rcpgui.hummingbirdbaseapp.intro"/>
 
    <vm>
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
@@ -47,7 +47,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="com.ibm.icu.source"/>
       <plugin id="com.logica.hummingbird.SimulatorPlugin"/>
       <plugin id="com.logica.hummingbird.commons"/>
-      <plugin id="com.logica.hummingbird.hummingbirdmcscore"/>
+      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp"/>
       <plugin id="com.logica.hummingbird.simulator"/>
       <plugin id="com.logica.hummingbird.space-system-model"/>
       <plugin id="com.logica.hummingbird.tele"/>
@@ -170,7 +170,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="JChart2D" autoStart="false" startLevel="0" />
       <plugin id="camel-parameter-provider" autoStart="true" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
-      <plugin id="com.logica.hummingbird.hummingbirdmcscore" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.javax.annotation" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.net.sf.cglib" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.org.aopalliance" autoStart="false" startLevel="0" />
