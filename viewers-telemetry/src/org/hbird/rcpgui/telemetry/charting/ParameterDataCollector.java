@@ -30,7 +30,7 @@ public class ParameterDataCollector extends PropertyChange {
 
 	@Override
 	public ITracePoint2D collectData() {
-		Map<String, TelemetryParameter> parameters = parameterSource.getLiveParameters();
+		Map<String, TelemetryParameter> parameters = parameterSource.getLiveUniqueParametersMap();
 
 		TelemetryParameter parameter = parameters.get(parameterName);
 

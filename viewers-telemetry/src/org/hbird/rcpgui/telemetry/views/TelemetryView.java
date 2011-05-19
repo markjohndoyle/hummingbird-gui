@@ -19,7 +19,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -61,7 +60,7 @@ import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
  * @author Mark Doyle
  * 
  */
-public class TelemetryView extends ViewPart {
+public class TelemetryView extends ViewPart implements QuickFilterable {
 	private static final String QUICK_FILTER_DEFAULT_TEXT = "Quick filter on Parameter name";
 
 	private DataBindingContext m_bindingContext;
@@ -186,7 +185,7 @@ public class TelemetryView extends ViewPart {
 				quickFilter.addFocusListener(new FocusAdapter() {
 					@Override
 					public void focusGained(final FocusEvent e) {
-						if (!quickFilterEnabled) {
+						if (!isQuickFilterEnabled()) {
 							quickFilter.setText("");
 						}
 					}
@@ -217,6 +216,12 @@ public class TelemetryView extends ViewPart {
 		m_bindingContext = initDataBindings();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hbird.rcpgui.telemetry.views.QuickFilterable#getCurrentQuickfilter()
+	 */
+	@Override
 	public String getCurrentQuickfilter() {
 		return currentQuickfilter;
 	}
@@ -237,11 +242,9 @@ public class TelemetryView extends ViewPart {
 		//
 		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] { "name",
 				"value", "spacecraftTimestamp", "shortDescription", "longDescription" });
-		tableViewer.setLabelProvider(new FilterAwareObservableMapLabelProvider(observeMaps));
+		tableViewer.setLabelProvider(new FilterAwareObservableMapLabelProvider(this, observeMaps));
 		//
-		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(parameterSource, "liveParameterList");
-		// IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(parameterSource,
-		// "liveParameters.values");
+		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(parameterSource, "liveUniqueParameterList");
 		tableViewer.setInput(parametersModelLiveParameterListObserveList);
 
 		// Proivider service combo box
@@ -291,10 +294,10 @@ public class TelemetryView extends ViewPart {
 				e.printStackTrace();
 				return;
 			}
-			quickFilterEnabled = true;
+			setQuickFilterEnabled(true);
 		}
 		else {
-			quickFilterEnabled = false;
+			setQuickFilterEnabled(false);
 		}
 
 		tableViewer.refresh();
@@ -306,7 +309,7 @@ public class TelemetryView extends ViewPart {
 	 */
 	private void resetQuickFiltering() {
 		quickFilter.setText(QUICK_FILTER_DEFAULT_TEXT);
-		quickFilterEnabled = false;
+		setQuickFilterEnabled(false);
 		if (currentQuickfilter != null) {
 			try {
 				parameterSource.removeParameterNameFilter(currentQuickfilter);
@@ -325,48 +328,35 @@ public class TelemetryView extends ViewPart {
 		// Set the focus
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hbird.rcpgui.telemetry.views.QuickFilterable#setQuickFilterForeground(org.eclipse.swt.graphics.Color)
+	 */
+	@Override
 	public void setQuickFilterForeground(final Color foreground) {
 		quickFilter.setForeground(foreground);
 	}
 
-	/**
-	 * Label provider that is aware of the quickfilter and will adjust the label based upon whether the parameter is
-	 * being updated or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * This is used by the TableViewer as it's LabelProvider. This means when rendering a TelemetryParameter the label
-	 * provider will check the name against the current quick filter.
-	 * 
-	 * @author Mark Doyle
-	 * 
+	 * @see org.hbird.rcpgui.telemetry.views.QuickFilterable#setQuickFilterEnabled(boolean)
 	 */
-	public class FilterAwareObservableMapLabelProvider extends ObservableMapLabelProvider implements IColorProvider {
-		public FilterAwareObservableMapLabelProvider(final IObservableMap attributeMap) {
-			super(attributeMap);
-		}
-
-		public FilterAwareObservableMapLabelProvider(final IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		@Override
-		public Color getBackground(final Object element) {
-			return null;
-		}
-
-		@Override
-		public Color getForeground(final Object element) {
-			String parameterName = ((TelemetryParameter) element).getName();
-			if (quickFilterEnabled) {
-				if (StringUtils.equals(getCurrentQuickfilter(), parameterName)) {
-					return ResourceManager.getColor(70, 130, 180);
-				}
-				else {
-					return ResourceManager.getColor(248, 48, 48);
-				}
-			}
-			else {
-				return null;
-			}
-		}
+	@Override
+	public void setQuickFilterEnabled(final boolean quickFilterEnabled) {
+		this.quickFilterEnabled = quickFilterEnabled;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hbird.rcpgui.telemetry.views.QuickFilterable#isQuickFilterEnabled()
+	 */
+	@Override
+	public boolean isQuickFilterEnabled() {
+		return quickFilterEnabled;
+	}
+
+
 }

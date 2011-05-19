@@ -307,7 +307,8 @@ public class ParameterChart extends ViewPart {
 				"value" });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
-		IObservableList parameterSourceLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parameterSource, "liveParameterList");
+		IObservableList parameterSourceLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parameterSource,
+				"liveUniqueParameterList");
 		tableViewer.setInput(parameterSourceLiveParameterListObserveList);
 		//
 		ObservableSetContentProvider setContentProvider = new ObservableSetContentProvider();

@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -21,19 +22,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.telemetry.ViewersTelemetryActivator;
 import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
+import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
 public class TelemetryStreamerView extends ViewPart {
-	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
-		@Override
-		public Image getColumnImage(final Object element, final int columnIndex) {
-			return null;
-		}
-
-		@Override
-		public String getColumnText(final Object element, final int columnIndex) {
-			return element.toString();
-		}
-	}
 
 	private ParameterSource parameterSource;
 	private ArrayList<ParameterProvider> parameterProviderServices;
@@ -63,26 +54,18 @@ public class TelemetryStreamerView extends ViewPart {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-		TableColumn tblclmnName = tableViewerColumn.getColumn();
+		TableViewerColumn tableViewerColumnName = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnName = tableViewerColumnName.getColumn();
 		tcl_composite.setColumnData(tblclmnName, new ColumnPixelData(150, true, true));
 		tblclmnName.setText("Name");
+		// Component create
+		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+		tcl_composite.setColumnData(tblclmnValue, new ColumnPixelData(150, true, true));
+		tblclmnValue.setText("Value");
 
 		initDataBindings();
 
-	}
-
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-
-		tableViewer.setContentProvider(new ArrayContentProvider());
-
-		IObservableSet liveParamObserver = BeansObservables.observeSet(parameterSource, "liveParameterQueue");
-		tableViewer.setInput(liveParamObserver);
-
-		tableViewer.setLabelProvider(new TableLabelProvider());
-
-		return bindingContext;
 	}
 
 	@Override
@@ -99,4 +82,20 @@ public class TelemetryStreamerView extends ViewPart {
 		return parameterSource;
 	}
 
+
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), TelemetryParameter.class, new String[] { "name",
+				"value" });
+		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		IObservableList parametersModelLiveParameterListObserveList = BeansObservables.observeList(Realm.getDefault(), parameterSource, "liveParameterList");
+		tableViewer.setInput(parametersModelLiveParameterListObserveList);
+		//
+		return bindingContext;
+	}
 }

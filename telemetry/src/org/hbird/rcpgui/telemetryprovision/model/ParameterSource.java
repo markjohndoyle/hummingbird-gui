@@ -29,8 +29,9 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	private List<ParameterProvider> parameterProviderServices = new ArrayList<ParameterProvider>();
 
 	/** TODO don't like this dual map/list thing. It only exists because I didn't understand Jface binding! FIX PLEASE! **/
-	private Map<String, TelemetryParameter> liveUniqueParameters = new HashMap<String, TelemetryParameter>();
+	private Map<String, TelemetryParameter> liveUniqueParametersMap = new HashMap<String, TelemetryParameter>();
 	private List<TelemetryParameter> liveParameterList = new ArrayList<TelemetryParameter>();
+	private List<TelemetryParameter> liveUniqueParameterList = new ArrayList<TelemetryParameter>();
 
 	private final CircularFifoQueue<TelemetryParameter> liveParameterQueue = new CircularFifoQueue<TelemetryParameter>(
 			new ArrayBlockingQueue<TelemetryParameter>(50, true));
@@ -81,28 +82,31 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 
 	@Override
 	public synchronized void parameterRecieved(final Parameter parameter) {
+		final Map<String, TelemetryParameter> oldLiveUniqueParameters = liveUniqueParametersMap;
 		final List<TelemetryParameter> oldLiveParameterList = liveParameterList;
-		final Map<String, TelemetryParameter> oldLiveUniqueParameters = liveUniqueParameters;
+		final List<TelemetryParameter> oldLiveUniqueParameterList = liveUniqueParameterList;
 
 		final TelemetryParameter param = createTelemetryParameter(parameter);
 
-		liveUniqueParameters.put(param.getName(), param);
+		liveUniqueParametersMap.put(param.getName(), param);
 
 		try {
 			liveParameterQueue.put(param);
 			// TODO Have to recreate the list because the PropertyChange library checks for if list = this which means
 			// added elements don't trigger a change event.
 			liveParameterList = new ArrayList<TelemetryParameter>(liveParameterQueue);
+			liveUniqueParameterList = new ArrayList<TelemetryParameter>(liveUniqueParametersMap.values());
 		}
 		catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		firePropertyChange("liveParameterList", oldLiveParameterList, liveParameterList);
 
 		// FIXME Will not trigger if the map isn't recreated completely.
-		firePropertyChange("liveUniqueParameters", oldLiveUniqueParameters, liveUniqueParameters);
+		firePropertyChange("liveUniqueParameters", oldLiveUniqueParameters, liveUniqueParametersMap);
+		firePropertyChange("liveParameterList", oldLiveParameterList, liveParameterList);
+		firePropertyChange("liveUniqueParameterList", oldLiveUniqueParameterList, liveUniqueParameterList);
 	}
 
 	public final void removeParameterNameFilter(final String name) throws NoParameterNameFiltererSetException {
@@ -133,16 +137,25 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		this.setProvisionActive(false);
 	}
 
-	public Map<String, TelemetryParameter> getLiveParameters() {
-		return liveUniqueParameters;
-	}
-
-	public void setLiveParameters(final Map<String, TelemetryParameter> liveParameters) {
-		this.liveUniqueParameters = liveParameters;
-	}
 
 	public CircularFifoQueue<TelemetryParameter> getLiveParameterQueue() {
 		return liveParameterQueue;
+	}
+
+	public Map<String, TelemetryParameter> getLiveUniqueParametersMap() {
+		return liveUniqueParametersMap;
+	}
+
+	public void setLiveUniqueParametersMap(final Map<String, TelemetryParameter> liveUniqueParameters) {
+		this.liveUniqueParametersMap = liveUniqueParameters;
+	}
+
+	public List<TelemetryParameter> getLiveUniqueParameterList() {
+		return liveUniqueParameterList;
+	}
+
+	public void setLiveUniqueParameterList(final List<TelemetryParameter> liveUniqueParameterList) {
+		this.liveUniqueParameterList = liveUniqueParameterList;
 	}
 
 }
