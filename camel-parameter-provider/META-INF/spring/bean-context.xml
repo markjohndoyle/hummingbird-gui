@@ -27,7 +27,7 @@
 	-->
 	<bean id="camelParameterProviderServiceFactory"
 		  class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProviderServiceFactory">
-		  <property name="parameterSourceUri" value="jms:topic:processedParametersOut"></property>
+		  <property name="parameterSourceUri" value="jms:decodedTelemetryPayloads"></property>
 	</bean>
 	
 		

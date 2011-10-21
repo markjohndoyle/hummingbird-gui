@@ -1,6 +1,6 @@
 package org.hbird.rcpgui.parameterprovider;
 
-import org.hbird.rcpgui.parameterprovider.model.Parameter;
+import org.hbird.rcpgui.parameterprovider.model.GuiParameter;
 
 public interface ParameterObserver {
 
@@ -9,5 +9,5 @@ public interface ParameterObserver {
 	 * 
 	 * @param parameter
 	 */
-	void parameterRecieved(Parameter parameter);
+	void parameterRecieved(GuiParameter parameter);
 }

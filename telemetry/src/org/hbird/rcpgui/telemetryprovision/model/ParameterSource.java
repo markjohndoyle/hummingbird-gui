@@ -10,7 +10,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import org.hbird.rcpgui.parameterprovider.ParameterObserver;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
-import org.hbird.rcpgui.parameterprovider.model.Parameter;
+import org.hbird.rcpgui.parameterprovider.model.GuiParameter;
 import org.hbird.transport.commons.collections.CircularFifoQueue;
 
 /**
@@ -51,7 +51,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 		this.parameterProvider.addParameterNamesFitler(parameterNames);
 	}
 
-	private TelemetryParameter createTelemetryParameter(final Parameter parameter) {
+	private TelemetryParameter createTelemetryParameter(final GuiParameter parameter) {
 		final Map<String, Object> properties = parameter.getParameterProperties();
 		final Object value = parameter.getValue();
 		return new TelemetryParameter(properties, value);
@@ -81,7 +81,7 @@ public class ParameterSource extends AbstractPropChangeModelObject implements Pa
 	}
 
 	@Override
-	public synchronized void parameterRecieved(final Parameter parameter) {
+	public synchronized void parameterRecieved(final GuiParameter parameter) {
 		final Map<String, TelemetryParameter> oldLiveUniqueParameters = liveUniqueParametersMap;
 		final List<TelemetryParameter> oldLiveParameterList = liveParameterList;
 		final List<TelemetryParameter> oldLiveUniqueParameterList = liveUniqueParameterList;

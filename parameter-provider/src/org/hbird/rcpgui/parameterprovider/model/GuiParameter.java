@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Mark Doyle
  * 
  */
-public class Parameter {
+public class GuiParameter {
 
 	private Map<String, Object> parameterProperties;
 	private Object value;
