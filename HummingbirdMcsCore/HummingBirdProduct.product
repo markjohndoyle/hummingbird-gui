@@ -7,7 +7,7 @@
       <text>
          Hummingbird Mission Control System
 
-Johannes Klug - Gert Villemos - Mark Doyle
+Mark Doyle - Johannes Klug - Gert Villemos
       </text>
    </aboutInfo>
 
@@ -18,14 +18,14 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
+   <windowImages i16="/hummingbird-base-app/icons/transmit_blue.png"/>
 
    <splash
       location="org.hbird.rcpgui.hummingbirdbaseapp"
       startupProgressRect="5,5,445,15"
       startupMessageRect="7,320,445,20"
       startupForegroundColor="000000" />
-   <launcher name="Hummingbird MCS">
+   <launcher name="Hummingbird">
       <solaris/>
       <win useIco="false">
          <bmp/>
@@ -38,20 +38,12 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
 
-
    <plugins>
       <plugin id="JChart2D"/>
       <plugin id="camel-parameter-provider"/>
       <plugin id="com.google.gson"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.ibm.icu.source"/>
-      <plugin id="com.logica.hummingbird.SimulatorPlugin"/>
-      <plugin id="com.logica.hummingbird.commons"/>
-      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp"/>
-      <plugin id="com.logica.hummingbird.simulator"/>
-      <plugin id="com.logica.hummingbird.space-system-model"/>
-      <plugin id="com.logica.hummingbird.tele"/>
-      <plugin id="com.logica.hummingbird.xtce"/>
       <plugin id="com.springsource.javax.annotation"/>
       <plugin id="com.springsource.net.sf.cglib"/>
       <plugin id="com.springsource.org.aopalliance"/>
@@ -69,7 +61,6 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.apache.ant"/>
       <plugin id="org.apache.camel.camel-core"/>
       <plugin id="org.apache.camel.camel-jms"/>
-      <plugin id="org.apache.camel.camel-osgi"/>
       <plugin id="org.apache.camel.camel-spring"/>
       <plugin id="org.apache.commons.el"/>
       <plugin id="org.apache.commons.lang"/>
@@ -99,7 +90,6 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.variables"/>
-      <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.ecf"/>
       <plugin id="org.eclipse.ecf.filetransfer"/>
       <plugin id="org.eclipse.ecf.identity"/>
@@ -121,7 +111,6 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.gef"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.jface"/>
@@ -144,6 +133,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
+      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp"/>
       <plugin id="org.hbird.rcpgui.jogl-native-libs-winx64" fragment="true"/>
       <plugin id="org.hbird.rcpgui.telemetry-provision"/>
       <plugin id="org.hbird.rcpgui.viewers.telemetry"/>
@@ -170,7 +160,6 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="JChart2D" autoStart="false" startLevel="0" />
       <plugin id="camel-parameter-provider" autoStart="true" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
-      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.javax.annotation" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.net.sf.cglib" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.org.aopalliance" autoStart="false" startLevel="0" />
@@ -183,7 +172,6 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.apache.activemq.kahadb" autoStart="false" startLevel="0" />
       <plugin id="org.apache.camel.camel-core" autoStart="true" startLevel="0" />
       <plugin id="org.apache.camel.camel-jms" autoStart="true" startLevel="0" />
-      <plugin id="org.apache.camel.camel-osgi" autoStart="true" startLevel="0" />
       <plugin id="org.apache.camel.camel-spring" autoStart="true" startLevel="0" />
       <plugin id="org.apache.commons.lang" autoStart="false" startLevel="0" />
       <plugin id="org.apache.geronimo.specs.geronimo-j2ee-management_1.1_spec" autoStart="false" startLevel="0" />
@@ -208,6 +196,7 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <plugin id="org.eclipse.swt" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui.workbench" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.hummingbirdbaseapp" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.telemetry-provision" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.viewers.telemetry" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.worldwind-globe" autoStart="false" startLevel="0" />

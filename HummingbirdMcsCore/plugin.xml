@@ -28,7 +28,7 @@
             name="Hummingbird - Mission Control System">
          <property
                name="windowImages"
-               value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+               value="icons/transmit_blue.png">
          </property>
          <property
                name="appName"
@@ -52,39 +52,12 @@
          </property>
          <property
                name="aboutText"
-               value="Hummingbird Mission Control System&#x0A;&#x0A;Johannes Klug - Gert Villemos - Mark Doyle">
+               value="Hummingbird Mission Control System&#x0A;&#x0A;Mark Doyle - Johannes Klug - Gert Villemos">
          </property>
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.views">
-   </extension>
-   <extension
-         point="org.eclipse.ui.intro">
-      <intro
-            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
-            id="org.hbird.rcpgui.hummingbirdbaseapp.intro">
-      </intro>
-      <introProductBinding
-            introId="org.hbird.rcpgui.hummingbirdbaseapp.intro"
-            productId="org.hbird.rcpgui.hummingbirdbaseapp.product">
-      </introProductBinding>
-   </extension>
-   <extension
-         point="org.eclipse.ui.intro.config">
-      <config
-            content="introContent.xml"
-            id="org.hbird.rcpgui.hummingbirdbaseapp.introConfigId"
-            introId="org.hbird.rcpgui.hummingbirdbaseapp.intro">
-         <presentation
-               home-page-id="root">
-            <implementation
-                  kind="html"
-                  os="win32,linux,macosx"
-                  style="content/shared.css">
-            </implementation>
-         </presentation>
-      </config>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -111,9 +84,6 @@
             id="org.hbird.rcpgui.hummingbirdbaseapp.commands.exit"
             name="%command.name">
       </command>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.adapters">
    </extension>
 
 </plugin>

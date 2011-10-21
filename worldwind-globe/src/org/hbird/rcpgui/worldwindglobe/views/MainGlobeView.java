@@ -81,8 +81,9 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		this.telemetryIn = new ParameterSource(parameterProviderServices.get(0));
 
 		Set<String> parameterNameFilterSet = new HashSet<String>();
-		parameterNameFilterSet.add("LONGITUDE");
-		parameterNameFilterSet.add("LATITUDE");
+		parameterNameFilterSet.add("GPS_Longitude_Minutes_decimals");
+		parameterNameFilterSet.add("GPS_Latitude_Minutes_decimals");
+		parameterNameFilterSet.add("GPS_Altitude");
 		try {
 			telemetryIn.addNamesFilter(parameterNameFilterSet);
 		}
@@ -136,16 +137,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		this.telemetryIn.addPropertyChangeListener("liveParameterList", this);
 	}
 
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
-		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
-		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
-		//
-		return bindingContext;
-	}
-
 	private void loadGroundStations() {
 		RenderableLayer groundStationLayer = new RenderableLayer();
 		groundStationLayer.addRenderable(EstrackStations.REDU_STATION);
@@ -169,7 +160,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		worldCanvas.getModel().getLayers().add(trailLayer);
 	}
 
-	private final void moveSatellite(Angle lat, Angle lon) {
+	private final void moveSatellite(Angle lat, Angle lon, Double altitude) {
 		Position currPos = this.satelliteIcon.getPosition();
 
 		if (lat == null) {
@@ -178,8 +169,11 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		if (lon == null) {
 			lon = currPos.getLongitude();
 		}
+		if (altitude == null) {
+			altitude = currPos.getAltitude();
+		}
 
-		this.satelliteIcon.setPosition(new Position(lat, lon, currPos.getAltitude()));
+		this.satelliteIcon.setPosition(new Position(lat, lon, altitude));
 		synchronized (trailPositions) {
 			trailPositions.add(new Position(lat, lon, currPos.getAltitude()));
 		}
@@ -192,19 +186,34 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		List<TelemetryParameter> newTmList = (List<TelemetryParameter>) evt.getNewValue();
 		Angle lon = null;
 		Angle lat = null;
+		Double altitude = null;
+
 		for (TelemetryParameter param : newTmList) {
-			if (param.getName().equals("LONGITUDE")) {
+			if (param.getName().equals("GPS_Longitude_Minutes_decimals")) {
 				lon = Angle.fromDegrees(Double.parseDouble(param.getValue()));
 			}
-			else if (param.getName().equals("LATITUDE")) {
+			else if (param.getName().equals("GPS_Latitude_Minutes_decimals")) {
 				lat = Angle.fromDegrees(Double.parseDouble(param.getValue()));
 			}
+			else if (param.getName().equals(("GPS_Altitude"))) {
+				altitude = Double.parseDouble(param.getValue());
+			}
 		}
-		moveSatellite(lat, lon);
+		moveSatellite(lat, lon, altitude);
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
+	}
+
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
+		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
+		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
+		//
+		return bindingContext;
 	}
 }

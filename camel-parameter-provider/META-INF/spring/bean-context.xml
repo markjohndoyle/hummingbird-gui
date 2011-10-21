@@ -14,7 +14,7 @@
 	<bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
 		<property name="connectionFactory">
 			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="tcp://localhost:61616" />
+				<property name="brokerURL" value="tcp://10.48.16.99:61616" />
 			</bean>
 		</property>
 	</bean>
