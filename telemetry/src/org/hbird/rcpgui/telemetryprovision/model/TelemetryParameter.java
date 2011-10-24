@@ -12,7 +12,7 @@ public class TelemetryParameter {
 	String value;
 
 	public TelemetryParameter(final Map<String, Object> properties, final Object value) {
-		this.value = (String) value;
+		this.value = value.toString();
 		this.name = (String) properties.get("ParameterName");
 		this.shortDescription = (String) properties.get("ParameterShortDescription");
 		this.longDescription = (String) properties.get("ParameterLongDescription");
