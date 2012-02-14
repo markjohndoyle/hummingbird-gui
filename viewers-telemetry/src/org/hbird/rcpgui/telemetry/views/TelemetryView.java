@@ -358,5 +358,4 @@ public class TelemetryView extends ViewPart implements QuickFilterable {
 		return quickFilterEnabled;
 	}
 
-
 }

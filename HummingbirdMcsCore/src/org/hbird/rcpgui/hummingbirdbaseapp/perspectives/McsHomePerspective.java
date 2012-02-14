@@ -7,7 +7,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 /**
- * @author doylemr
+ * @author Mark Doyle
  * 
  */
 public class McsHomePerspective implements IPerspectiveFactory {
@@ -19,10 +19,7 @@ public class McsHomePerspective implements IPerspectiveFactory {
 	 */
 	@Override
 	public void createInitialLayout(final IPageLayout layout) {
-		addFastViews(layout);
 		layout.setEditorAreaVisible(false);
 	}
 
-	private void addFastViews(final IPageLayout layout) {
-	}
 }

@@ -7,7 +7,7 @@
       <text>
          Hummingbird Mission Control System
 
-Johannes Klug - Gert Villemos - Mark Doyle
+Mark Doyle - Johannes Klug - Gert Villemos
       </text>
    </aboutInfo>
 
@@ -18,14 +18,14 @@ Johannes Klug - Gert Villemos - Mark Doyle
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
+   <windowImages i16="/hummingbird-base-app/icons/transmit_blue.png"/>
 
    <splash
       location="org.hbird.rcpgui.hummingbirdbaseapp"
       startupProgressRect="5,5,445,15"
       startupMessageRect="7,320,445,20"
       startupForegroundColor="000000" />
-   <launcher name="Hummingbird MCS">
+   <launcher name="Hummingbird">
       <solaris/>
       <win useIco="false">
          <bmp/>

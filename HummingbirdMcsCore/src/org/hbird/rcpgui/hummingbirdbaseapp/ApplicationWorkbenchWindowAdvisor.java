@@ -24,14 +24,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
 		configurer.setInitialSize(new Point(1024, 800));
-		configurer.setShowCoolBar(true);
+		configurer.setShowPerspectiveBar(true);
+		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(true);
 		configurer.setShowMenuBar(true);
-		configurer.setShowPerspectiveBar(true);
 		configurer.setShowFastViewBars(true);
+		configurer.setTitle("Hummingbird");
 
 		IPreferenceStore prefs = PlatformUI.getPreferenceStore();
 		prefs.setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
-		prefs.setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, "LEFT");
+		prefs.setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, "TOP_RIGHT");
+		prefs.setValue(IWorkbenchPreferenceConstants.PERSPECTIVE_BAR_SIZE, "32");
 	}
 }

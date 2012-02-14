@@ -11,5 +11,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.hbird.rcpgui.hummingbirdbaseapp,
- org.hbird.rcpgui.hummingbirdbaseapp.componentlogger,
  org.hbird.rcpgui.hummingbirdbaseapp.perspectives
