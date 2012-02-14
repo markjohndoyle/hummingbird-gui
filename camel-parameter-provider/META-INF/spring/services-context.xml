@@ -8,7 +8,7 @@
 
 	<!--
 		Register the CamelParameterProviderServiceFactory class as a provider of the CamelParameterProviders 
-		to satisfy the service. Spring DM will pick this up and carry out the necessary steps.
+		which satisfy the service. Spring DM will pick this up and carry out the necessary steps.
 	-->
 	<osgi:service id="camelParameterProviderService"
 				  ref="camelParameterProviderServiceFactory"

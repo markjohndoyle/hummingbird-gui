@@ -8,36 +8,45 @@
 
 	<!-- 
 		Create a JMS endpoint for use by the camel providers in creating routes.
-		Camel OSGi will scan the spring context for beans so you don't have to worry about why this isn't injected anywhere.
-		I can sense your stress...stop it.
+		Camel OSGi will scan the spring context for beans.
 	 -->
-	<bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
-		<property name="connectionFactory">
-			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="tcp://localhost:61616" />
-			</bean>
-		</property>
+	<!-- Transport beans -->
+	<bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
 	</bean>
 
-	
-	
+	<bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+		<property name="maxConnections" value="8" />
+		<property name="maximumActive" value="500" />
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+	</bean>
+
+	<bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+		<property name="connectionFactory" ref="pooledConnectionFactory" />
+		<property name="transacted" value="false" />
+		<property name="concurrentConsumers" value="10" />
+	</bean>
+
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="configuration" ref="jmsConfig" />
+	</bean>
+
 	<!--
 		Create a camel parameter provider service factory bean for use by the services-context.xml 
 		(Spring DM).
 	-->
 	<bean id="camelParameterProviderServiceFactory"
 		  class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProviderServiceFactory">
-		  <property name="parameterSourceUri" value="jms:decodedTelemetryPayloads"></property>
+		  <property name="parameterSourceUri" value="activemq:parameterGroups"></property>
 	</bean>
-	
-		
 
 	<!--
 		The camel context used by OSGi camel services to host routes. 
 		The CamelParameterProviderServiceFactory is CamelContext aware so it will be injected with a reference to this.
 		All camel provider instances will share this context.
 	 -->
-	<camel:camelContext id="camelContextBean">
+	<camel:camelContext id="camelContextBean" >
+	
 	</camel:camelContext>
 
 </beans>

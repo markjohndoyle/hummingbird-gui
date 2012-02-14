@@ -54,9 +54,9 @@ import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 
 /**
  * A chart view that can track multiple parameters on the same chart in Real time (effectively).
- * 
+ *
  * @author Mark Doyle
- * 
+ *
  */
 public class ParameterChart extends ViewPart {
 
@@ -98,7 +98,7 @@ public class ParameterChart extends ViewPart {
 
 	/**
 	 * Instantiating a chart with parameters - not used yet.
-	 * 
+	 *
 	 * @param parameterNames
 	 * @param parameterSource
 	 */
@@ -155,7 +155,7 @@ public class ParameterChart extends ViewPart {
 
 	/**
 	 * Starts a specific parameters collector. Each parameter has a collector to provide data to the trace.
-	 * 
+	 *
 	 * @param parameterName
 	 */
 	private final void startCollector(final String parameterName) {
@@ -269,7 +269,7 @@ public class ParameterChart extends ViewPart {
 
 	/**
 	 * Create a random colour where the hue and saturation is random.
-	 * 
+	 *
 	 * @return
 	 */
 	private final java.awt.Color createRandomAwtColor() {

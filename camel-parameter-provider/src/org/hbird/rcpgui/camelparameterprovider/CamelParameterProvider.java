@@ -1,47 +1,80 @@
 package org.hbird.rcpgui.camelparameterprovider;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.hbird.rcpgui.parameterprovider.ParameterObserver;
+import org.hbird.core.commons.tmtc.Parameter;
+import org.hbird.core.commons.tmtc.ParameterGroup;
+import org.hbird.osgi.whiteboard.servicevisiting.Visitor;
+import org.hbird.osgi.whiteboard.servicevisiting.WhiteboardServiceTracker;
+import org.hbird.rcpgui.camelparameterprovider.interfaces.NewParameterListener;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
-import org.hbird.rcpgui.parameterprovider.model.GuiParameter;
-import org.hbird.transport.spacesystemmodel.parameters.Parameter;
-import org.hbird.transport.spacesystemmodel.tmtcgroups.ParameterGroup;
+import org.osgi.framework.BundleContext;
+import org.springframework.osgi.context.BundleContextAware;
 
 /**
  * Implements the {@link ParameterProvider} interface which is registered as a service using Spring DM.
  *
  * The Spring files are located in META-INF/spring as is the convention.
  *
+ * BundleContext aware allows Spring to inject a reference to the osgi context which is required by
+ * the whiteboard tracker. Using Spring allows to to avoid depending upon an OSGI util libs.
+ *
  * @author Mark Doyle
  *
  */
-public class CamelParameterProvider implements ParameterProvider {
+public class CamelParameterProvider implements ParameterProvider, BundleContextAware {
 
 	private String parameterSourceUri;
+
+	private final WhiteboardServiceTracker<NewParameterListener> newParameterListenerServiceWhiteboard;
 
 	private static final String PROVIDER_NAME = "Camel";
 	private final CamelContext camelContext;
 	private ParameterNameFilterer parameterNameFilter;
 
-	private List<ParameterObserver> observers;
 	private final String consumerServiceID;
+
+	private BundleContext osgiBundleContext;
 
 	public CamelParameterProvider(final CamelContext camelContext, final String bundleUID, final String parameterSourceUri) {
 		System.out.println("Constructing new camel provider for bundle " + bundleUID);
 		this.consumerServiceID = bundleUID;
 		this.parameterSourceUri = parameterSourceUri;
 		this.camelContext = camelContext;
+
+		this.newParameterListenerServiceWhiteboard = new WhiteboardServiceTracker<NewParameterListener>(osgiBundleContext, NewParameterListener.class);
+	}
+
+
+	@Override
+	public String getProviderName() {
+		return PROVIDER_NAME;
+	}
+
+
+	public void parameterIn(final ParameterGroup parametergroup) {
+		if (parametergroup == null) {
+			System.out.println("[WARN] - Received null parameter");
+			return;
+		}
+
+		// For every parameter received, create a visitor and send to all registered
+		// newParameterListener services, i.e, those on the "whiteboard".
+		for (final Parameter<?> parameter : parametergroup.getAllParameters().values()) {
+			Visitor<NewParameterListener> newParameterListenerVisitor = new Visitor<NewParameterListener>() {
+				@Override
+				public void visit(final NewParameterListener newParameterListener) {
+					newParameterListener.newParameter(parameter);
+				}
+			};
+			this.newParameterListenerServiceWhiteboard.accept(newParameterListenerVisitor);
+		}
 	}
 
 	/**
@@ -59,14 +92,6 @@ public class CamelParameterProvider implements ParameterProvider {
 			e.printStackTrace();
 		}
 
-	}
-
-	@Override
-	public void addObserver(final ParameterObserver po) {
-		if (observers == null) {
-			observers = new ArrayList<ParameterObserver>(1);
-		}
-		observers.add(po);
 	}
 
 	@Override
@@ -103,67 +128,6 @@ public class CamelParameterProvider implements ParameterProvider {
 	}
 
 	@Override
-	public String getProviderName() {
-		return PROVIDER_NAME;
-	}
-
-	/**
-	 * Notifies all parameter observers of the new parameter.
-	 *
-	 * @param parameter
-	 */
-	private void notifyObservers(final GuiParameter parameter) {
-		// System.out.println("Notifying " + observers.size() + " observers");
-		if (observers != null) {
-			for (final ParameterObserver po : observers) {
-				po.parameterRecieved(parameter);
-			}
-		}
-	}
-
-	/**
-	 * TODO Remove camel dependency.
-	 *
-	 * @param parameterMsg
-	 */
-//	public void parameterIn(final Message parameterMsg) {
-//		final Map<String, Object> headers = parameterMsg.getHeaders();
-//		final Object parameterValue = parameterMsg.getBody();
-//
-//		// Create basic parameter object
-//		final GuiParameter parameter = new GuiParameter();
-//		parameter.setValue(parameterValue);
-//		parameter.setParameterProperties(headers);
-//
-//		notifyObservers(parameter);
-//	}
-
-	public void parameterIn(final ParameterGroup payload) {
-//		final Object parameterValue = null;
-
-		for(Parameter<?> parameter : payload.getAllParameters().values()) {
-			final GuiParameter guiParameter = new GuiParameter();
-			Map<String, Object> props = new HashMap<String, Object>();
-			props.put("ParameterName", parameter.getName());
-			props.put("ParameterShortDescription", parameter.getShortDescription());
-			props.put("ParameterLongDescription", parameter.getLongDescription());
-
-			guiParameter.setValue(parameter.getValue());
-			guiParameter.setParameterProperties(props);
-			notifyObservers(guiParameter);
-		}
-
-//		final Map<String, Object> headers = parameterMsg.getHeaders();
-//		final Object parameterValue = parameterMsg.getBody();
-
-		// Create basic parameter object
-//		guiParameter.setValue(parameterValue);
-//		guiParameter.setParameterProperties(headers);
-
-//		notifyObservers(guiParameter);
-	}
-
-	@Override
 	public void removeAllParameterNameFilters() throws NoParameterNameFiltererSetException {
 		checkForFilter();
 		parameterNameFilter.removeAllParameterNameFilters();
@@ -181,6 +145,7 @@ public class CamelParameterProvider implements ParameterProvider {
 		boolean routeAlreadyPresent = false;
 		while (it.hasNext()) {
 			if (StringUtils.equals(it.next().getId(), consumerServiceID)) {
+				System.out.println("Route already exists for this client, using existing route.");
 				routeAlreadyPresent = true;
 				break;
 			}
@@ -220,7 +185,7 @@ public class CamelParameterProvider implements ParameterProvider {
 
 	/**
 	 * This specialised {@link RouteBuilder} configures a route that collects parameter messages from
-	 * processParamterSource through a default name filter to the instance of the enclosing class (
+	 * processParamterSource and pipes it through a default name filter to the instance of the enclosing class (
 	 * {@link CamelParameterProvider}).
 	 *
 	 *
@@ -252,6 +217,11 @@ public class CamelParameterProvider implements ParameterProvider {
 			//@formatter:on
 		}
 
+	}
+
+	@Override
+	public void setBundleContext(final BundleContext arg0) {
+		this.osgiBundleContext = arg0;
 	}
 
 }
