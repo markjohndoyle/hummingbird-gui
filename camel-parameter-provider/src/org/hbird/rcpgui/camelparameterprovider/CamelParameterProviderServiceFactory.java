@@ -2,7 +2,7 @@ package org.hbird.rcpgui.camelparameterprovider;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelContextAware;
-import org.hbird.rcpgui.parameterprovider.ParameterProvider;
+import org.hbird.rcpgui.parameterprovider.interfaces.ParameterProvider;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;

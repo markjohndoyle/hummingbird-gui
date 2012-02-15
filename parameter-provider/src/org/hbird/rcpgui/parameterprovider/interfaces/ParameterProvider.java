@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.parameterprovider;
+package org.hbird.rcpgui.parameterprovider.interfaces;
 
 import java.util.Set;
 
