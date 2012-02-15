@@ -4,5 +4,7 @@ Bundle-Name: Parameter-provider
 Bundle-SymbolicName: org.hbird.rcpgui.parameter-provider
 Bundle-Version: 0.0.1
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.hbird.rcpgui.parameterprovider;uses:="org.hbird.rcpgui.parameterprovider.model",
- org.hbird.rcpgui.parameterprovider.exceptions
+Export-Package: org.hbird.rcpgui.parameterprovider,
+ org.hbird.rcpgui.parameterprovider.exceptions,
+ org.hbird.rcpgui.parameterprovider.interfaces
+Import-Package: org.hbird.core.commons.tmtc

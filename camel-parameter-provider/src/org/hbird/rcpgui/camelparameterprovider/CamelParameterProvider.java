@@ -11,9 +11,9 @@ import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.core.commons.tmtc.ParameterGroup;
 import org.hbird.osgi.whiteboard.servicevisiting.Visitor;
 import org.hbird.osgi.whiteboard.servicevisiting.WhiteboardServiceTracker;
-import org.hbird.rcpgui.camelparameterprovider.interfaces.NewParameterListener;
 import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
+import org.hbird.rcpgui.parameterprovider.interfaces.NewParameterListener;
 import org.osgi.framework.BundleContext;
 import org.springframework.osgi.context.BundleContextAware;
 

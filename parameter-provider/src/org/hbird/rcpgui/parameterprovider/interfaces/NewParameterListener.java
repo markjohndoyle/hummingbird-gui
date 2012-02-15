@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.camelparameterprovider.interfaces;
+package org.hbird.rcpgui.parameterprovider.interfaces;
 
 import org.hbird.core.commons.tmtc.Parameter;
 
