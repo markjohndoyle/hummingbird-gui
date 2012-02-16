@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Telemetry-viewer-table
+Bundle-SymbolicName: org.hbird.rcp.telemetry-viewer-table; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: tvtable.Activator
+Bundle-Vendor: hbird.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
+ org.hbird.rcpgui.parameterprovider.interfaces
