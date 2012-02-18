@@ -1,4 +1,4 @@
-package org.hbird.rcp.tvtable.model;
+package org.hbird.rcpgui.tvtable.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -19,10 +19,11 @@ public class ParametersModel implements NewParameterListener {
 	// TODO move to configuration
 	private final int defaultCapacity = 500;
 
-	private final Queue<Parameter<?>> parameters = new ArrayBlockingQueue<Parameter<?>>(defaultCapacity);
-	private final List<Parameter<?>> test = new ArrayList<Parameter<?>>();
+	private final Queue<Parameter<?>> parameterQueue = new ArrayBlockingQueue<Parameter<?>>(defaultCapacity);
 
 	private volatile ServiceRegistration modelListenerServiceReg;
+
+	private List<Parameter<?>> parameters;
 
 	@SuppressWarnings("unused")
 	// private, only construct with BundleContext
@@ -48,18 +49,17 @@ public class ParametersModel implements NewParameterListener {
 
 	@Override
 	public void newParameter(final Parameter<?> newParameter) {
-		if (!parameters.offer(newParameter)) {
-			parameters.poll();
+		if (!parameterQueue.offer(newParameter)) {
+			parameterQueue.poll();
 		}
-		parameters.add(newParameter);
+		parameterQueue.add(newParameter);
+		parameters = new ArrayList<Parameter<?>>(parameterQueue);
+		propChangeSupport.firePropertyChange("parameters", null, parameters);
 	}
 
-	public Queue<Parameter<?>> getParameters() {
+
+	public List<Parameter<?>> getParameters() {
 		return parameters;
-	}
-
-	public List<Parameter<?>> getTest() {
-		return test;
 	}
 
 	public void addPropertyChangeListener(final PropertyChangeListener listener) {
@@ -77,5 +77,7 @@ public class ParametersModel implements NewParameterListener {
 	public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
 		this.propChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
+
+
 
 }

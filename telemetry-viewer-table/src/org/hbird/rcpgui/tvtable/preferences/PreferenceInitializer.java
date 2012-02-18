@@ -1,9 +1,9 @@
-package org.hbird.rcp.tvtable.preferences;
+package org.hbird.rcpgui.tvtable.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.hbird.rcpgui.tvtable.Activator;
 
-import tvtable.Activator;
 
 /**
  * Class used to initialize default preference values.

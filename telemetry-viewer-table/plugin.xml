@@ -3,111 +3,59 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.commands">
-      <category
-            name="Sample Category"
-            id="org.hbird.rcp.telemetry-viewer-table.commands.category">
-      </category>
-      <command
-            name="Sample Command"
-            categoryId="org.hbird.rcp.telemetry-viewer-table.commands.category"
-            id="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            commandId="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand"
-            class="org.hbird.rcp.tvtable.handlers.SampleHandler">
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            sequence="M1+6"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="Sample Menu"
-               mnemonic="M"
-               id="org.hbird.rcp.telemetry-viewer-table.menus.sampleMenu">
-            <command
-                  commandId="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand"
-                  mnemonic="S"
-                  id="org.hbird.rcp.telemetry-viewer-table.menus.sampleCommand">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="org.hbird.rcp.telemetry-viewer-table.toolbars.sampleToolbar">
-            <command
-                  commandId="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  tooltip="Say hello world"
-                  id="org.hbird.rcp.telemetry-viewer-table.toolbars.sampleCommand">
-            </command>
-         </toolbar>
-      </menuContribution>
-   </extension>
-   <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
-            id="org.hbird.rcp.telemetry-viewer-table.contribution1">
+            id="org.hbird.rcpgui.telemetry-viewer-table.contribution1">
          <menu
                label="Telemetry"
                path="additions"
-               id="org.hbird.rcp.telemetry-viewer-table.menu1">
+               id="org.hbird.rcpgui.telemetry-viewer-table.menu1">
             <separator
                   name="group1">
             </separator>
          </menu>
          <action
                label="Start"
-               class="org.hbird.rcp.tvtable.popup.actions.NewAction"
-               menubarPath="org.hbird.rcp.telemetry-viewer-table.menu1/group1"
+               class="org.hbird.rcpgui.tvtable.popup.actions.NewAction"
+               menubarPath="org.hbird.rcpgui.telemetry-viewer-table.menu1/group1"
                enablesFor="1"
-               id="org.hbird.rcp.telemetry-viewer-table.newAction">
+               id="org.hbird.rcpgui.telemetry-viewer-table.newAction">
          </action>
       </objectContribution>
    </extension>
+   
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             name="Sample Preferences"
-            class="org.hbird.rcp.tvtable.preferences.Telemetry viewer table"
-            id="org.hbird.rcp.tvtable.preferences.Telemetry viewer table">
+            class="org.hbird.rcpgui.tvtable.preferences.TelemetryViewerTable"
+            id="org.hbird.rcpgui.tvtable.preferences.Telemetry viewer table">
       </page>
    </extension>
+   
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="org.hbird.rcp.tvtable.preferences.PreferenceInitializer">
+            class="org.hbird.rcpgui.tvtable.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   
    <extension
          point="org.eclipse.ui.views">
       <category
             name="Telemetry visualisation"
-            id="org.hbird.rcp.telemetry-viewer-table">
+            id="org.hbird.rcpgui.telemetry-viewer-table">
       </category>
       <view
             name="Telemetry"
             icon="icons/sample.gif"
-            category="org.hbird.rcp.telemetry-viewer-table"
-            class="org.hbird.rcp.tvtable.views.TelemetryTable"
-            id="org.hbird.rcp.tvtable.views.TelemetryTable">
+            category="org.hbird.rcpgui.telemetry-viewer-table"
+            class="org.eclipse.springframework.util.SpringExtensionFactory"
+            id="org.hbird.rcpgui.tvtable.views.TelemetryTable">
       </view>
    </extension>
+   
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
@@ -116,7 +64,7 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="org.hbird.rcp.tvtable.views.TelemetryTable">
+               id="org.hbird.rcpgui.tvtable.views.TelemetryTable">
          </view>
       </perspectiveExtension>
    </extension>

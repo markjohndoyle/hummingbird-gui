@@ -1,4 +1,4 @@
-package org.hbird.rcp.tvtable.preferences;
+package org.hbird.rcpgui.tvtable.preferences;
 
 /**
  * Constant definitions for plug-in preferences

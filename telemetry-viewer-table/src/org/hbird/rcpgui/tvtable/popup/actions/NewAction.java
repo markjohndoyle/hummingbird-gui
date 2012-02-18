@@ -1,4 +1,4 @@
-package org.hbird.rcp.tvtable.popup.actions;
+package org.hbird.rcpgui.tvtable.popup.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;

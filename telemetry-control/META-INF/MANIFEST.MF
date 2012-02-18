@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Telemetry-control
+Bundle-SymbolicName: org.hbird.rcpgui.telemetry-control;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.hbird.rcpgui.tmcontrol.Activator
+Bundle-Vendor: hbird.ogr
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.springframework.util;bundle-version="1.0.4"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.hbird.rcpgui.parameterprovider.interfaces

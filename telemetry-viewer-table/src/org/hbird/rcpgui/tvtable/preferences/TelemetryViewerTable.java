@@ -1,4 +1,4 @@
-package org.hbird.rcp.tvtable.preferences;
+package org.hbird.rcpgui.tvtable.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
@@ -7,8 +7,8 @@ import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.hbird.rcpgui.tvtable.Activator;
 
-import tvtable.Activator;
 
 /**
  * This class represents a preference page that is contributed to the Preferences dialog. By subclassing

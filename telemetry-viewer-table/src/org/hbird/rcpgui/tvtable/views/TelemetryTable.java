@@ -1,34 +1,41 @@
-package org.hbird.rcp.tvtable.views;
+package org.hbird.rcpgui.tvtable.views;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.hbird.rcp.tvtable.model.ParametersModel;
+import org.hbird.core.commons.tmtc.Parameter;
+import org.hbird.rcpgui.tvtable.Activator;
+import org.hbird.rcpgui.tvtable.model.ParametersModel;
 
-import tvtable.Activator;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view shows data obtained from the model. The
@@ -42,11 +49,12 @@ import tvtable.Activator;
  */
 
 public class TelemetryTable extends ViewPart {
+	private DataBindingContext m_bindingContext;
 
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "org.hbird.rcp.tvtable.views.TelemetryTable";
+	public static final String ID = "org.hbird.rcpgui.tvtable.views.TelemetryTable";
 
 	private final ParametersModel model = new ParametersModel(Activator.getContext());
 
@@ -67,10 +75,20 @@ public class TelemetryTable extends ViewPart {
 	@Override
 	public void createPartControl(final Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
+		Table table = viewer.getTable();
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(viewer, SWT.NONE);
+		TableColumn tblclmnName = tableViewerColumn.getColumn();
+		tblclmnName.setWidth(100);
+		tblclmnName.setText("Name");
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(viewer, SWT.NONE);
+		TableColumn tblclmnValue = tableViewerColumn_1.getColumn();
+		tblclmnValue.setWidth(100);
+		tblclmnValue.setText("Value");
 		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.hbird.rcp.telemetry-viewer-table.viewer");
@@ -78,6 +96,7 @@ public class TelemetryTable extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		m_bindingContext = initDataBindings();
 	}
 
 	private void hookContextMenu() {
@@ -169,44 +188,21 @@ public class TelemetryTable extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 
-	/*
-	 * The content provider class is responsible for providing objects to the view. It can wrap existing objects in
-	 * adapters or simply return objects as-is. These objects may be sensitive to the current input of the view, or
-	 * ignore it and always show the same content (like Task List, for example).
-	 */
-
-	class ViewContentProvider implements IStructuredContentProvider {
-		@Override
-		public void inputChanged(final Viewer v, final Object oldInput, final Object newInput) {
-		}
-
-		@Override
-		public void dispose() {
-		}
-
-		@Override
-		public Object[] getElements(final Object parent) {
-			return new String[] { "One", "Two", "Three" };
-		}
-	}
-
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		@Override
-		public String getColumnText(final Object obj, final int index) {
-			return getText(obj);
-		}
-
-		@Override
-		public Image getColumnImage(final Object obj, final int index) {
-			return getImage(obj);
-		}
-
-		@Override
-		public Image getImage(final Object obj) {
-			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
-		}
-	}
-
 	class NameSorter extends ViewerSorter {
 	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		viewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value"});
+		viewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
+		viewer.setInput(modelParametersObserveList);
+		//
+		return bindingContext;
+	}
 }
+
