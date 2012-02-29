@@ -5,19 +5,17 @@ Bundle-SymbolicName: org.hbird.rcpgui.camel-parameter-provider
 Bundle-Version: 0.0.1
 Bundle-Vendor: Hummingbird org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.apache.commons.lang;bundle-version="2.5.0"
-Import-Package: org.apache.activemq;version="5.3.2",
- org.apache.activemq.camel.component;version="5.3.2",
- org.apache.activemq.pool;version="5.3.2",
- org.apache.camel;version="[2.7.5,2.8.2]",
- org.apache.camel.builder;version="[2.7.5,2.8.2]",
- org.apache.camel.component.jms;version="[2.7.5,2.8.2]",
- org.apache.camel.model;version="[2.7.5,2.8.2]",
- org.apache.commons.logging,
+Import-Package: org.apache.activemq;version="5.5.1",
+ org.apache.activemq.camel;version="5.5.1",
+ org.apache.activemq.pool;version="5.5.1",
+ org.apache.camel;version="2.9.0",
+ org.apache.camel.builder;version="2.9.0",
+ org.apache.camel.component.jms;version="2.9.0",
+ org.apache.camel.model;version="2.9.0",
+ org.apache.commons.lang;version="2.6.0",
  org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
  org.hbird.osgi.whiteboard.servicevisiting,
  org.hbird.rcpgui.parameterprovider.exceptions,
  org.hbird.rcpgui.parameterprovider.interfaces,
  org.osgi.framework;version="1.5.0",
- org.springframework.osgi.context;version="1.2.1",
- org.springframework.osgi.service.exporter.support;version="1.2.1"
+ org.springframework.osgi.context;version="1.2.1"
