@@ -7,6 +7,7 @@ Bundle-Vendor: Hummingbird org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.activemq;version="5.5.1",
  org.apache.activemq.camel;version="5.5.1",
+ org.apache.activemq.camel.component;version="5.5.1",
  org.apache.activemq.pool;version="5.5.1",
  org.apache.camel;version="2.9.0",
  org.apache.camel.builder;version="2.9.0",

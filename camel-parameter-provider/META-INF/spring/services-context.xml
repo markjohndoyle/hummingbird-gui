@@ -12,7 +12,7 @@
 	-->
 	<osgi:service id="camelParameterProviderService"
 				  ref="camelParameterProviderServiceFactory"
-				  interface="org.hbird.rcpgui.parameterprovider.ParameterProvider">
+				  interface="org.hbird.rcpgui.parameterprovider.interfaces.ParameterProvider">
 	</osgi:service>
 
 </beans>
