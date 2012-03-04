@@ -84,6 +84,11 @@ public class TelemetryTable extends ViewPart {
 		TableColumn tblclmnValue = tableViewerColumn_1.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(viewer, SWT.NONE);
+		TableColumn tblclmnReceived = tableViewerColumn_2.getColumn();
+		tblclmnReceived.setWidth(100);
+		tblclmnReceived.setText("Received");
 		viewer.setSorter(new NameSorter());
 
 		// Create the help context id for the viewer's control
@@ -190,10 +195,9 @@ public class TelemetryTable extends ViewPart {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		viewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value"});
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value", "receivedTime"});
 		viewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		viewer.setContentProvider(listContentProvider);
 		//
 		IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
 		viewer.setInput(modelParametersObserveList);
