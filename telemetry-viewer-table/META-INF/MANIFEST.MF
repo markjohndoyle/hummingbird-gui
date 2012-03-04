@@ -18,4 +18,4 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
- org.hbird.rcpgui.parameterprovider.interfaces
+ org.hbird.rcpgui.parameterlistener.interfaces

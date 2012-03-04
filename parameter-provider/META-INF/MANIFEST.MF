@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Parameter-provider
-Bundle-SymbolicName: org.hbird.rcpgui.parameter-provider
+Bundle-Name: Parameter listener
+Bundle-SymbolicName: org.hbird.rcpgui.parameter-listener
 Bundle-Version: 0.0.1
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.hbird.rcpgui.parameterprovider.exceptions,
- org.hbird.rcpgui.parameterprovider.interfaces
+Export-Package: org.hbird.rcpgui.parameterlistener.interfaces
 Import-Package: org.hbird.core.commons.tmtc
+Bundle-Vendor: hbird

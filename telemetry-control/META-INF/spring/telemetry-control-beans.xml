@@ -10,8 +10,8 @@
 	
 	
 	<osgi:list id="parameterProviderServices"
-			   interface="org.hbird.rcpgui.parameterprovider.interfaces.ParameterProvider"
-			   cardinality="0..N">
+			   interface="org.hbird.rcpgui.parameterlistener.interfaces.ParameterProvider"
+			   cardinality="1..N">
 	</osgi:list>
 	
 	<!-- the model containing references to all parameter provider services -->
@@ -21,6 +21,8 @@
 			  
 	<bean id="org.hbird.rcpgui.telemetry-control.tmcontrol-view" 
 		  class="org.hbird.rcpgui.tmcontrol.views.TelemetryControlView" 
-		  scope="prototype"/>
+		  scope="prototype">
+		  <property name="model" ref="paramProviderModel"></property>
+	</bean>
 	
 </beans>

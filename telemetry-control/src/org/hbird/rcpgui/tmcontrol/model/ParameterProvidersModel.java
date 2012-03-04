@@ -17,6 +17,7 @@ public class ParameterProvidersModel {
 
 	public void setParameterProviderServices(final List<ServiceReference> parameterProviderServices) {
 		this.parameterProviderServices = parameterProviderServices;
+		System.out.println("BLAH - " + parameterProviderServices.size());
 	}
 
 }

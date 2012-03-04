@@ -4,16 +4,74 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            id="org.hbird.rcpgui.telemetry-control.telemetrycontrol"
+            id="org.hbird.rcpgui.telemetrycontrol.telemetrycontrol"
             name="Telemetry control">
       </category>
       <view
-            category="org.hbird.rcpgui.telemetry-control.telemetrycontrol"
+            category="org.hbird.rcpgui.telemetrycontrol.telemetrycontrol"
             class="org.eclipse.springframework.util.SpringExtensionFactory"
-            id="org.hbird.rcpgui.telemetry-control.tmcontrol-view"
+            id="org.hbird.rcpgui.telemetrycontrol.tmcontrol-view"
             name="Telemetry control"
             restorable="true">
       </view>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.hbird.rcpgui.telemetrycontrol.commands.tmcontrol"
+            name="Telemetry control">
+      </category>
+      <command
+            categoryId="org.hbird.rcpgui.telemetrycontrol.commands.tmcontrol"
+            id="org.hbird.rcpgui.telemetrycontrol.commands.startTelemetry"
+            name="Start Telemetry">
+      </command>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.hbird.rcpgui.telemetrycontrol.handlers.StartTelemetry"
+            commandId="org.hbird.rcpgui.telemetrycontrol.commands.startTelemetry">
+      </handler>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.hbird.rcpgui.telemetrycontrol.commands.startTelemetry"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+6">
+      </key>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="org.hbird.rcpgui.telemetrycontrol.menus.adminMenu"
+               label="Administration"
+               mnemonic="A">
+            <command
+                  commandId="org.hbird.rcpgui.telemetrycontrol.commands.startTelemetry"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.hbird.rcpgui.telemetrycontrol.toolbars.sampleToolbar">
+            <command
+                  commandId="org.hbird.rcpgui.telemetrycontrol.commands.startTelemetry"
+                  icon="icons/sample.gif"
+                  tooltip="Say hello world">
+            </command>
+         </toolbar>
+      </menuContribution>
    </extension>
 
 </plugin>

@@ -30,23 +30,21 @@
 	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
 		<property name="configuration" ref="jmsConfig" />
 	</bean>
-
-	<!--
-		Create a camel parameter provider service factory bean for use by the services-context.xml 
-		(Spring DM).
-	-->
-	<bean id="camelParameterProviderServiceFactory"
-		  class="org.hbird.rcpgui.camelparameterprovider.CamelParameterProviderServiceFactory">
-		  <property name="parameterSourceUri" value="activemq:parameterGroups"></property>
-	</bean>
-
-	<!--
-		The camel context used by OSGi camel services to host routes. 
-		The CamelParameterProviderServiceFactory is CamelContext aware so it will be injected with a reference to this.
-		All camel provider instances will share this context.
-	 -->
-	<camel:camelContext id="camelContextBean" >
 	
+	<osgi:list id="newParameterListenerServiceList"
+			   interface="org.hbird.rcpgui.parameterlistener.interfaces.NewParameterListener"
+			   cardinality="0..N">
+	</osgi:list>
+	
+	<bean id="parameterDistributer" class="org.hbird.rcpgui.camelparameterprovider.ParameterDistributer">
+		<property name="newParameterListenerServices" ref="newParameterListenerServiceList"></property>
+	</bean>
+	
+	<camel:camelContext>
+		<camel:route id="liveTmIn">
+			<camel:from uri="activemq:parameterGroups"></camel:from>
+			<camel:to uri="parameterDistributer"></camel:to>
+		</camel:route>
 	</camel:camelContext>
 
 </beans>
