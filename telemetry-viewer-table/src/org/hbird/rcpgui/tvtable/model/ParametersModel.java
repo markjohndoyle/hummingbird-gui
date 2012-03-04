@@ -48,7 +48,7 @@ public class ParametersModel implements NewParameterListener {
 	}
 
 	@Override
-	public void newParameter(final Parameter<?> newParameter) {
+	public synchronized void newParameter(final Parameter<?> newParameter) {
 		if (!parameterQueue.offer(newParameter)) {
 			parameterQueue.poll();
 		}
