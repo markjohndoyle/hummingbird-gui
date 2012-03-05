@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
  com.ibm.icu,
- org.eclipse.springframework.util;bundle-version="1.0.4"
+ org.eclipse.springframework.util;bundle-version="1.0.4",
+ joda-time;bundle-version="2.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",

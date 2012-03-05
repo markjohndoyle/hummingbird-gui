@@ -13,16 +13,16 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
@@ -35,6 +35,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.tvtable.Activator;
 import org.hbird.rcpgui.tvtable.model.ParametersModel;
+import org.joda.time.format.ISODateTimeFormat;
 
 
 /**
@@ -75,21 +76,35 @@ public class TelemetryTable extends ViewPart {
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(viewer, SWT.NONE);
-		TableColumn tblclmnName = tableViewerColumn.getColumn();
+		TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
+		TableColumn tblclmnName = tableViewerColumnName.getColumn();
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(viewer, SWT.NONE);
-		TableColumn tblclmnValue = tableViewerColumn_1.getColumn();
+		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
+		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(viewer, SWT.NONE);
-		TableColumn tblclmnReceived = tableViewerColumn_2.getColumn();
+		TableViewerColumn tableViewerColumnReceived = new TableViewerColumn(viewer, SWT.NONE);
+
+		tableViewerColumnReceived.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public Image getImage(final Object element) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			@Override
+			public String getText(final Object element) {
+				System.out.println("Getting text");
+				long timstamp = (Long) element;
+				return ISODateTimeFormat.dateTime().print(timstamp);
+			}
+		});
+
+		TableColumn tblclmnReceived = tableViewerColumnReceived.getColumn();
 		tblclmnReceived.setWidth(100);
 		tblclmnReceived.setText("Received");
-		viewer.setSorter(new NameSorter());
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.hbird.rcp.telemetry-viewer-table.viewer");
@@ -189,14 +204,12 @@ public class TelemetryTable extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 
-	class NameSorter extends ViewerSorter {
-	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value", "receivedTime"});
-		viewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
 		viewer.setContentProvider(listContentProvider);
 		//
 		IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
