@@ -10,11 +10,15 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -37,6 +41,14 @@ import org.joda.time.format.ISODateTimeFormat;
  *
  */
 public class TelemetryTable extends ViewPart {
+	private static class Sorter extends ViewerSorter {
+		@Override
+		public int compare(final Viewer viewer, final Object e1, final Object e2) {
+			Object item1 = e1;
+			Object item2 = e2;
+			return 0;
+		}
+	}
 
 	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
@@ -49,6 +61,8 @@ public class TelemetryTable extends ViewPart {
 	private final ParametersModel model = new ParametersModel(Activator.getContext());
 
 	private TableViewer viewer;
+
+	private ParameterComparator comparator;
 
 	/**
 	 * The constructor.
@@ -67,6 +81,7 @@ public class TelemetryTable extends ViewPart {
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		CLabel lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
+		lblTmServiceStatus.setForeground(SWTResourceManager.getColor(0, 153, 255));
 		lblTmServiceStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lblTmServiceStatus.setAlignment(SWT.CENTER);
 		lblTmServiceStatus.setBounds(0, 0, 61, 21);
@@ -77,17 +92,21 @@ public class TelemetryTable extends ViewPart {
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 		viewer = new TableViewer(scrolledComposite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		comparator = new ParameterComparator();
+		viewer.setComparator(comparator);
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
 		TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnName = tableViewerColumnName.getColumn();
+		tblclmnName.addSelectionListener(getSelectionAdapter(tblclmnName, 0));
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
 		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+		tblclmnValue.addSelectionListener(getSelectionAdapter(tblclmnValue, 1));
 		tblclmnValue.setMoveable(true);
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
@@ -109,6 +128,7 @@ public class TelemetryTable extends ViewPart {
 		});
 
 		final TableColumn tblclmnReceived = tableViewerColumnReceived.getColumn();
+		tblclmnReceived.addSelectionListener(getSelectionAdapter(tblclmnReceived, 2));
 		tblclmnReceived.setMoveable(true);
 		tblclmnReceived.setWidth(100);
 		tblclmnReceived.setText("Received");
@@ -147,9 +167,25 @@ public class TelemetryTable extends ViewPart {
 			}
 		});
 
+		comparator.setColumn(2);
+
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.hbird.rcp.telemetry-viewer-table.viewer");
 		m_bindingContext = initDataBindings();
+	}
+
+	private SelectionAdapter getSelectionAdapter(final TableColumn column, final int index) {
+		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				comparator.setColumn(index);
+				int dir = comparator.getDirection();
+				viewer.getTable().setSortDirection(dir);
+				viewer.getTable().setSortColumn(column);
+				viewer.refresh();
+			}
+		};
+		return selectionAdapter;
 	}
 
 	/**
