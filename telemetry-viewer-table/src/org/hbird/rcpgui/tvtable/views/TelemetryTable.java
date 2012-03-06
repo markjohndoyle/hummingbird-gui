@@ -6,37 +6,30 @@ import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.tvtable.Activator;
 import org.hbird.rcpgui.tvtable.model.ParametersModel;
 import org.joda.time.format.ISODateTimeFormat;
-
 
 /**
  *
@@ -56,9 +49,6 @@ public class TelemetryTable extends ViewPart {
 	private final ParametersModel model = new ParametersModel(Activator.getContext());
 
 	private TableViewer viewer;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
 
 	/**
 	 * The constructor.
@@ -71,18 +61,34 @@ public class TelemetryTable extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		Table table = viewer.getTable();
-		table.setLinesVisible(true);
+		parent.setLayout(new GridLayout(1, false));
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+		CLabel lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
+		lblTmServiceStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+		lblTmServiceStatus.setAlignment(SWT.CENTER);
+		lblTmServiceStatus.setBounds(0, 0, 61, 21);
+		lblTmServiceStatus.setText("Live");
+
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		viewer = new TableViewer(scrolledComposite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
-		TableColumn tblclmnName = tableViewerColumnName.getColumn();
+		final TableColumn tblclmnName = tableViewerColumnName.getColumn();
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
 		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
-		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+		final TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+		tblclmnValue.setMoveable(true);
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
 
@@ -91,9 +97,9 @@ public class TelemetryTable extends ViewPart {
 		tableViewerColumnReceived.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public Image getImage(final Object element) {
-				// TODO Auto-generated method stub
 				return null;
 			}
+
 			@Override
 			public String getText(final Object element) {
 				System.out.println("Getting text");
@@ -102,98 +108,48 @@ public class TelemetryTable extends ViewPart {
 			}
 		});
 
-		TableColumn tblclmnReceived = tableViewerColumnReceived.getColumn();
+		final TableColumn tblclmnReceived = tableViewerColumnReceived.getColumn();
+		tblclmnReceived.setMoveable(true);
 		tblclmnReceived.setWidth(100);
 		tblclmnReceived.setText("Received");
+		scrolledComposite.setContent(table);
+		scrolledComposite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+		scrolledComposite.addControlListener(new ControlAdapter() {
+			@Override
+			public void controlResized(final ControlEvent e) {
+				Rectangle area = scrolledComposite.getClientArea();
+				Point preferredSize = table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				int width = area.width - 2 * table.getBorderWidth();
+				if (preferredSize.y > area.height + table.getHeaderHeight()) {
+					// Subtract the scrollbar width from the total column width if a vertical scrollbar
+					// will be required
+					Point vBarSize = table.getVerticalBar().getSize();
+					width -= vBarSize.x;
+				}
+				Point oldSize = table.getSize();
+				if (oldSize.x > area.width) {
+					// table is getting smaller so make the columns smaller first and then resize the table
+					// to match the client area width
+					tblclmnName.setWidth(width / 3);
+					tblclmnValue.setWidth(width / 3);
+					tblclmnReceived.setWidth(width - tblclmnName.getWidth() - tblclmnValue.getWidth());
+					table.setSize(area.width, area.height);
+				}
+				else {
+					// table is getting bigger so make the table bigger first and then make the columns wider
+					// to match the client area width
+					table.setSize(area.width, area.height);
+					tblclmnName.setWidth(width / 3);
+					tblclmnValue.setWidth(width / 3);
+					tblclmnReceived.setWidth(width - tblclmnName.getWidth() - tblclmnValue.getWidth());
+				}
+			}
+		});
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.hbird.rcp.telemetry-viewer-table.viewer");
-		makeActions();
-		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
 		m_bindingContext = initDataBindings();
-	}
-
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			@Override
-			public void menuAboutToShow(final IMenuManager manager) {
-				TelemetryTable.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
-	}
-
-	private void fillLocalPullDown(final IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
-	}
-
-	private void fillContextMenu(final IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-
-	private void fillLocalToolBar(final IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-	}
-
-	private void makeActions() {
-		action1 = new Action() {
-			@Override
-			public void run() {
-				showMessage("Action 1 executed");
-			}
-		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-
-		action2 = new Action() {
-			@Override
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			@Override
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection) selection).getFirstElement();
-				showMessage("Double-click detected on " + obj.toString());
-			}
-		};
-	}
-
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
-			public void doubleClick(final DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
-	}
-
-	private void showMessage(final String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Telemetry", message);
 	}
 
 	/**
@@ -208,7 +164,8 @@ public class TelemetryTable extends ViewPart {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value", "receivedTime"});
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[] { "name", "value",
+				"receivedTime" });
 		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
 		viewer.setContentProvider(listContentProvider);
 		//
@@ -218,4 +175,3 @@ public class TelemetryTable extends ViewPart {
 		return bindingContext;
 	}
 }
-
