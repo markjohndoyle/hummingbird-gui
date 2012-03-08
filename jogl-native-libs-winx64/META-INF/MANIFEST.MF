@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Jogl-native-libs-winx64
-Bundle-SymbolicName: org.hbird.rcpgui.jogl-native-libs-winx64
+Bundle-Name: Jogl-1.1-native-libs-winx64
+Bundle-SymbolicName: org.hbird.rcpgui.jogl-1.1-native-libs-winx64
 Bundle-Version: 1.0.0
 Bundle-Vendor: Hummingbird org
 Fragment-Host: org.hbird.rcpgui.worldwind-globe;bundle-version="1.0.0"

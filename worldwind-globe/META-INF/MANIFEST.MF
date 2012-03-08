@@ -5,8 +5,7 @@ Bundle-SymbolicName: org.hbird.rcpgui.worldwind-globe;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator
 Bundle-Vendor: Hummingbird org
-Require-Bundle: org.hbird.rcpgui.telemetry-provision;bundle-version="0.0.1",
- org.eclipse.ui,
+Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
@@ -20,3 +19,5 @@ Bundle-ClassPath: libs/gluegen-rt.jar,
  libs/worldwind.jar,
  libs/jogl.jar,
  .
+Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
+ org.hbird.rcpgui.parameterlistener.interfaces
