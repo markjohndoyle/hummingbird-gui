@@ -17,28 +17,6 @@
       </category>
    </extension>
       <extension
-            point="org.eclipse.ui.perspectiveExtensions">
-         <perspectiveExtension
-               targetID="org.eclipse.jdt.ui.JavaPerspective">
-            <view
-                  id="org.hbird.rcpgui.worldwindglobe.views.MainGlobe"
-                  minimized="false"
-                  ratio="1"
-                  relationship="right"
-                  visible="true">
-            </view>
-            <view
-                  closeable="true"
-                  id="org.hbird.rcpgui.telemetry.views.telemetryView"
-                  minimized="false"
-                  moveable="true"
-                  ratio="0.5"
-                  relationship="left"
-                  visible="true">
-            </view>
-         </perspectiveExtension>
-      </extension>
-      <extension
             point="org.eclipse.ui.commands">
          <category
                id="org.hbird.rcpgui.worldwind-globe.category.tracking"
@@ -54,17 +32,6 @@
                id="org.hbird.rcpgui.worldwind-globe.commands.stopLiveTracking"
                name="Stop live tracking">
          </command>
-      </extension>
-      <extension
-            point="org.eclipse.ui.handlers">
-         <handler
-               class="org.hbird.rcpgui.worldwindglobe.handlers.StartLiveTracking"
-               commandId="org.hbird.rcpgui.worldwind-globe.commands.startLiveTracking">
-         </handler>
-         <handler
-               class="org.hbird.rcpgui.worldwindglobe.handlers.StopLiveTracking"
-               commandId="org.hbird.rcpgui.worldwind-globe.commands.stopLiveTracking">
-         </handler>
       </extension>
       <extension
             point="org.eclipse.ui.menus">
@@ -83,5 +50,19 @@
                   tooltip="Stop live tracking">
             </command>
          </menuContribution>
+      </extension>
+      <extension
+            point="org.eclipse.ui.preferencePages">
+         <page
+               class="org.hbird.rcpgui.worldwindglobe.preferences.GlobePreferences"
+               id="org.hbird.rcpgui.worldwindglobe.preferences.GlobePreferences"
+               name="3D globe">
+         </page>
+      </extension>
+      <extension
+            point="org.eclipse.core.runtime.preferences">
+         <initializer
+               class="org.hbird.rcpgui.worldwindglobe.preferences.PreferenceInitializer">
+         </initializer>
       </extension>
 </plugin>

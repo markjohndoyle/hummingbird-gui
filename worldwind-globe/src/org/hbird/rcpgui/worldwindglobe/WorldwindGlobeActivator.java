@@ -1,9 +1,7 @@
 package org.hbird.rcpgui.worldwindglobe;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.hbird.rcpgui.parameterprovider.ParameterProvider;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -16,8 +14,6 @@ public class WorldwindGlobeActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static WorldwindGlobeActivator plugin;
 
-	private static ServiceTracker parameterProviderServiceTracker;
-
 	/**
 	 * The constructor
 	 */
@@ -26,23 +22,18 @@ public class WorldwindGlobeActivator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-
-		parameterProviderServiceTracker = new ServiceTracker(context, ParameterProvider.class.getName(), null);
-		parameterProviderServiceTracker.open();
-		System.out
-				.println("Bundle activation stage (globe): ParameterProvider services tracking count = " + parameterProviderServiceTracker.getTrackingCount());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	@Override
@@ -53,15 +44,11 @@ public class WorldwindGlobeActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static WorldwindGlobeActivator getDefault() {
 		return plugin;
-	}
-
-	public static ServiceTracker getParameterProviderServiceTracker() {
-		return WorldwindGlobeActivator.parameterProviderServiceTracker;
 	}
 
 }

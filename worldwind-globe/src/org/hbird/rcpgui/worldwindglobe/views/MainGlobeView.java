@@ -15,17 +15,12 @@ import gov.nasa.worldwind.render.WWIcon;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -34,20 +29,17 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
-import org.hbird.rcpgui.parameterprovider.ParameterProvider;
-import org.hbird.rcpgui.parameterprovider.exceptions.NoParameterNameFiltererSetException;
-import org.hbird.rcpgui.telemetryprovision.model.ParameterSource;
-import org.hbird.rcpgui.telemetryprovision.model.TelemetryParameter;
 import org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator;
+import org.hbird.rcpgui.worldwindglobe.model.ParameterModel;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
+import org.hbird.rcpgui.worldwindglobe.preferences.PreferenceConstants;
 
-public class MainGlobeView extends ViewPart implements PropertyChangeListener {
+public class MainGlobeView extends ViewPart {
 	private DataBindingContext m_bindingContext;
 
 	public static final String ID = "org.hbird.rcpgui.worldwindglobe.views.MainGlobe";
 	final static WorldWindowGLCanvas worldCanvas = new WorldWindowGLCanvas();
-	private final ParameterSource telemetryIn;
 	private WWIcon satelliteIcon;
 	private final List<Position> trailPositions = new ArrayList<Position>();
 	private Polyline trailLine;
@@ -55,7 +47,9 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
 	private Label lblLatitude;
 
-	private List<ParameterProvider> parameterProviderServices;
+	private ParameterModel model;
+	private String latParamName;
+	private String lonParamName;
 
 	// Initialize the default WW layers
 	static {
@@ -69,28 +63,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	}
 
 	public MainGlobeView() {
-
-		final Object[] serviceObjects = WorldwindGlobeActivator.getParameterProviderServiceTracker().getServices();
-		if (serviceObjects.length > 0) {
-			this.parameterProviderServices = new ArrayList<ParameterProvider>(serviceObjects.length);
-			for (final Object o : serviceObjects) {
-				parameterProviderServices.add((ParameterProvider) o);
-			}
-		}
-
-		this.telemetryIn = new ParameterSource(parameterProviderServices.get(0));
-
-		Set<String> parameterNameFilterSet = new HashSet<String>();
-		parameterNameFilterSet.add("GPS_Longitude_Minutes_decimals");
-		parameterNameFilterSet.add("GPS_Latitude_Minutes_decimals");
-		parameterNameFilterSet.add("GPS_Altitude");
-		try {
-			telemetryIn.addNamesFilter(parameterNameFilterSet);
-		}
-		catch (NoParameterNameFiltererSetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -120,7 +92,7 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 		lblLatitude = new Label(composite, SWT.NONE);
 		lblLatitude.setText("false");
 
-		initBindingToTmSource();
+		setPreferencesListener();
 
 		loadSat();
 
@@ -129,12 +101,18 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 
 	}
 
-	public ParameterSource getTelemetryIn() {
-		return telemetryIn;
-	}
-
-	private final void initBindingToTmSource() {
-		this.telemetryIn.addPropertyChangeListener("liveParameterList", this);
+	private void setPreferencesListener() {
+		WorldwindGlobeActivator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(final PropertyChangeEvent event) {
+				if (event.getProperty() == PreferenceConstants.LAT_TM_PARAMETER) {
+					latParamName = event.getNewValue().toString();
+				}
+				else if (event.getProperty() == PreferenceConstants.LON_TM_PARAMETER) {
+					lonParamName = event.getNewValue().toString();
+				}
+			}
+		});
 	}
 
 	private void loadGroundStations() {
@@ -182,27 +160,6 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	}
 
 	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		List<TelemetryParameter> newTmList = (List<TelemetryParameter>) evt.getNewValue();
-		Angle lon = null;
-		Angle lat = null;
-		Double altitude = null;
-
-		for (TelemetryParameter param : newTmList) {
-			if (param.getName().equals("GPS_Longitude_Minutes_decimals")) {
-				lon = Angle.fromDegrees(Double.parseDouble(param.getValue()));
-			}
-			else if (param.getName().equals("GPS_Latitude_Minutes_decimals")) {
-				lat = Angle.fromDegrees(Double.parseDouble(param.getValue()));
-			}
-			else if (param.getName().equals(("GPS_Altitude"))) {
-				altitude = Double.parseDouble(param.getValue());
-			}
-		}
-		moveSatellite(lat, lon, altitude);
-	}
-
-	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 	}
@@ -210,10 +167,11 @@ public class MainGlobeView extends ViewPart implements PropertyChangeListener {
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableValue lblLatitudeObserveTextObserveWidget = SWTObservables.observeText(lblLatitude);
-		IObservableValue telemetryInProvisionActiveObserveValue = BeansObservables.observeValue(telemetryIn, "provisionActive");
-		bindingContext.bindValue(lblLatitudeObserveTextObserveWidget, telemetryInProvisionActiveObserveValue, null, null);
 		//
 		return bindingContext;
+	}
+
+	public void setModel(final ParameterModel model) {
+		this.model = model;
 	}
 }

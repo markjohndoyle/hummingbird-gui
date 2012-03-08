@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Charting"
+            id="org.hbird.rcpgui.telemetrychart.views.ChartView">
+      </category>
+      <view
+            name="Chart View"
+            icon="icons/sample.gif"
+            category="org.hbird.rcpgui.telemetrychart.views.ChartView"
+            class="org.hbird.rcpgui.telemetrychart.views.ChartView"
+            id="org.hbird.rcpgui.telemetrychart.views.ChartView">
+      </view>
+   </extension>
+
+</plugin>

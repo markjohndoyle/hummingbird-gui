@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
+
+
+	<bean id="parameterModel" class="org.hbird.rcpgui.worldwindglobe.model.ParameterModel">
+	</bean>
+	
+	<osgi:service id="parameterListenerService"
+				  interface="org.hbird.rcpgui.parameterlistener.interfaces.NewParameterListener"  
+				  ref="parameterModel">
+	</osgi:service>
+
+	
+	<bean id="org.hbird.rcpgui.worldwindglobe.views.MainGlobe" 
+		  class="org.hbird.rcpgui.worldwindglobe.views.MainGlobeView" 
+		  scope="prototype">
+		  <property name="model" ref="parameterModel"></property>
+	</bean>
+
+</beans>

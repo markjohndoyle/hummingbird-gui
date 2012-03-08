@@ -57,9 +57,6 @@
       </product>
    </extension>
    <extension
-         point="org.eclipse.ui.views">
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
@@ -74,6 +71,15 @@
                   mnemonic="%command.mnemonic"
                   style="push"
                   tooltip="%command.tooltip">
+            </command>
+         </menu>
+         <menu
+               id="org.hbird.rcpgui.hummingbirdbaseapp.menus.admin"
+               label="Admin">
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  label="Preferences"
+                  style="push">
             </command>
          </menu>
       </menuContribution>
