@@ -1,45 +1,49 @@
 package org.hbird.rcpgui.telemetrychart.views;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Panel;
-import java.util.Random;
-
-import javax.swing.JRootPane;
-
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ObservableSetContentProvider;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import org.jzy3d.chart.Chart;
-import org.jzy3d.chart.controllers.ControllerType;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.hbird.core.commons.tmtc.Parameter;
+import org.hbird.rcpgui.telemetrychart.filter.ParameterNameFilter;
+import org.hbird.rcpgui.telemetrychart.model.ParameterModel;
 import org.jzy3d.chart.controllers.mouse.ChartMouseController;
-import org.jzy3d.chart.controllers.thread.ChartThreadController;
-import org.jzy3d.colors.Color;
-import org.jzy3d.events.ControllerEvent;
-import org.jzy3d.events.ControllerEventListener;
-import org.jzy3d.maths.Coord3d;
-import org.jzy3d.plot3d.primitives.Scatter;
-import org.jzy3d.plot3d.rendering.view.Renderer2d;
 
 public class ChartView extends ViewPart {
-
-	/**
-	 * The ID of the view as specified by the extension.
-	 */
+	private DataBindingContext m_bindingContext;
+	/** The ID of the view as specified by the extension. */
 	public static final String ID = "org.hbird.rcpgui.telemetrychart.views.ChartView";
 
+	private ParameterModel spaceSystemParametersModel;
+
 	private ChartMouseController mouseMotion;
+	private ListViewer listViewer;
+
+	private final ParameterNameFilter nameFilter = new ParameterNameFilter("");
 
 	/**
 	 * The constructor.
 	 */
 	public ChartView() {
-		generateData();
 	}
 
 	/**
@@ -47,72 +51,49 @@ public class ChartView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
+		parent.setLayout(new GridLayout(1, false));
 
-		Composite composite = new Composite(parent, SWT.EMBEDDED);
+		Composite composite_1 = new Composite(parent, SWT.NONE);
+		composite_1.setLayout(new FormLayout());
+		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
-		Frame frame = SWT_AWT.new_Frame(composite);
+		final StyledText lblFilter = new StyledText(composite_1, SWT.BORDER | SWT.SHADOW_IN);
+		lblFilter.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(final ModifyEvent e) {
+				System.out.println(lblFilter.getText());
+				nameFilter.setName(lblFilter.getText());
+				listViewer.addFilter(nameFilter);
+			}
+		});
+		FormData fd_lblFilter = new FormData();
+		fd_lblFilter.top = new FormAttachment(0, 1);
+		fd_lblFilter.right = new FormAttachment(100);
+		fd_lblFilter.left = new FormAttachment(100, -162);
+		lblFilter.setLayoutData(fd_lblFilter);
+		lblFilter.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
+		lblFilter.setDoubleClickEnabled(false);
+		lblFilter.setToolTipText("Filter parameter list below");
+		lblFilter.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		Panel panel = new Panel();
-		frame.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		Button btnCreatePlot = new Button(composite_1, SWT.NONE);
+		FormData fd_btnCreatePlot = new FormData();
+		fd_btnCreatePlot.right = new FormAttachment(0, 53);
+		fd_btnCreatePlot.top = new FormAttachment(0);
+		fd_btnCreatePlot.left = new FormAttachment(0);
+		btnCreatePlot.setLayoutData(fd_btnCreatePlot);
+		btnCreatePlot.setText("Plot");
 
-		JRootPane rootPane = new JRootPane();
-		panel.add(rootPane);
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		rootPane.getContentPane().add((Component) getChart().getCanvas());
-	}
+		listViewer = new ListViewer(composite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
 
-	public Chart getChart() {
-		// Create a chart
-		Chart chart = new Chart();
-		chart.getScene().add(dots);
-        chart.addRenderer(new Renderer2d() {
-            @Override
-			public void paint(final Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setStroke(new BasicStroke(4.0f));
-                g2d.setColor(java.awt.Color.BLACK);
-                g2d.drawRect(10, 50, 100, 100);
-            }
-        });
+		// TODO not nice. The view is now coupled to the model.
+		spaceSystemParametersModel.syncWithSpaceSystemPublisher();
 
-        mouseMotion = new ChartMouseController();
-        ChartThreadController thread = new ChartThreadController();
-        mouseMotion.addSlaveThreadController(thread);
-        mouseMotion.addControllerEventListener(new ControllerEventListener() {
-            @Override
-			public void controllerEventFired(final ControllerEvent e) {
-                if (e.getType() == ControllerType.ROTATE) {
-                }
-            }
-        });
-        chart.addController(mouseMotion);
-        chart.addController(thread);
-		return chart;
-	}
-
-	int npt = 500;
-	Coord3d[] points;
-	Color[] colors;
-	Chart chart;
-	Scatter dots;
-
-	protected void generateData() {
-		Random rng = new Random();
-
-		points = new Coord3d[npt];
-		colors = new Color[npt];
-		for (int i = 0; i < npt; i++) {
-			colors[i] = new Color(0f, 0f, 0f, 0.5f);
-
-			float x = rng.nextFloat();
-			float y = rng.nextFloat();
-			float z = rng.nextFloat();
-
-			points[i] = new Coord3d(x, y, z);
-		}
-		dots = new Scatter(points, colors);
-		dots.setWidth(4);
+		m_bindingContext = initDataBindings();
 	}
 
 	/**
@@ -120,5 +101,26 @@ public class ChartView extends ViewPart {
 	 */
 	@Override
 	public void setFocus() {
+	}
+
+	public ParameterModel getSpaceSystemParametersModel() {
+		return spaceSystemParametersModel;
+	}
+
+	public void setSpaceSystemParametersModel(final ParameterModel spaceSystemParametersModel) {
+		this.spaceSystemParametersModel = spaceSystemParametersModel;
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableSetContentProvider setContentProvider = new ObservableSetContentProvider();
+		IObservableMap observeMap = PojoObservables.observeMap(setContentProvider.getKnownElements(), Parameter.class, "name");
+		listViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
+		listViewer.setContentProvider(setContentProvider);
+		//
+		IObservableSet spaceSystemParametersModelParametersObserveSet = BeansObservables.observeSet(Realm.getDefault(), spaceSystemParametersModel, "parameters");
+		listViewer.setInput(spaceSystemParametersModelParametersObserveSet);
+		//
+		return bindingContext;
 	}
 }
