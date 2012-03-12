@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- com.ibm.icu
+ com.ibm.icu,
+ org.eclipse.springframework.util;bundle-version="1.0.4"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: libs/gluegen-rt.jar,
@@ -20,4 +21,5 @@ Bundle-ClassPath: libs/gluegen-rt.jar,
  libs/jogl.jar,
  .
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
- org.hbird.rcpgui.parameterlistener.interfaces
+ org.hbird.rcpgui.parameterlistener.interfaces,
+ org.hbird.rcpgui.parameterlistener.model

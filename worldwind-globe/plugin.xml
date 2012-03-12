@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views">
       <view
             category="org.hbird.rcpgui.worldwind-globe.category.globe"
-            class="org.hbird.rcpgui.worldwindglobe.views.MainGlobeView"
+            class="org.eclipse.springframework.util.SpringExtensionFactory"
             icon="icons/world.png"
             id="org.hbird.rcpgui.worldwindglobe.views.MainGlobe"
             name="Orbit globe"
