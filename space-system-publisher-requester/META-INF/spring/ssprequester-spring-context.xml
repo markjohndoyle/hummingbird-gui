@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:camel="http://camel.apache.org/schema/spring"
+	   xmlns:osgi="http://www.springframework.org/schema/osgi"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       					   http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd 
+       					   http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
+
+	<!-- import the ActiveMQ broker and component -->
+    <import resource="activemq.xml"/>
+
+	<bean id="camelSspRequester" class="org.hbird.rcpgui.ssprequester.provided.CamelSpaceSystemPublisherRequester">
+	</bean>
+	
+	<osgi:service id="sspRequesterService"
+				  interface="org.hbird.rcpgui.ssprequester.interfaces.SpaceSystemPublisherRequester"
+				  ref="camelSspRequester">
+	</osgi:service>
+
+	<camel:camelContext>
+		<camel:package>org.hbird.rcpgui.ssprequester</camel:package>
+	</camel:camelContext>
+	
+</beans>
