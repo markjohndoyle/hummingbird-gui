@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.core.commons.tmtc.ParameterGroup;
-import org.hbird.rcpgui.parameterlistener.interfaces.NewParameterListener;
+import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener;
 
 /**
  * Receives new {@link Parameter}s contained in {@link ParameterGroup}s and distributes

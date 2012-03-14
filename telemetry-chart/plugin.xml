@@ -9,18 +9,19 @@
             id="org.hbird.rcpgui.telemetrychart.views.ChartView">
       </category>
       <view
-            name="Chart View"
-            icon="icons/sample.gif"
+            allowMultiple="false"
             category="org.hbird.rcpgui.telemetrychart.views.ChartView"
             class="org.eclipse.springframework.util.SpringExtensionFactory"
-            id="org.hbird.rcpgui.telemetrychart.views.ChartView">
+            icon="icons/chart_curve.png"
+            id="org.hbird.rcpgui.telemetrychart.views.ChartView"
+            name="Chart View">
       </view>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.hbird.rcpgui.telemetrychart.editors.Chart"
-            id="org.hbird.rcpgui.telemetrychart.editors.Chart"
+            class="org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"
+            id="org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"
             name="New telemetry chart">
       </editor>
    </extension>
@@ -49,27 +50,16 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               id="org.hbird.rcpgui.telemetrychart.menus.sampleMenu"
-               label="Plotting"
-               mnemonic="P">
-            <command
-                  commandId="org.hbird.rcpgui.telemetrychart.commands.newplot"
-                  id="org.hbird.rcpgui.telemetrychart.menus.sampleCommand"
-                  mnemonic="N">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="org.hbird.rcpgui.telemetrychart.toolbars.sampleToolbar">
+               id="org.hbird.rcpgui.telemetrychart.views.ChartView">
             <command
                   commandId="org.hbird.rcpgui.telemetrychart.commands.newplot"
-                  icon="icons/sample.gif"
-                  id="org.hbird.rcpgui.telemetrychart.toolbars.sampleCommand"
-                  tooltip="Say hello world">
+                  icon="icons/chart_curve.png"
+                  id="org.hbird.rcpgui.telemetrychart.toolbars.newplot"
+                  label="Plot"
+                  style="push"
+                  tooltip="Create new plot">
             </command>
          </toolbar>
       </menuContribution>

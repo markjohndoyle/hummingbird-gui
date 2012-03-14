@@ -29,7 +29,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
-import org.hbird.rcpgui.parameterlistener.model.DefaultQueueParameterModel;
+import org.hbird.rcpgui.parameterlistener.model.CappedQueueParameterModel;
 import org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
@@ -47,7 +47,7 @@ public class MainGlobeView extends ViewPart {
 	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
 	private Label lblLatitude;
 
-	private DefaultQueueParameterModel model;
+	private CappedQueueParameterModel model;
 	private String latParamName;
 	private String lonParamName;
 
@@ -171,7 +171,7 @@ public class MainGlobeView extends ViewPart {
 		return bindingContext;
 	}
 
-	public void setModel(final DefaultQueueParameterModel model) {
+	public void setModel(final CappedQueueParameterModel model) {
 		this.model = model;
 	}
 }

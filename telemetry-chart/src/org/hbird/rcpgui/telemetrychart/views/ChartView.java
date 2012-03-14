@@ -19,7 +19,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -29,15 +28,14 @@ import org.hbird.rcpgui.telemetrychart.model.ParameterModel;
 import org.jzy3d.chart.controllers.mouse.ChartMouseController;
 
 public class ChartView extends ViewPart {
-	private DataBindingContext m_bindingContext;
 	/** The ID of the view as specified by the extension. */
 	public static final String ID = "org.hbird.rcpgui.telemetrychart.views.ChartView";
 
-	private ParameterModel spaceSystemParametersModel;
+	private DataBindingContext m_bindingContext;
 
+	private ParameterModel spaceSystemParametersModel;
 	private ChartMouseController mouseMotion;
 	private ListViewer listViewer;
-
 	private final ParameterNameFilter nameFilter = new ParameterNameFilter("");
 
 	/**
@@ -76,22 +74,16 @@ public class ChartView extends ViewPart {
 		lblFilter.setToolTipText("Filter parameter list below");
 		lblFilter.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		Button btnCreatePlot = new Button(composite_1, SWT.NONE);
-		FormData fd_btnCreatePlot = new FormData();
-		fd_btnCreatePlot.right = new FormAttachment(0, 53);
-		fd_btnCreatePlot.top = new FormAttachment(0);
-		fd_btnCreatePlot.left = new FormAttachment(0);
-		btnCreatePlot.setLayoutData(fd_btnCreatePlot);
-		btnCreatePlot.setText("Plot");
-
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		listViewer = new ListViewer(composite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
 
-		// TODO not nice. The view is now coupled to the model.
+		// FIXME not nice. The view is now coupled to setting up the model.
 		spaceSystemParametersModel.syncWithSpaceSystemPublisher();
+
+		getSite().setSelectionProvider(listViewer);
 
 		m_bindingContext = initDataBindings();
 	}
@@ -122,5 +114,9 @@ public class ChartView extends ViewPart {
 		listViewer.setInput(spaceSystemParametersModelParametersObserveSet);
 		//
 		return bindingContext;
+	}
+
+	public ListViewer getListViewer() {
+		return listViewer;
 	}
 }

@@ -33,7 +33,7 @@
 	</bean>
 	
 	<osgi:list id="newParameterListenerServiceList"
-			   interface="org.hbird.rcpgui.parameterlistener.interfaces.NewParameterListener"
+			   interface="org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener"
 			   cardinality="0..N">
 	</osgi:list>
 	

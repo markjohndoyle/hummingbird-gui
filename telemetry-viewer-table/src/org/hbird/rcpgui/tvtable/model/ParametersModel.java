@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.hbird.core.commons.tmtc.Parameter;
-import org.hbird.rcpgui.parameterlistener.interfaces.NewParameterListener;
+import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 

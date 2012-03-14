@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.parameterlistener.interfaces;
+package org.hbird.rcpgui.parameterlistener.serviceinterfaces;
 
 import org.hbird.core.commons.tmtc.Parameter;
 

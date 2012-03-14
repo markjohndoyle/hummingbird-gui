@@ -4,7 +4,9 @@ Bundle-Name: Parameter listener
 Bundle-SymbolicName: org.hbird.rcpgui.parameter-listener
 Bundle-Version: 0.0.1
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.hbird.rcpgui.parameterlistener.interfaces,
- org.hbird.rcpgui.parameterlistener.model
-Import-Package: org.hbird.core.commons.tmtc
+Export-Package: org.hbird.rcpgui.parameterlistener.model,
+ org.hbird.rcpgui.parameterlistener.serviceinterfaces
+Import-Package: org.apache.commons.lang;version="2.6.0",
+ org.hbird.core.commons.tmtc,
+ org.osgi.framework;version="1.5.0"
 Bundle-Vendor: hbird

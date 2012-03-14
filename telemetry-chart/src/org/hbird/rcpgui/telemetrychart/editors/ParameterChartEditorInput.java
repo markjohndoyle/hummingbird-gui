@@ -8,7 +8,7 @@ import org.eclipse.ui.IPersistableElement;
 
 public class ParameterChartEditorInput implements IEditorInput {
 
-	List<String> parameterNames;
+	private final List<String> parameterNames;
 
 	public ParameterChartEditorInput(final List<String> parameterNames) {
 		this.parameterNames = parameterNames;
@@ -32,13 +32,13 @@ public class ParameterChartEditorInput implements IEditorInput {
 	@Override
 	public String getName() {
 		StringBuilder builder = new StringBuilder();
-		int count = 0;
-		for(String parameterName : parameterNames) {
-			if(count == parameterNames.size()) {
-				builder.append(parameterName);
+		int count = 1;
+		for (String name : parameterNames) {
+			if (count == parameterNames.size()) {
+				builder.append(name);
 			}
 			else {
-				builder.append(parameterName + ", ");
+				builder.append(name + ", ");
 			}
 			count++;
 		}
@@ -52,7 +52,11 @@ public class ParameterChartEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return "Parameter Chart";
+		return "Parameter ChartEditorPart";
+	}
+
+	public List<String> getParameterNames() {
+		return parameterNames;
 	}
 
 	@Override
@@ -84,10 +88,6 @@ public class ParameterChartEditorInput implements IEditorInput {
 			return false;
 		}
 		return true;
-	}
-
-	public List<String> getParameterNames() {
-		return parameterNames;
 	}
 
 }

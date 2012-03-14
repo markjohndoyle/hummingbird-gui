@@ -14,10 +14,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- com.ibm.icu
+ com.ibm.icu,
+ jfreechart;bundle-version="1.0.0",
+ joda-time;bundle-version="2.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
- org.hbird.rcpgui.parameterlistener.interfaces,
  org.hbird.rcpgui.parameterlistener.model,
+ org.hbird.rcpgui.parameterlistener.serviceinterfaces,
  org.hbird.rcpgui.ssprequester.interfaces
