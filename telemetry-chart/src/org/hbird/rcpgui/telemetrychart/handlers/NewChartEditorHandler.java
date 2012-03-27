@@ -46,17 +46,29 @@ public class NewChartEditorHandler extends AbstractHandler {
 		// Get the selection
 		ISelection selection = view.getSite().getSelectionProvider().getSelection();
 		if (selection != null && selection instanceof IStructuredSelection) {
-			Object obj = ((IStructuredSelection) selection).getFirstElement();
-			if (obj != null && obj instanceof Parameter<?>) {
-				Parameter<?> parameter = (Parameter<?>) obj;
+			// Object obj = ((IStructuredSelection) selection).getFirstElement();
+			List<Object> allSelected = ((IStructuredSelection) selection).toList();
+			System.out.println("All selected = " + allSelected.size());
+			if (allSelected != null) {
+				ParameterChartEditorInput input = null;
 				List<String> params = new ArrayList<String>();
-				params.add(parameter.getQualifiedName());
-				ParameterChartEditorInput input = new ParameterChartEditorInput(params);
-				try {
-					page.openEditor(input, ChartEditorPart.ID);
+				for (Object obj : allSelected) {
+					if (obj instanceof Parameter<?>) {
+						Parameter<?> parameter = (Parameter<?>) obj;
+						System.out.println("Adding param " + parameter.getQualifiedName() + " to input list arg");
+						params.add(parameter.getQualifiedName());
+						input = new ParameterChartEditorInput(params);
+					}
 				}
-				catch (PartInitException e) {
-					throw new RuntimeException(e);
+
+				if (input != null) {
+					try {
+						System.out.println("input contains " + input.getParameterNames().size());
+						page.openEditor(input, ChartEditorPart.ID);
+					}
+					catch (PartInitException e) {
+						throw new RuntimeException(e);
+					}
 				}
 			}
 		}

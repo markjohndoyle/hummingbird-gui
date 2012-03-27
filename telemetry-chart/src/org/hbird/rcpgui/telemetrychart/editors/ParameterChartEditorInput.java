@@ -11,6 +11,7 @@ public class ParameterChartEditorInput implements IEditorInput {
 	private final List<String> parameterNames;
 
 	public ParameterChartEditorInput(final List<String> parameterNames) {
+		System.out.println("Input created for " + parameterNames.size());
 		this.parameterNames = parameterNames;
 	}
 

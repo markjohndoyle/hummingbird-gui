@@ -1,6 +1,7 @@
 package org.hbird.rcpgui.telemetrychart.editors;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.beans.PropertyChangeEvent;
@@ -23,9 +24,10 @@ import org.hbird.rcpgui.telemetrychart.Activator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.joda.time.DateTime;
 import org.osgi.framework.ServiceRegistration;
 
 public class ChartEditorPart extends EditorPart implements PropertyChangeListener {
@@ -39,7 +41,7 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 
 	private ServiceRegistration modelListenerServiceReg;
 
-	private XYSeriesCollection dataset;
+	private TimeSeriesCollection dataset;
 
 	private boolean legend;
 
@@ -79,14 +81,20 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 
 	private final JFreeChart createChart() {
 		dataset = createDataset();
-		JFreeChart chart = ChartFactory.createXYLineChart(generateChartName(), "time", "value", dataset, PlotOrientation.VERTICAL, legend, tooltips, urls);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(generateChartName(), "time", "value", dataset, legend, tooltips, urls);
+		chart.setAntiAlias(true);
+		chart.setBackgroundPaint(Color.WHITE);
+
 		return chart;
 	}
 
-	private XYSeriesCollection createDataset() {
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		for(String name : input.getParameterNames()) {
-			XYSeries series = new XYSeries(name);
+	private TimeSeriesCollection createDataset() {
+//		XYSeriesCollection dataset = new XYSeriesCollection();
+		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		for (String name : input.getParameterNames()) {
+			System.out.println("Creating new series and adding to data set: " + name);
+//			XYSeries series = new XYSeries(name);
+			TimeSeries series = new TimeSeries(name);
 			dataset.addSeries(series);
 		}
 		return dataset;
@@ -94,6 +102,7 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 
 	/**
 	 * Currently uses editor input name, i.e. file name.
+	 *
 	 * @return
 	 */
 	private String generateChartName() {
@@ -127,13 +136,11 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 		setInput(input);
 
 		// Set parameter name filter on model
-		for(String name : this.input.getParameterNames()) {
+		for (String name : this.input.getParameterNames()) {
 			model.addFilter("qualifiedName", name);
 		}
 		setPartName("Parameter plot");
 	}
-
-
 
 	@Override
 	public boolean isDirty() {
@@ -148,12 +155,16 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();
-		if(newValue instanceof Parameter<?>) {
+		if (newValue instanceof Parameter<?>) {
 			Parameter<?> newParameter = (Parameter<?>) newValue;
-			XYSeries series = dataset.getSeries(newParameter.getQualifiedName());
-			series.add(newParameter.getReceivedTime(), (Integer) newParameter.getValue());
+			if (dataset != null) {
+//				XYSeries series = dataset.getSeries(newParameter.getQualifiedName());
+				TimeSeries series = dataset.getSeries(newParameter.getQualifiedName());
+				DateTime time = new DateTime(newParameter.getReceivedTime());
+				Millisecond ms = new Millisecond(time.toDate());
+				series.add(ms, (Integer) newParameter.getValue());
+			}
 		}
 	}
-
 
 }
