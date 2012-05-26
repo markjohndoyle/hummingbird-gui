@@ -39,11 +39,10 @@ public class CamelSpaceSystemPublisherRequester implements SpaceSystemPublisherR
 	@SuppressWarnings("unchecked") // JMS returns object for objectMessage so cast is necessary. Service guarantees type.
 	public List<ParameterGroup> requestParameterGroups() {
 		List<ParameterGroup> parameterGroups;
-		// Sends an empty message to the produce endpoint and awaits the response.
 		try {
 			parameterGroups = (List<ParameterGroup>) requestParameterGroupsProducerTemplate.requestBody(null);
 		}
-		catch (CamelExecutionException e) {
+		catch (final CamelExecutionException e) {
 			System.err.println("Could not retrieve a list of telemetry parameters from the space system model publisher");
 			parameterGroups = new ArrayList<ParameterGroup>(0);
 		}
@@ -54,7 +53,13 @@ public class CamelSpaceSystemPublisherRequester implements SpaceSystemPublisherR
 	@SuppressWarnings("unchecked") // JMS returns object for objectMessage so cast is necessary. Service guarantees type.
 	public List<ParameterGroup> requestCommands() {
 		List<ParameterGroup> parameterGroups;
-		parameterGroups = (List<ParameterGroup>) requestCommandsProducerTemplate.requestBody(null);
+		try {
+			parameterGroups = (List<ParameterGroup>) requestCommandsProducerTemplate.requestBody(null);
+		}
+		catch (final CamelExecutionException e) {
+			System.err.println("Could not retrieve a list of telemetry parameters from the space system model publisher");
+			parameterGroups = new ArrayList<ParameterGroup>(0);
+		}
 		return parameterGroups;
 	}
 
