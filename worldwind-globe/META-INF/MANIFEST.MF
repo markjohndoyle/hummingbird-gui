@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Worldwind Globe
 Bundle-SymbolicName: org.hbird.rcpgui.worldwind-globe;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0
 Bundle-Activator: org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator
 Bundle-Vendor: Hummingbird org
 Require-Bundle: org.eclipse.ui,

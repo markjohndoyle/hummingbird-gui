@@ -25,7 +25,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.telemetrychart.filter.ParameterNameFilter;
 import org.hbird.rcpgui.telemetrychart.model.ParameterModel;
-import org.jzy3d.chart.controllers.mouse.ChartMouseController;
 
 public class ChartView extends ViewPart {
 	/** The ID of the view as specified by the extension. */
@@ -34,7 +33,6 @@ public class ChartView extends ViewPart {
 	private DataBindingContext m_bindingContext;
 
 	private ParameterModel spaceSystemParametersModel;
-	private ChartMouseController mouseMotion;
 	private ListViewer listViewer;
 	private final ParameterNameFilter nameFilter = new ParameterNameFilter("");
 
