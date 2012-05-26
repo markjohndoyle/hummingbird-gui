@@ -1,7 +1,9 @@
 package org.hbird.rcpgui.ssprequester.provided;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.hbird.core.commons.tmtc.ParameterGroup;
@@ -38,7 +40,13 @@ public class CamelSpaceSystemPublisherRequester implements SpaceSystemPublisherR
 	public List<ParameterGroup> requestParameterGroups() {
 		List<ParameterGroup> parameterGroups;
 		// Sends an empty message to the produce endpoint and awaits the response.
-		parameterGroups = (List<ParameterGroup>) requestParameterGroupsProducerTemplate.requestBody(null);
+		try {
+			parameterGroups = (List<ParameterGroup>) requestParameterGroupsProducerTemplate.requestBody(null);
+		}
+		catch (CamelExecutionException e) {
+			System.err.println("Could not retrieve a list of telemetry parameters from the space system model publisher");
+			parameterGroups = new ArrayList<ParameterGroup>(0);
+		}
 		return parameterGroups;
 	}
 
