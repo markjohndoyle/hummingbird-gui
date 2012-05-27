@@ -4,15 +4,17 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener;
+import org.joda.time.DateTime;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-public class ParametersModel implements NewParameterListener {
+public class ArchivedParametersModel implements NewParameterListener {
 
 	private final PropertyChangeSupport propChangeSupport = new PropertyChangeSupport(this);
 
@@ -25,16 +27,17 @@ public class ParametersModel implements NewParameterListener {
 
 	private List<Parameter<?>> parameters;
 
-	@SuppressWarnings("unused")
-	// private, only construct with BundleContext
-	private ParametersModel() {
+	@SuppressWarnings("unused") // private, only construct with BundleContext
+	private ArchivedParametersModel() {
 	}
 
-	public ParametersModel(final BundleContext context) {
+	public ArchivedParametersModel(final BundleContext context) {
 		registerModelListenerService(context);
 	}
 
 	public void registerModelListenerService(final BundleContext context) {
+		final Properties metadata = new Properties();
+		metadata.setProperty("tmType", "Archived");
 		modelListenerServiceReg = context.registerService(NewParameterListener.class.getName(), this, null);
 	}
 
@@ -45,6 +48,10 @@ public class ParametersModel implements NewParameterListener {
 		else {
 			modelListenerServiceReg.unregister();
 		}
+	}
+
+	public void getParameters(final DateTime startTime, final DateTime endTime, final int numberOfParameters) {
+
 	}
 
 	@Override

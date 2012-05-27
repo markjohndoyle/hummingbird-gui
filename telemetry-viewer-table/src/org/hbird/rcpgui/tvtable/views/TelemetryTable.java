@@ -32,7 +32,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.tvtable.Activator;
-import org.hbird.rcpgui.tvtable.model.ParametersModel;
+import org.hbird.rcpgui.tvtable.model.LiveParametersModel;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
@@ -58,7 +58,7 @@ public class TelemetryTable extends ViewPart {
 	 */
 	public static final String ID = "org.hbird.rcpgui.tvtable.views.TelemetryTable";
 
-	private final ParametersModel model = new ParametersModel(Activator.getContext());
+	private final LiveParametersModel model = new LiveParametersModel(Activator.getContext());
 
 	private TableViewer viewer;
 
