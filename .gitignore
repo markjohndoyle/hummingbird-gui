@@ -4,3 +4,6 @@ Thumbs.db
 *.class
 */.classpath
 */.settings/*
+camel-parameter-provider/.springBeans
+.gitignore
+camel-parameter-provider/.springBeans
