@@ -6,7 +6,7 @@
       <page
             class="org.hbird.rcpgui.ssprequester.preferences.SpaceSystemPublisherPreferences"
             id="org.hbird.rcpgui.ssprequester.preferences.SpaceSystemPublisherPreferences"
-            name="Space System Publisher">
+            name="%page.name">
       </page>
    </extension>
    <extension

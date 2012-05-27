@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Space-system-publisher-requester
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: space-system-publisher-requester;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.hbird.rcpgui.ssprequester.Activator
-Bundle-Vendor: hbird
+Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.activemq;version="5.5.1",
  org.apache.activemq.camel;version="5.5.1",
