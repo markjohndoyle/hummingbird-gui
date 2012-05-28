@@ -2,28 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            id="org.hbird.rcpgui.telemetry-viewer-table.contribution1">
-         <menu
-               label="Telemetry"
-               path="additions"
-               id="org.hbird.rcpgui.telemetry-viewer-table.menu1">
-            <separator
-                  name="group1">
-            </separator>
-         </menu>
-         <action
-               label="Start"
-               class="org.hbird.rcpgui.tvtable.popup.actions.NewAction"
-               menubarPath="org.hbird.rcpgui.telemetry-viewer-table.menu1/group1"
-               enablesFor="1"
-               id="org.hbird.rcpgui.telemetry-viewer-table.newAction">
-         </action>
-      </objectContribution>
-   </extension>
    
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -61,6 +39,15 @@
       <contexts
             file="contexts.xml">
       </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.hbird.rcp.telemetry-viewer-table.commands.sampleCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+6">
+      </key>
    </extension>
 
 </plugin>

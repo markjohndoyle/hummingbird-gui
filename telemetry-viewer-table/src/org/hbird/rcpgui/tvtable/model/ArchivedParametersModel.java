@@ -1,90 +1,70 @@
 package org.hbird.rcpgui.tvtable.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.Random;
 
 import org.hbird.core.commons.tmtc.Parameter;
-import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener;
+import org.hbird.rcpgui.archivedparameterprovider.interfaces.ArchivedParameterProvider;
 import org.joda.time.DateTime;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
 
-public class ArchivedParametersModel implements NewParameterListener {
+public class ArchivedParametersModel extends PropertyChangeModel {
 
-	private final PropertyChangeSupport propChangeSupport = new PropertyChangeSupport(this);
-
-	// TODO move to configuration
-	private final int defaultCapacity = 500;
-
-	private final Queue<Parameter<?>> parameterQueue = new ArrayBlockingQueue<Parameter<?>>(defaultCapacity);
-
-	private volatile ServiceRegistration modelListenerServiceReg;
+	ArchivedParameterProvider archivedParameterService;
 
 	private List<Parameter<?>> parameters;
 
-	@SuppressWarnings("unused") // private, only construct with BundleContext
-	private ArchivedParametersModel() {
-	}
+	public ArchivedParametersModel() {
+		parameters.add(new Parameter<Integer>() {
 
-	public ArchivedParametersModel(final BundleContext context) {
-		registerModelListenerService(context);
-	}
+			@Override
+			public String getQualifiedName() {
+				return "test archived param";
+			}
 
-	public void registerModelListenerService(final BundleContext context) {
-		final Properties metadata = new Properties();
-		metadata.setProperty("tmType", "Archived");
-		modelListenerServiceReg = context.registerService(NewParameterListener.class.getName(), this, null);
-	}
+			@Override
+			public String getShortDescription() {
+				throw new UnsupportedOperationException();
+			}
 
-	public void unregisterModelListenerService() {
-		if (modelListenerServiceReg == null) {
-			throw new IllegalStateException();
-		}
-		else {
-			modelListenerServiceReg.unregister();
-		}
+			@Override
+			public String getLongDescription() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public String getName() {
+				return "test archived param";
+			}
+
+			@Override
+			public Integer getValue() {
+				final Random rand = new Random(5);
+				return rand.nextInt();
+			}
+
+			@Override
+			public void setValue(final Integer value) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long getReceivedTime() {
+				return System.currentTimeMillis();
+			}
+
+			@Override
+			public void setReceivedTime(final long timestamp) {
+				throw new UnsupportedOperationException();
+			}
+
+		});
 	}
 
 	public void getParameters(final DateTime startTime, final DateTime endTime, final int numberOfParameters) {
-
 	}
-
-	@Override
-	public synchronized void newParameter(final Parameter<?> newParameter) {
-		if (!parameterQueue.offer(newParameter)) {
-			parameterQueue.poll();
-		}
-		parameterQueue.add(newParameter);
-		parameters = new ArrayList<Parameter<?>>(parameterQueue);
-		propChangeSupport.firePropertyChange("parameters", null, parameters);
-	}
-
 
 	public List<Parameter<?>> getParameters() {
 		return parameters;
 	}
-
-	public void addPropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(propertyName, listener);
-	}
-
-
 
 }
