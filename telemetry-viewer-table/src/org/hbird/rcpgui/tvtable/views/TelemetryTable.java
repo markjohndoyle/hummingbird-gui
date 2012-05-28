@@ -33,6 +33,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.tvtable.Activator;
 import org.hbird.rcpgui.tvtable.model.LiveParametersModel;
+import org.hbird.rcpgui.tvtable.model.ParameterModel;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
@@ -44,8 +45,8 @@ public class TelemetryTable extends ViewPart {
 	private static class Sorter extends ViewerSorter {
 		@Override
 		public int compare(final Viewer viewer, final Object e1, final Object e2) {
-			Object item1 = e1;
-			Object item2 = e2;
+			final Object item1 = e1;
+			final Object item2 = e2;
 			return 0;
 		}
 	}
@@ -58,7 +59,9 @@ public class TelemetryTable extends ViewPart {
 	 */
 	public static final String ID = "org.hbird.rcpgui.tvtable.views.TelemetryTable";
 
-	private final LiveParametersModel model = new LiveParametersModel(Activator.getContext());
+	private final ParameterModel model;
+	private final ParameterModel liveModel = new LiveParametersModel(Activator.getContext());
+	private final ParameterModel archiveModel = new LiveParametersModel(Activator.getContext());
 
 	private TableViewer viewer;
 
@@ -68,6 +71,7 @@ public class TelemetryTable extends ViewPart {
 	 * The constructor.
 	 */
 	public TelemetryTable() {
+		this.model = this.liveModel;
 	}
 
 	/**
@@ -77,10 +81,10 @@ public class TelemetryTable extends ViewPart {
 	public void createPartControl(final Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 
-		Composite composite = new Composite(parent, SWT.NONE);
+		final Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-		CLabel lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
+		final CLabel lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
 		lblTmServiceStatus.setForeground(SWTResourceManager.getColor(0, 153, 255));
 		lblTmServiceStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lblTmServiceStatus.setAlignment(SWT.CENTER);
@@ -98,20 +102,20 @@ public class TelemetryTable extends ViewPart {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
+		final TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnName = tableViewerColumnName.getColumn();
 		tblclmnName.addSelectionListener(getSelectionAdapter(tblclmnName, 0));
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
+		final TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
 		tblclmnValue.addSelectionListener(getSelectionAdapter(tblclmnValue, 1));
 		tblclmnValue.setMoveable(true);
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
 
-		TableViewerColumn tableViewerColumnReceived = new TableViewerColumn(viewer, SWT.NONE);
+		final TableViewerColumn tableViewerColumnReceived = new TableViewerColumn(viewer, SWT.NONE);
 
 		tableViewerColumnReceived.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -122,7 +126,7 @@ public class TelemetryTable extends ViewPart {
 			@Override
 			public String getText(final Object element) {
 				System.out.println("Getting text");
-				long timstamp = (Long) element;
+				final long timstamp = (Long) element;
 				return ISODateTimeFormat.dateTime().print(timstamp);
 			}
 		});
@@ -138,16 +142,16 @@ public class TelemetryTable extends ViewPart {
 		scrolledComposite.addControlListener(new ControlAdapter() {
 			@Override
 			public void controlResized(final ControlEvent e) {
-				Rectangle area = scrolledComposite.getClientArea();
-				Point preferredSize = table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				final Rectangle area = scrolledComposite.getClientArea();
+				final Point preferredSize = table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 				int width = area.width - 2 * table.getBorderWidth();
 				if (preferredSize.y > area.height + table.getHeaderHeight()) {
 					// Subtract the scrollbar width from the total column width if a vertical scrollbar
 					// will be required
-					Point vBarSize = table.getVerticalBar().getSize();
+					final Point vBarSize = table.getVerticalBar().getSize();
 					width -= vBarSize.x;
 				}
-				Point oldSize = table.getSize();
+				final Point oldSize = table.getSize();
 				if (oldSize.x > area.width) {
 					// table is getting smaller so make the columns smaller first and then resize the table
 					// to match the client area width
@@ -175,11 +179,11 @@ public class TelemetryTable extends ViewPart {
 	}
 
 	private SelectionAdapter getSelectionAdapter(final TableColumn column, final int index) {
-		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+		final SelectionAdapter selectionAdapter = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				comparator.setColumn(index);
-				int dir = comparator.getDirection();
+				final int dir = comparator.getDirection();
 				viewer.getTable().setSortDirection(dir);
 				viewer.getTable().setSortColumn(column);
 				viewer.refresh();
@@ -197,15 +201,15 @@ public class TelemetryTable extends ViewPart {
 	}
 
 	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
+		final DataBindingContext bindingContext = new DataBindingContext();
 		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[] { "name", "value",
-				"receivedTime" });
+		final ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[] { "name", "value",
+		"receivedTime" });
 		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
 		viewer.setContentProvider(listContentProvider);
 		//
-		IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
+		final IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
 		viewer.setInput(modelParametersObserveList);
 		//
 		return bindingContext;

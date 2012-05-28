@@ -1,7 +1,5 @@
 package org.hbird.rcpgui.tvtable.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -13,9 +11,7 @@ import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-public class LiveParametersModel implements NewParameterListener {
-
-	private final PropertyChangeSupport propChangeSupport = new PropertyChangeSupport(this);
+public class LiveParametersModel extends PropertyChangeModel implements NewParameterListener, ParameterModel {
 
 	// TODO move to configuration
 	private final int defaultCapacity = 500;
@@ -60,26 +56,13 @@ public class LiveParametersModel implements NewParameterListener {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.hbird.rcpgui.tvtable.model.ParameterModel#getParameters()
+	 */
+	@Override
 	public List<Parameter<?>> getParameters() {
 		return parameters;
 	}
-
-	public void addPropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(propertyName, listener);
-	}
-
 
 
 }

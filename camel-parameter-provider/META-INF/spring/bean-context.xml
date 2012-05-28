@@ -16,14 +16,6 @@
 			   filter="(tmType='Live')">
 	</osgi:list>
 	
-<!-- 	Not sure there is a use case for archive distribution in this osgi project -->
-	<!-- Grabs all registered archived TM listener services -->
-<!-- 	<osgi:list id="newArchivedParameterListenerServiceList" -->
-<!-- 			   interface="org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener" -->
-<!-- 			   cardinality="0..N" -->
-<!-- 			   filter="(tmType='Archived')"> -->
-<!-- 	</osgi:list> -->
-	
 	<!-- Setup the Camel based live TM distributor. This sends parameters routed to it in the camel context
 		 to all live tm listeners-->
 	<bean id="liveParameterDistributer" 
