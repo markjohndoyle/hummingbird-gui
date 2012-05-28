@@ -9,4 +9,12 @@
 		  class="org.hbird.rcpgui.archivedparameterprovider.provided.ConfigurableArchivedParameterProvider">
 	</bean>
 	
+	<osgi:service id="archivedParameterProviderService"
+				  interface="org.hbird.rcpgui.archivedparameterprovider.interfaces.ArchivedParameterProvider"
+				  ref="configurableArchivedParameterProvider">
+		<osgi:service-properties>
+			<entry key="tmType" value="Archived"/>
+		</osgi:service-properties>
+	</osgi:service>
+	
 </beans>
