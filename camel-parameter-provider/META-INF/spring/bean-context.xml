@@ -7,44 +7,34 @@
 						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
 						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<!-- 
-		Create a JMS endpoint for use by the camel providers in creating routes.
-		Camel OSGi will scan the spring context for beans.
-	 -->
-	<!-- Transport beans -->
-	<bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://localhost:61616" />
-	</bean>
-
-	<bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
-		<property name="maxConnections" value="8" />
-		<property name="maximumActive" value="500" />
-		<property name="connectionFactory" ref="jmsConnectionFactory" />
-	</bean>
-
-	<bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
-		<property name="connectionFactory" ref="pooledConnectionFactory" />
-		<property name="transacted" value="false" />
-		<property name="concurrentConsumers" value="10" />
-	</bean>
-
-	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-		<property name="configuration" ref="jmsConfig" />
-	</bean>
+	<import resource="activemq.xml"/>
 	
-	<osgi:list id="newParameterListenerServiceList"
+	<!-- Grabs all registered live TM listener services -->
+	<osgi:list id="newLiveParameterListenerServiceList"
 			   interface="org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener"
-			   cardinality="0..N">
+			   cardinality="0..N"
+			   filter="(tmType='Live')">
 	</osgi:list>
 	
-	<bean id="parameterDistributer" class="org.hbird.rcpgui.camelparameterprovider.ParameterDistributer">
-		<property name="newParameterListenerServices" ref="newParameterListenerServiceList"></property>
+<!-- 	Not sure there is a use case for archive distribution in this osgi project -->
+	<!-- Grabs all registered archived TM listener services -->
+<!-- 	<osgi:list id="newArchivedParameterListenerServiceList" -->
+<!-- 			   interface="org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener" -->
+<!-- 			   cardinality="0..N" -->
+<!-- 			   filter="(tmType='Archived')"> -->
+<!-- 	</osgi:list> -->
+	
+	<!-- Setup the Camel based live TM distributor. This sends parameters routed to it in the camel context
+		 to all live tm listeners-->
+	<bean id="liveParameterDistributer" 
+		  class="org.hbird.rcpgui.camelparameterprovider.ParameterDistributer">
+		<property name="newParameterListenerServices" ref="newLiveParameterListenerServiceList"></property>
 	</bean>
 	
 	<camel:camelContext>
 		<camel:route id="liveTmIn">
 			<camel:from uri="activemq:parameterGroups"></camel:from>
-			<camel:to uri="parameterDistributer"></camel:to>
+			<camel:to uri="liveParameterDistributer"></camel:to>
 		</camel:route>
 	</camel:camelContext>
 
