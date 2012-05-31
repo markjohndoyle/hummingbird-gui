@@ -162,7 +162,7 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 				TimeSeries series = dataset.getSeries(newParameter.getQualifiedName());
 				DateTime time = new DateTime(newParameter.getReceivedTime());
 				Millisecond ms = new Millisecond(time.toDate());
-				series.add(ms, (Integer) newParameter.getValue());
+				series.addOrUpdate(ms, (Integer) newParameter.getValue());
 			}
 		}
 	}
