@@ -6,11 +6,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-public class ParameterChartEditorInput implements IEditorInput {
+public class LiveParameterChartEditorInput implements IEditorInput {
 
 	private final List<String> parameterNames;
 
-	public ParameterChartEditorInput(final List<String> parameterNames) {
+	public LiveParameterChartEditorInput(final List<String> parameterNames) {
 		System.out.println("Input created for " + parameterNames.size());
 		this.parameterNames = parameterNames;
 	}
@@ -32,9 +32,9 @@ public class ParameterChartEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		int count = 1;
-		for (String name : parameterNames) {
+		for (final String name : parameterNames) {
 			if (count == parameterNames.size()) {
 				builder.append(name);
 			}
@@ -79,7 +79,7 @@ public class ParameterChartEditorInput implements IEditorInput {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		ParameterChartEditorInput other = (ParameterChartEditorInput) obj;
+		final LiveParameterChartEditorInput other = (LiveParameterChartEditorInput) obj;
 		if (parameterNames == null) {
 			if (other.parameterNames != null) {
 				return false;

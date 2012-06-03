@@ -31,7 +31,7 @@ public class SwitchableLiveArchivedModel extends LiveParametersModel implements 
 	// type erasure issues stemming from type erasure problem up at the mongodb template.
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateParametersByQualifiedName(final String qualifiedName, final int numberOfParameters) {
-		List<Parameter> results = archivedParameterRetrievalService.getParametersByQualifiedName(qualifiedName, numberOfParameters);
+		final List<Parameter> results = archivedParameterRetrievalService.getParametersByQualifiedName(qualifiedName, numberOfParameters);
 		parameters = (List) results;
 		propChangeSupport.firePropertyChange("parameters", null, parameters);
 	}
@@ -41,7 +41,7 @@ public class SwitchableLiveArchivedModel extends LiveParametersModel implements 
 	public void updateParametersByReceivedTime(final DateTime startTime, final DateTime endTime, final int numberOfParameters) {
 		// List<Parameter> results = archivedParameterRetrievalService.getParametersByReceivedTime(startTime, endTime,
 		// numberOfParameters);
-		List<Parameter> results = archivedParameterRetrievalService.findByReceivedTimeBetween(startTime.getMillis(), endTime.getMillis(), 0, 100);
+		final List<Parameter> results = archivedParameterRetrievalService.findByReceivedTimeBetween(startTime.getMillis(), endTime.getMillis(), 0, 100);
 		parameters = (List) results;
 		propChangeSupport.firePropertyChange("parameters", null, parameters);
 	}

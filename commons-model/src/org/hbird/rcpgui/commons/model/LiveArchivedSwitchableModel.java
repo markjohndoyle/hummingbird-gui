@@ -1,9 +1,7 @@
 package org.hbird.rcpgui.commons.model;
 
-public interface LiveArchivedSwitchableModel {
+public interface LiveArchivedSwitchableModel extends ArchiveModel {
 	enum MODEL { LIVE, ARCHIVE };
 
 	void switchModel(MODEL mode);
-
-	void updateFilters(ArchiveParameterFilterSettings newFilters);
 }

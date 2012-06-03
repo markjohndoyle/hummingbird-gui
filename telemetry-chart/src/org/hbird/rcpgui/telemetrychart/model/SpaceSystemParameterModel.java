@@ -10,7 +10,7 @@ import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.core.commons.tmtc.ParameterGroup;
 import org.hbird.rcpgui.ssprequester.interfaces.SpaceSystemPublisherRequester;
 
-public class ParameterModel {
+public class SpaceSystemParameterModel {
 
 	private final PropertyChangeSupport propChangeSupport = new PropertyChangeSupport(this);
 

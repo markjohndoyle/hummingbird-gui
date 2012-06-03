@@ -13,8 +13,10 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.hbird.core.commons.tmtc.Parameter;
+import org.hbird.rcpgui.telemetrychart.editors.ArchivedParameterChartEditorInput;
 import org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart;
-import org.hbird.rcpgui.telemetrychart.editors.ParameterChartEditorInput;
+import org.hbird.rcpgui.telemetrychart.editors.LiveParameterChartEditorInput;
+import org.hbird.rcpgui.telemetrychart.model.FilterFormModel;
 import org.hbird.rcpgui.telemetrychart.views.ChartView;
 
 /**
@@ -38,26 +40,32 @@ public class NewChartEditorHandler extends AbstractHandler {
 		System.out.println("called");
 
 		// Get the view
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
-		IWorkbenchPage page = window.getActivePage();
+		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+		final IWorkbenchPage page = window.getActivePage();
 
-		ChartView view = (ChartView) page.findView(ChartView.ID);
+		final ChartView view = (ChartView) page.findView(ChartView.ID);
+		final FilterFormModel formModel = view.getFormModel();
 
 		// Get the selection
-		ISelection selection = view.getSite().getSelectionProvider().getSelection();
+		final ISelection selection = view.getSite().getSelectionProvider().getSelection();
 		if (selection != null && selection instanceof IStructuredSelection) {
 			// Object obj = ((IStructuredSelection) selection).getFirstElement();
-			List<Object> allSelected = ((IStructuredSelection) selection).toList();
+			final List<Object> allSelected = ((IStructuredSelection) selection).toList();
 			System.out.println("All selected = " + allSelected.size());
 			if (allSelected != null) {
-				ParameterChartEditorInput input = null;
-				List<String> params = new ArrayList<String>();
-				for (Object obj : allSelected) {
+				LiveParameterChartEditorInput input = null;
+				final List<String> params = new ArrayList<String>();
+				for (final Object obj : allSelected) {
 					if (obj instanceof Parameter<?>) {
-						Parameter<?> parameter = (Parameter<?>) obj;
+						final Parameter<?> parameter = (Parameter<?>) obj;
 						System.out.println("Adding param " + parameter.getQualifiedName() + " to input list arg");
 						params.add(parameter.getQualifiedName());
-						input = new ParameterChartEditorInput(params);
+						if(formModel.isAnyFilterSelected()) {
+							input = new ArchivedParameterChartEditorInput(params, formModel);
+						}
+						else {
+							input = new LiveParameterChartEditorInput(params);
+						}
 					}
 				}
 
@@ -66,7 +74,7 @@ public class NewChartEditorHandler extends AbstractHandler {
 						System.out.println("input contains " + input.getParameterNames().size());
 						page.openEditor(input, ChartEditorPart.ID);
 					}
-					catch (PartInitException e) {
+					catch (final PartInitException e) {
 						throw new RuntimeException(e);
 					}
 				}

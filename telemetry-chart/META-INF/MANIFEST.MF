@@ -16,10 +16,15 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.databinding,
  com.ibm.icu,
  jfreechart;bundle-version="1.0.0",
- joda-time;bundle-version="2.1.0"
+ joda-time;bundle-version="2.1.0",
+ org.eclipse.ui.forms;bundle-version="3.5.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
+ org.hbird.rcpgui.archivedparameterprovider.interfaces,
+ org.hbird.rcpgui.commons.control,
+ org.hbird.rcpgui.commons.model,
  org.hbird.rcpgui.parameterlistener.model,
  org.hbird.rcpgui.parameterlistener.serviceinterfaces,
- org.hbird.rcpgui.ssprequester.interfaces
+ org.hbird.rcpgui.ssprequester.interfaces,
+ org.springframework.beans.factory.config;version="3.1.1.RELEASE"

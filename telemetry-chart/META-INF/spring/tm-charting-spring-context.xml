@@ -10,10 +10,10 @@
 					interface="org.hbird.rcpgui.archivedparameterprovider.interfaces.ArchivedParameterProvider"
 					cardinality="1..1">
 	</osgi:reference>
-	
-	 <bean id="bundleContext" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+
+	 <bean id="org.hbird.rcpgui.telemetrychart.bundleContext" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
    		<property name="targetClass">
-   			<value>org.hbird.rcpgui.tvtable.Activator</value>
+   			<value>org.hbird.rcpgui.telemetrychart.Activator</value>
    		</property>
 		<property name="targetMethod">
 			<value>getContext</value>
@@ -36,7 +36,7 @@
 	</osgi:reference>
 
 	<!-- Model representing the return from the publisher service. Used to show all parameters in the model -->
-	<bean id="spaceSystemParametersModel" class="org.hbird.rcpgui.telemetrychart.model.ParameterModel">
+	<bean id="spaceSystemParametersModel" class="org.hbird.rcpgui.telemetrychart.model.SpaceSystemParameterModel">
 		<property name="sspRequester" ref="sspRequesterService"></property>
 	</bean>
 

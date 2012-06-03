@@ -32,8 +32,8 @@ import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.commons.control.ViewPartObservable;
 import org.hbird.rcpgui.commons.control.ViewPartObserver;
 import org.hbird.rcpgui.commons.model.ArchiveParameterFilterSettings;
-import org.hbird.rcpgui.commons.model.ParameterModel;
 import org.hbird.rcpgui.commons.model.LiveArchivedSwitchableModel.MODEL;
+import org.hbird.rcpgui.commons.model.ParameterModel;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
@@ -90,7 +90,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		lblTmServiceStatus.setAlignment(SWT.CENTER);
 		lblTmServiceStatus.setText("Live");
 
-		Label lblFrom = new Label(composite, SWT.NONE);
+		final Label lblFrom = new Label(composite, SWT.NONE);
 		lblFrom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		lblFrom.setText("From");
 
@@ -115,7 +115,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		});
 		timeFrom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-		Label lblTo = new Label(composite, SWT.NONE);
+		final Label lblTo = new Label(composite, SWT.NONE);
 		lblTo.setText("To");
 
 		final org.eclipse.swt.widgets.DateTime dateTo = new org.eclipse.swt.widgets.DateTime(composite, SWT.BORDER | SWT.DROP_DOWN);
@@ -138,7 +138,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		});
 		timeTo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-		Button btnUseTimeFilter = new Button(composite, SWT.CHECK);
+		final Button btnUseTimeFilter = new Button(composite, SWT.CHECK);
 		btnUseTimeFilter.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -149,7 +149,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		});
 		btnUseTimeFilter.setText("use time filter");
 
-		Button btnFilterLive = new Button(composite, SWT.NONE);
+		final Button btnFilterLive = new Button(composite, SWT.NONE);
 		btnFilterLive.setEnabled(false);
 		btnFilterLive.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -213,14 +213,14 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 	protected void toggleLiveArchive() {
 		if (liveMode) {
 			liveMode = false;
-			for (ViewPartObserver o : observers) {
+			for (final ViewPartObserver o : observers) {
 				o.switchModel(MODEL.ARCHIVE);
 			}
 			// btn.setText("Go Live");
 		}
 		else {
 			liveMode = true;
-			for (ViewPartObserver o : observers) {
+			for (final ViewPartObserver o : observers) {
 				o.switchModel(MODEL.LIVE);
 			}
 			// btn.setText("Filter");
@@ -242,7 +242,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 	// }
 
 	private void fireFilterSettingsChanged() {
-		for (ViewPartObserver o : observers) {
+		for (final ViewPartObserver o : observers) {
 			o.updatedFilterSettings(filterSettings);
 		}
 	}
@@ -261,7 +261,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		//
 		final ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[] { "name",
-				"value", "receivedTime" });
+			"value", "receivedTime" });
 		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
 		viewer.setContentProvider(listContentProvider);
 		//
@@ -280,7 +280,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		if (observers == null) {
 			observers = new HashSet<ViewPartObserver>(1);
 		}
-		boolean addedOk = this.observers.add(o);
+		final boolean addedOk = this.observers.add(o);
 	}
 
 	@Override

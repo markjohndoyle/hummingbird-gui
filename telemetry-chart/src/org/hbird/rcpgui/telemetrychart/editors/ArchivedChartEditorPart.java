@@ -19,8 +19,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.hbird.core.commons.tmtc.Parameter;
-import org.hbird.rcpgui.parameterlistener.model.PropertyFilterableSingleParameterModel;
-import org.hbird.rcpgui.telemetrychart.Activator;
+import org.hbird.rcpgui.commons.model.ArchivedParametersModel;
+import org.hbird.rcpgui.commons.model.ParameterModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,14 +34,13 @@ import org.joda.time.DateTime;
  * @author Mark Doyle
  *
  */
-public class ChartEditorPart extends EditorPart implements PropertyChangeListener {
+public class ArchivedChartEditorPart extends EditorPart implements PropertyChangeListener {
 
-	public static final String ID = "org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"; //$NON-NLS-1$
+	public static final String ID = "org.hbird.rcpgui.telemetrychart.editors.ArchivedChartEditorPart"; //$NON-NLS-1$
 
 	private LiveParameterChartEditorInput input;
 
-	// TODO concrete class.
-	private final PropertyFilterableSingleParameterModel model;
+	private final ParameterModel model;
 
 	private TimeSeriesCollection dataset;
 
@@ -51,9 +50,8 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 
 	private boolean urls;
 
-	public ChartEditorPart() {
-		this.model = new PropertyFilterableSingleParameterModel(Activator.getDefault().getBundle().getBundleContext());
-		this.model.addPropertyChangeListener("latestParameter", this);
+	public ArchivedChartEditorPart() {
+		this.model = new ArchivedParametersModel();
 	}
 
 	/**
@@ -91,11 +89,9 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 	}
 
 	private TimeSeriesCollection createDataset() {
-		//		XYSeriesCollection dataset = new XYSeriesCollection();
 		final TimeSeriesCollection dataset = new TimeSeriesCollection();
 		for (final String name : input.getParameterNames()) {
 			System.out.println("Creating new series and adding to data set: " + name);
-			//			XYSeries series = new XYSeries(name);
 			final TimeSeries series = new TimeSeries(name);
 			dataset.addSeries(series);
 		}
@@ -136,12 +132,9 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 		this.input = (LiveParameterChartEditorInput) input;
 		setSite(site);
 		setInput(input);
-
-		// Set parameter name filter on model
-		for (final String name : this.input.getParameterNames()) {
-			model.addFilter("qualifiedName", name);
-		}
 		setPartName("Parameter plot");
+
+		// TODO populate model from archive service here?
 	}
 
 	@Override
