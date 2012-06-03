@@ -22,4 +22,5 @@ Bundle-ClassPath: libs/gluegen-rt.jar,
  .
 Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
  org.hbird.rcpgui.parameterlistener.model,
- org.hbird.rcpgui.parameterlistener.serviceinterfaces
+ org.hbird.rcpgui.parameterlistener.serviceinterfaces,
+ org.osgi.framework;version="1.4.0"

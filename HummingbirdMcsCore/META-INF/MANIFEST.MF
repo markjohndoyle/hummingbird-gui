@@ -12,3 +12,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.hbird.rcpgui.hummingbirdbaseapp,
  org.hbird.rcpgui.hummingbirdbaseapp.perspectives
+Import-Package: org.osgi.framework;version="1.4.0"

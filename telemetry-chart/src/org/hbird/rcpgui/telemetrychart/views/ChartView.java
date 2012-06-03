@@ -33,7 +33,9 @@ public class ChartView extends ViewPart {
 	private DataBindingContext m_bindingContext;
 
 	private ParameterModel spaceSystemParametersModel;
+
 	private ListViewer listViewer;
+
 	private final ParameterNameFilter nameFilter = new ParameterNameFilter("");
 
 	/**

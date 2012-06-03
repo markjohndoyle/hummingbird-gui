@@ -12,4 +12,6 @@ public interface ArchivedParameterProvider {
 	List<Parameter> getParametersByDescription(String description, int numberOfParameters);
 
 	List<Parameter> getParametersByReceivedTime(DateTime startTime, DateTime endTime, int numberOfParameters);
+
+	List<Parameter> findByReceivedTimeBetween(long startDate, long endDate, int page, int numberOfParameters);
 }

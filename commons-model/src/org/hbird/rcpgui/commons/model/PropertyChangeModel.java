@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.tvtable.model;
+package org.hbird.rcpgui.commons.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

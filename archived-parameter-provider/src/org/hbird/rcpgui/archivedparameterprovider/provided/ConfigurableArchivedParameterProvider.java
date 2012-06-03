@@ -1,5 +1,7 @@
 package org.hbird.rcpgui.archivedparameterprovider.provided;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.camel.Produce;
@@ -15,6 +17,9 @@ public class ConfigurableArchivedParameterProvider implements ArchivedParameterP
 
 	@Produce(uri = "activemq:requestArchivedParametersByReceivedTime?exchangePattern=InOut")
 	ProducerTemplate archivedParameterServiceByReceivedTime;
+
+	@Produce(uri = "activemq:findByReceivedTimeBetween?exchangePattern=InOut")
+	ProducerTemplate findByReceivedTimeBetweenService;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // Unavoidable type erasure issues.
 	@Override
@@ -36,14 +41,25 @@ public class ConfigurableArchivedParameterProvider implements ArchivedParameterP
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // Unavoidable type erasure issues.
 	@Override
 	public List<Parameter> getParametersByReceivedTime(final DateTime startTime, final DateTime endTime, final int numberOfParameters) {
-		final Object[] args = null;
-		args[0] = startTime;
-		args[1] = endTime;
-
+		System.out.println("Sending request to archive service");
+		final Date[] args = new Date[2];
+		args[0] = startTime.toDate();
+		args[1] = endTime.toDate();
 		List<Parameter> results;
-
 		results = archivedParameterServiceByReceivedTime.requestBody(args, List.class);
+		return results;
+	}
 
+	@Override
+	public List<Parameter> findByReceivedTimeBetween(final long startDate, final long endDate, final int page, final int numberOfParameters) {
+		System.out.println("Sending request to archive service - " + page + ":" + numberOfParameters);
+		List<Object> args = new ArrayList<Object>();
+		args.add(startDate);
+		args.add(endDate);
+		args.add(page);
+		args.add(numberOfParameters);
+		List<Parameter> results;
+		results = findByReceivedTimeBetweenService.requestBody(args, List.class);
 		return results;
 	}
 

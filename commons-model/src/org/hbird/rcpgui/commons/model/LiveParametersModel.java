@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.tvtable.model;
+package org.hbird.rcpgui.commons.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,6 @@ public class LiveParametersModel extends PropertyChangeModel implements NewParam
 	private volatile ServiceRegistration modelListenerServiceReg;
 
 	private List<Parameter<?>> parameters;
-
-	@SuppressWarnings("unused") // private, only construct with BundleContext
-	private LiveParametersModel() {
-	}
 
 	public LiveParametersModel(final BundleContext context) {
 		registerModelListenerService(context);

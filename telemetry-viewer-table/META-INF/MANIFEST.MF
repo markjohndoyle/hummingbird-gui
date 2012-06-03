@@ -14,10 +14,18 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
  com.ibm.icu,
- org.eclipse.springframework.util;bundle-version="1.0.4",
- joda-time;bundle-version="2.1.0"
+ org.eclipse.nebula.widgets.grid;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
+Import-Package: org.eclipse.springframework.util,
+ org.hbird.core.commons.tmtc;version="0.0.1.SNAPSHOT",
  org.hbird.rcpgui.archivedparameterprovider.interfaces,
- org.hbird.rcpgui.parameterlistener.serviceinterfaces
+ org.hbird.rcpgui.commons.control,
+ org.hbird.rcpgui.commons.model,
+ org.hbird.rcpgui.parameterlistener.serviceinterfaces,
+ org.joda.time;version="2.1.0",
+ org.joda.time.base;version="2.1.0",
+ org.joda.time.format;version="2.1.0",
+ org.osgi.framework;version="1.4.0",
+ org.springframework.beans.factory.annotation;version="3.0.6.RELEASE",
+ org.springframework.beans.factory.config;version="3.1.1.RELEASE"

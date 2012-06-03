@@ -30,6 +30,11 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.joda.time.DateTime;
 import org.osgi.framework.ServiceRegistration;
 
+/**
+ *
+ * @author Mark Doyle
+ *
+ */
 public class ChartEditorPart extends EditorPart implements PropertyChangeListener {
 
 	public static final String ID = "org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"; //$NON-NLS-1$

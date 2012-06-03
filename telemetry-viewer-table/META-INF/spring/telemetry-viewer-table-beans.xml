@@ -1,15 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	   	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	   					   	http://www.springframework.org/schema/osgi 
+	   					   	http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<bean id="org.hbird.rcpgui.tvtable.views.TelemetryTable" 
-		  class="org.hbird.rcpgui.tvtable.views.TelemetryTable" 
-		  scope="prototype"/>
-
+	<!-- Service for the Parameter model -->
 	<osgi:reference id="archivedParameterRetrievalService" 
 					interface="org.hbird.rcpgui.archivedparameterprovider.interfaces.ArchivedParameterProvider"
 					cardinality="1..1">
 	</osgi:reference>
+	
+	 <bean id="bundleContext" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+   		<property name="targetClass">
+   			<value>org.hbird.rcpgui.tvtable.Activator</value>
+   		</property>
+		<property name="targetMethod">
+			<value>getContext</value>
+		</property>
+ 	</bean>
+
+	<!-- Archive model for the view -->
+	<bean id="archiveModel"
+		  class="org.hbird.rcpgui.commons.model.ArchivedParametersModel">
+		  <property name="archivedParameterRetrievalService" ref="archivedParameterRetrievalService"></property>
+	</bean>
+	
+	<!-- Switchable parameter model for the view -->
+	<bean id="switchableModel"
+		  class="org.hbird.rcpgui.commons.model.SwitchableLiveArchivedModel">
+		  <constructor-arg ref="bundleContext"></constructor-arg>
+		  <property name="archivedParameterRetrievalService" ref="archivedParameterRetrievalService"></property>
+	</bean>
+	
+	<!-- Controller to link the view and model -->
+	<bean id = "telemetryModelController"
+		  class="org.hbird.rcpgui.commons.control.ModelSwitchingViewPartController">
+		  <property name="model" ref="switchableModel"></property>
+	</bean>
+
+	<!-- Main TM view -->
+	<bean id="org.hbird.rcpgui.tvtable.views.TelemetryTable" 
+		  class="org.hbird.rcpgui.tvtable.views.TelemetryTable">
+<!--  scope="prototype"> -->
+		  <property name="model" ref="switchableModel"></property>
+	</bean>
+	
+	<!-- Note, the scope of the view cannot be scope because a new view is created after the observer registration! -->
+	<bean id="registerController" 
+		  class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="targetObject">
+    		<ref local="org.hbird.rcpgui.tvtable.views.TelemetryTable"/>
+    	</property>
+    	<property name="targetMethod">
+    		<value>addObserver</value>
+    	</property>
+    	<property name="arguments">
+	      	<ref local="telemetryModelController"/>
+    	</property>
+	</bean>
 </beans>

@@ -8,5 +8,5 @@ Export-Package: org.hbird.rcpgui.parameterlistener.model,
  org.hbird.rcpgui.parameterlistener.serviceinterfaces
 Import-Package: org.apache.commons.lang;version="2.6.0",
  org.hbird.core.commons.tmtc,
- org.osgi.framework;version="1.5.0"
+ org.osgi.framework;version="1.4.0"
 Bundle-Vendor: hbird

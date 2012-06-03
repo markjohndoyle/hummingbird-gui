@@ -40,6 +40,10 @@ public class ParameterComparator extends ViewerComparator {
 
 	@Override
 	public int compare(final Viewer viewer, final Object e1, final Object e2) {
+		if(e1 == null || e2 == null) {
+			return 0;
+		}
+
 		Parameter<?> p1 = (Parameter<?>) e1;
 		Parameter<?> p2 = (Parameter<?>) e2;
 

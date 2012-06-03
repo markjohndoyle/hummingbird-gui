@@ -12,13 +12,7 @@
 
 	
 	<camel:camelContext>
-		<!-- Wire a JMS queue to the parameter archive retriever service. Any requests that hit the queue will be processes
-			 by the archive retriever and returned on a temp queue created by camel -->
-		<camel:route>
-			<camel:from uri="activemq:requestArchivedParametersByQualifiedName"></camel:from>
-			<camel:to uri="bean:configurableArchivedParameterProvider"></camel:to>
-		</camel:route>
-		
+		<camel:package>org.hbird.rcpgui.archivedparameterprovider</camel:package>
 	</camel:camelContext>
 
 </beans>
