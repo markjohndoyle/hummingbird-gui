@@ -22,12 +22,6 @@
 		</property>
  	</bean>
 
-	<!-- Archive model for the view -->
-	<bean id="archiveModel"
-		  class="org.hbird.rcpgui.commons.model.ArchivedParametersModel">
-		  <property name="archivedParameterRetrievalService" ref="archivedParameterRetrievalService"></property>
-	</bean>
-	
 	<!-- Switchable parameter model for the view -->
 	<bean id="switchableModel"
 		  class="org.hbird.rcpgui.commons.model.SwitchableLiveArchivedModel">

@@ -9,10 +9,12 @@ import org.eclipse.ui.IPersistableElement;
 public class LiveParameterChartEditorInput implements IEditorInput {
 
 	private final List<String> parameterNames;
+	private final List<String> shortParameterNames;
 
-	public LiveParameterChartEditorInput(final List<String> parameterNames) {
+	public LiveParameterChartEditorInput(final List<String> parameterNames, final List<String> shortNames) {
 		System.out.println("Input created for " + parameterNames.size());
 		this.parameterNames = parameterNames;
+		this.shortParameterNames = shortNames;
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class LiveParameterChartEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return "Parameter ChartEditorPart";
+		return "Parameter LiveChartEditorPart";
 	}
 
 	public List<String> getParameterNames() {
@@ -89,6 +91,10 @@ public class LiveParameterChartEditorInput implements IEditorInput {
 			return false;
 		}
 		return true;
+	}
+
+	public List<String> getShortParameterNames() {
+		return shortParameterNames;
 	}
 
 }

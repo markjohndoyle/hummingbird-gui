@@ -15,6 +15,8 @@ Mark Doyle - Johannes Klug - Gert Villemos
    </configIni>
 
    <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -console</programArgs>
+      <vmArgs>-Djogamp.gluegen.UseTempJarCache=false -Dorg.osgi.framework.system.packages.extra=javax.annotation;version=1.0</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -37,47 +39,57 @@ Mark Doyle - Johannes Klug - Gert Villemos
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
 
+
    <plugins>
-      <plugin id="JChart2D"/>
-      <plugin id="camel-parameter-provider"/>
-      <plugin id="com.google.gson" fragment=""/>
+      <plugin id="archived-parameter-provider"/>
+      <plugin id="com.google.guava"/>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.ibm.icu.source"/>
-      <plugin id="com.logica.hummingbird.SimulatorPlugin" fragment=""/>
-      <plugin id="com.logica.hummingbird.commons" fragment=""/>
-      <plugin id="com.logica.hummingbird.simulator" fragment=""/>
-      <plugin id="com.logica.hummingbird.space-system-model" fragment=""/>
-      <plugin id="com.logica.hummingbird.tele" fragment=""/>
-      <plugin id="com.logica.hummingbird.xtce" fragment=""/>
+      <plugin id="com.jogamp"/>
+      <plugin id="com.mongodb"/>
+      <plugin id="com.springsource.javax.activation"/>
       <plugin id="com.springsource.javax.annotation"/>
-      <plugin id="com.springsource.net.sf.cglib"/>
+      <plugin id="com.springsource.javax.ejb"/>
+      <plugin id="com.springsource.javax.el"/>
+      <plugin id="com.springsource.javax.mail"/>
+      <plugin id="com.springsource.javax.persistence"/>
+      <plugin id="com.springsource.javax.servlet"/>
+      <plugin id="com.springsource.javax.xml.rpc"/>
+      <plugin id="com.springsource.javax.xml.soap"/>
       <plugin id="com.springsource.org.aopalliance"/>
-      <plugin id="com.springsource.org.apache.commons.io"/>
       <plugin id="com.springsource.org.apache.commons.logging"/>
-      <plugin id="com.springsource.org.castor"/>
-      <plugin id="commons-management"/>
+      <plugin id="com.springsource.org.apache.jasper.org.eclipse.jdt"/>
+      <plugin id="com.springsource.org.apache.log4j"/>
+      <plugin id="com.springsource.org.objectweb.asm"/>
+      <plugin id="jackson-core-asl"/>
+      <plugin id="jackson-mapper-asl"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
-      <plugin id="jcl104.over.slf4j"/>
+      <plugin id="jfreechart"/>
+      <plugin id="joda-time"/>
+      <plugin id="jogl-2-nativelibs-win64" fragment="true"/>
+      <plugin id="log4j.over.slf4j"/>
       <plugin id="logging_configuration" fragment="true"/>
       <plugin id="org.apache.activemq.activemq-camel"/>
       <plugin id="org.apache.activemq.activemq-core"/>
+      <plugin id="org.apache.activemq.activemq-pool"/>
       <plugin id="org.apache.activemq.kahadb"/>
       <plugin id="org.apache.ant"/>
       <plugin id="org.apache.camel.camel-core"/>
       <plugin id="org.apache.camel.camel-jms"/>
-      <plugin id="org.apache.camel.camel-osgi" fragment=""/>
       <plugin id="org.apache.camel.camel-spring"/>
+      <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.el"/>
+      <plugin id="org.apache.commons.httpclient"/>
       <plugin id="org.apache.commons.lang"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.commons.net"/>
+      <plugin id="org.apache.commons.pool"/>
       <plugin id="org.apache.geronimo.specs.geronimo-j2ee-management_1.1_spec"/>
       <plugin id="org.apache.geronimo.specs.geronimo-jms_1.1_spec"/>
       <plugin id="org.apache.jasper"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
-      <plugin id="org.apache.oro"/>
       <plugin id="org.eclipse.ant.core"/>
-      <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
@@ -85,141 +97,177 @@ Mark Doyle - Johannes Klug - Gert Villemos
       <plugin id="org.eclipse.core.databinding.observable"/>
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
-      <plugin id="org.eclipse.core.filebuffers"/>
       <plugin id="org.eclipse.core.filesystem"/>
       <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
-      <plugin id="org.eclipse.core.net"/>
-      <plugin id="org.eclipse.core.net.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.variables"/>
-      <plugin id="org.eclipse.draw2d" fragment=""/>
-      <plugin id="org.eclipse.ecf"/>
-      <plugin id="org.eclipse.ecf.filetransfer"/>
-      <plugin id="org.eclipse.ecf.identity"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer.ssl" fragment="true"/>
-      <plugin id="org.eclipse.ecf.ssl" fragment="true"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
-      <plugin id="org.eclipse.equinox.concurrent"/>
-      <plugin id="org.eclipse.equinox.http.jetty"/>
       <plugin id="org.eclipse.equinox.http.servlet"/>
-      <plugin id="org.eclipse.equinox.launcher"/>
-      <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.equinox.p2.core"/>
-      <plugin id="org.eclipse.equinox.p2.engine"/>
-      <plugin id="org.eclipse.equinox.p2.metadata"/>
-      <plugin id="org.eclipse.equinox.p2.metadata.repository"/>
-      <plugin id="org.eclipse.equinox.p2.repository"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
-      <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.gef" fragment=""/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
-      <plugin id="org.eclipse.jface.text"/>
+      <plugin id="org.eclipse.nebula.widgets.grid"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
+      <plugin id="org.eclipse.springframework.util"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
-      <plugin id="org.eclipse.ui.console"/>
-      <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>
-      <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.intro"/>
-      <plugin id="org.eclipse.ui.intro.source"/>
-      <plugin id="org.eclipse.ui.views"/>
-      <plugin id="org.eclipse.ui.views.properties.tabbed"/>
-      <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
-      <plugin id="org.eclipse.ui.workbench.texteditor"/>
+      <plugin id="org.fusesource.hawtbuf.hawtbuf"/>
+      <plugin id="org.fusesource.hawtdispatch.hawtdispatch"/>
+      <plugin id="org.fusesource.hawtdispatch.hawtdispatch-transport"/>
+      <plugin id="org.fusesource.mqtt-client.mqtt-client"/>
+      <plugin id="org.hbird.core.commons"/>
+      <plugin id="org.hbird.core.space-system-model"/>
+      <plugin id="org.hbird.rcp.telemetry-viewer-table"/>
+      <plugin id="org.hbird.rcpgui.camel-parameter-provider"/>
+      <plugin id="org.hbird.rcpgui.commons.mvc"/>
       <plugin id="org.hbird.rcpgui.hummingbirdbaseapp"/>
-      <plugin id="org.hbird.rcpgui.jogl-native-libs-winx64" fragment="true"/>
-      <plugin id="org.hbird.rcpgui.telemetry-provision"/>
-      <plugin id="org.hbird.rcpgui.viewers.telemetry"/>
+      <plugin id="org.hbird.rcpgui.jogl-1.1-native-libs-winx64" fragment="true"/>
+      <plugin id="org.hbird.rcpgui.parameter-listener"/>
+      <plugin id="org.hbird.rcpgui.telemetrychart"/>
       <plugin id="org.hbird.rcpgui.worldwind-globe"/>
-      <plugin id="org.mortbay.jetty.server"/>
-      <plugin id="org.mortbay.jetty.util"/>
+      <plugin id="org.jzy3d"/>
       <plugin id="org.springframework.aop"/>
+      <plugin id="org.springframework.asm"/>
       <plugin id="org.springframework.beans"/>
       <plugin id="org.springframework.context"/>
       <plugin id="org.springframework.core"/>
+      <plugin id="org.springframework.data.commons"/>
+      <plugin id="org.springframework.data.mongodb"/>
+      <plugin id="org.springframework.expression"/>
       <plugin id="org.springframework.jms"/>
       <plugin id="org.springframework.osgi.core"/>
       <plugin id="org.springframework.osgi.extender"/>
-      <plugin id="org.springframework.osgi.extensions.annotations"/>
       <plugin id="org.springframework.osgi.io"/>
       <plugin id="org.springframework.osgi.log4j.osgi"/>
       <plugin id="org.springframework.transaction"/>
-      <plugin id="parameter-provider"/>
+      <plugin id="org.springframework.web"/>
       <plugin id="slf4j.api"/>
       <plugin id="slf4j.log4j12" fragment="true"/>
+      <plugin id="space-system-publisher-requester"/>
    </plugins>
 
    <configurations>
-      <plugin id="JChart2D" autoStart="false" startLevel="0" />
-      <plugin id="camel-parameter-provider" autoStart="true" startLevel="0" />
+      <plugin id="archived-parameter-provider" autoStart="false" startLevel="0" />
+      <plugin id="com.google.guava" autoStart="false" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
+      <plugin id="com.jogamp" autoStart="false" startLevel="0" />
+      <plugin id="com.mongodb" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.activation" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.javax.annotation" autoStart="false" startLevel="0" />
-      <plugin id="com.springsource.net.sf.cglib" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.ejb" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.el" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.mail" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.persistence" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.servlet" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.xml.rpc" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.javax.xml.soap" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.org.aopalliance" autoStart="false" startLevel="0" />
       <plugin id="com.springsource.org.apache.commons.logging" autoStart="false" startLevel="0" />
-      <plugin id="commons-management" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.org.apache.jasper.org.eclipse.jdt" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.org.apache.log4j" autoStart="false" startLevel="0" />
+      <plugin id="com.springsource.org.objectweb.asm" autoStart="false" startLevel="0" />
+      <plugin id="jackson-core-asl" autoStart="false" startLevel="0" />
+      <plugin id="jackson-mapper-asl" autoStart="false" startLevel="0" />
       <plugin id="javax.servlet" autoStart="false" startLevel="0" />
-      <plugin id="jcl104.over.slf4j" autoStart="false" startLevel="0" />
+      <plugin id="javax.servlet.jsp" autoStart="false" startLevel="0" />
+      <plugin id="jfreechart" autoStart="false" startLevel="0" />
+      <plugin id="joda-time" autoStart="false" startLevel="0" />
+      <plugin id="log4j.over.slf4j" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.activemq-camel" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.activemq-core" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.activemq.activemq-pool" autoStart="false" startLevel="0" />
       <plugin id="org.apache.activemq.kahadb" autoStart="false" startLevel="0" />
-      <plugin id="org.apache.camel.camel-core" autoStart="true" startLevel="0" />
-      <plugin id="org.apache.camel.camel-jms" autoStart="true" startLevel="0" />
-      <plugin id="org.apache.camel.camel-osgi" autoStart="true" startLevel="0" />
-      <plugin id="org.apache.camel.camel-spring" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.ant" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.camel.camel-core" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.camel.camel-jms" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.camel.camel-spring" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.codec" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.el" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.httpclient" autoStart="false" startLevel="0" />
       <plugin id="org.apache.commons.lang" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.logging" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.net" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.commons.pool" autoStart="false" startLevel="0" />
       <plugin id="org.apache.geronimo.specs.geronimo-j2ee-management_1.1_spec" autoStart="false" startLevel="0" />
       <plugin id="org.apache.geronimo.specs.geronimo-jms_1.1_spec" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.jasper" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.lucene" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.lucene.analysis" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.ant.core" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.commands" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.contenttype" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.databinding" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.databinding.beans" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.databinding.observable" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.databinding.property" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.expressions" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.filesystem" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.jobs" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.resources" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.core.runtime.compatibility.auth" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.app" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.variables" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servlet" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.preferences" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.registry" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.help" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.help.base" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.jface" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.jface.databinding" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.nebula.widgets.grid" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.osgi.services" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.springframework.util" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.swt" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.ui.forms" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.ui.intro" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.ui.workbench" autoStart="false" startLevel="0" />
+      <plugin id="org.fusesource.hawtbuf.hawtbuf" autoStart="false" startLevel="0" />
+      <plugin id="org.fusesource.hawtdispatch.hawtdispatch" autoStart="false" startLevel="0" />
+      <plugin id="org.fusesource.hawtdispatch.hawtdispatch-transport" autoStart="false" startLevel="0" />
+      <plugin id="org.fusesource.mqtt-client.mqtt-client" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.core.commons" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.core.space-system-model" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcp.telemetry-viewer-table" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.camel-parameter-provider" autoStart="true" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.commons.mvc" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.hummingbirdbaseapp" autoStart="false" startLevel="0" />
-      <plugin id="org.hbird.rcpgui.telemetry-provision" autoStart="false" startLevel="0" />
-      <plugin id="org.hbird.rcpgui.viewers.telemetry" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.parameter-listener" autoStart="false" startLevel="0" />
+      <plugin id="org.hbird.rcpgui.telemetrychart" autoStart="false" startLevel="0" />
       <plugin id="org.hbird.rcpgui.worldwind-globe" autoStart="false" startLevel="0" />
+      <plugin id="org.jzy3d" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.aop" autoStart="false" startLevel="0" />
+      <plugin id="org.springframework.asm" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.beans" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.context" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.core" autoStart="false" startLevel="0" />
+      <plugin id="org.springframework.data.commons" autoStart="false" startLevel="0" />
+      <plugin id="org.springframework.data.mongodb" autoStart="false" startLevel="0" />
+      <plugin id="org.springframework.expression" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.jms" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.osgi.core" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.osgi.extender" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.osgi.extensions.annotations" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.osgi.io" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.osgi.log4j.osgi" autoStart="false" startLevel="0" />
       <plugin id="org.springframework.transaction" autoStart="false" startLevel="0" />
+      <plugin id="org.springframework.web" autoStart="false" startLevel="0" />
+      <plugin id="slf4j.api" autoStart="false" startLevel="0" />
+      <plugin id="space-system-publisher-requester" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>

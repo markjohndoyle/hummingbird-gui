@@ -10,6 +10,7 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.IconLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.Polyline;
+import gov.nasa.worldwind.render.SurfacePolyline;
 import gov.nasa.worldwind.render.UserFacingIcon;
 import gov.nasa.worldwind.render.WWIcon;
 
@@ -29,7 +30,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
-import org.hbird.rcpgui.parameterlistener.model.CappedQueueParameterModel;
+import org.hbird.rcpgui.commons.model.PropertyFilterableSingleParameterModel;
 import org.hbird.rcpgui.worldwindglobe.WorldwindGlobeActivator;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.EstrackStations;
 import org.hbird.rcpgui.worldwindglobe.opengl.groundassets.GroundStation;
@@ -47,9 +48,12 @@ public class MainGlobeView extends ViewPart {
 	private final List<GroundStation> groundStations = new ArrayList<GroundStation>();
 	private Label lblLatitude;
 
-	private CappedQueueParameterModel model;
+	private PropertyFilterableSingleParameterModel model;
+
 	private String latParamName;
 	private String lonParamName;
+
+	private RenderableLayer earthOrientationPolyLineLayer;
 
 	// Initialize the default WW layers
 	static {
@@ -97,6 +101,10 @@ public class MainGlobeView extends ViewPart {
 		loadSat();
 
 		loadGroundStations();
+
+		setupEarthOrientationPolylineLayer();
+//		worldCanvas.getModel().getLayers().add(earthOrientationPolyLineLayer);
+
 		m_bindingContext = initDataBindings();
 
 	}
@@ -120,6 +128,20 @@ public class MainGlobeView extends ViewPart {
 		groundStationLayer.addRenderable(EstrackStations.REDU_STATION);
 
 		worldCanvas.getModel().getLayers().add(groundStationLayer);
+	}
+
+	private void setupEarthOrientationPolylineLayer() {
+		List<LatLon> equatorLinePoints = new ArrayList<LatLon>();
+		equatorLinePoints.add(LatLon.fromRadians(0.0, -180.0));
+		equatorLinePoints.add(LatLon.fromRadians(0.0, 90.0));
+		equatorLinePoints.add(LatLon.fromRadians(0.0, 180.0));
+		equatorLinePoints.add(LatLon.fromRadians(0.0, -90.0));
+		equatorLinePoints.add(LatLon.fromRadians(0.0, -180.0));
+
+		SurfacePolyline equatorLine = new SurfacePolyline(equatorLinePoints);
+
+		earthOrientationPolyLineLayer = new RenderableLayer();
+		earthOrientationPolyLineLayer.addRenderable(equatorLine);
 	}
 
 	private final void loadSat() {
@@ -171,7 +193,7 @@ public class MainGlobeView extends ViewPart {
 		return bindingContext;
 	}
 
-	public void setModel(final CappedQueueParameterModel model) {
+	public void setModel(final PropertyFilterableSingleParameterModel model) {
 		this.model = model;
 	}
 }

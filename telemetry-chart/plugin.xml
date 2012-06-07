@@ -20,10 +20,17 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"
-            id="org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"
+            class="org.hbird.rcpgui.telemetrychart.editors.LiveChartEditorPart"
+            id="org.hbird.rcpgui.telemetrychart.editors.LiveChartEditorPart"
             name="New telemetry chart">
       </editor>
+            <!--class="org.hbird.rcpgui.telemetrychart.editors.ArchivedChartEditorPart"-->
+      <editor
+      		class="org.eclipse.springframework.util.SpringExtensionFactory"
+            default="false"
+            id="org.hbird.rcpgui.telemetrychart.editors.ArchivedChartEditorPart"
+            name="Archived TM chart">
+      </editor>      
    </extension>
    <extension
          point="org.eclipse.ui.commands">

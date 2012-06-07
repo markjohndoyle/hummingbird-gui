@@ -53,7 +53,6 @@ public class SwitchableLiveArchivedModel extends LiveParametersModel implements 
 			return parameters;
 		}
 		else {
-			System.out.println("returning live parameters");
 			return super.getParameters();
 		}
 	}

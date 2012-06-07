@@ -13,8 +13,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.hbird.core.commons.tmtc.Parameter;
+import org.hbird.rcpgui.telemetrychart.editors.ArchivedChartEditorPart;
 import org.hbird.rcpgui.telemetrychart.editors.ArchivedParameterChartEditorInput;
-import org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart;
+import org.hbird.rcpgui.telemetrychart.editors.LiveChartEditorPart;
 import org.hbird.rcpgui.telemetrychart.editors.LiveParameterChartEditorInput;
 import org.hbird.rcpgui.telemetrychart.model.FilterFormModel;
 import org.hbird.rcpgui.telemetrychart.views.ChartView;
@@ -45,6 +46,7 @@ public class NewChartEditorHandler extends AbstractHandler {
 
 		final ChartView view = (ChartView) page.findView(ChartView.ID);
 		final FilterFormModel formModel = view.getFormModel();
+		boolean archiveModel = formModel.isAnyFilterSelected();
 
 		// Get the selection
 		final ISelection selection = view.getSite().getSelectionProvider().getSelection();
@@ -54,17 +56,19 @@ public class NewChartEditorHandler extends AbstractHandler {
 			System.out.println("All selected = " + allSelected.size());
 			if (allSelected != null) {
 				LiveParameterChartEditorInput input = null;
-				final List<String> params = new ArrayList<String>();
+				final List<String> parameterNames = new ArrayList<String>();
+				final List<String> shortParameterNames = new ArrayList<String>();
 				for (final Object obj : allSelected) {
 					if (obj instanceof Parameter<?>) {
 						final Parameter<?> parameter = (Parameter<?>) obj;
 						System.out.println("Adding param " + parameter.getQualifiedName() + " to input list arg");
-						params.add(parameter.getQualifiedName());
-						if(formModel.isAnyFilterSelected()) {
-							input = new ArchivedParameterChartEditorInput(params, formModel);
+						parameterNames.add(parameter.getQualifiedName());
+						shortParameterNames.add(parameter.getName());
+						if (archiveModel) {
+							input = new ArchivedParameterChartEditorInput(parameterNames, shortParameterNames, formModel);
 						}
 						else {
-							input = new LiveParameterChartEditorInput(params);
+							input = new LiveParameterChartEditorInput(parameterNames, shortParameterNames);
 						}
 					}
 				}
@@ -72,7 +76,12 @@ public class NewChartEditorHandler extends AbstractHandler {
 				if (input != null) {
 					try {
 						System.out.println("input contains " + input.getParameterNames().size());
-						page.openEditor(input, ChartEditorPart.ID);
+						if (archiveModel) {
+							page.openEditor(input, ArchivedChartEditorPart.ID);
+						}
+						else {
+							page.openEditor(input, LiveChartEditorPart.ID);
+						}
 					}
 					catch (final PartInitException e) {
 						throw new RuntimeException(e);

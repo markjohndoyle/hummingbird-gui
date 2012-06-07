@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.hbird.rcpgui.telemetrychart.converters;
 
@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 
 /**
  * @author Mark Doyle
- * 
+ *
  */
 public class DateToJodaDateTime extends Converter {
 
@@ -21,6 +21,7 @@ public class DateToJodaDateTime extends Converter {
 	@Override
 	public DateTime convert(final Object fromObject) {
 		if (fromObject instanceof Date) {
+			System.out.println("converting date " + fromObject);
 			return new DateTime(fromObject);
 		}
 		else {

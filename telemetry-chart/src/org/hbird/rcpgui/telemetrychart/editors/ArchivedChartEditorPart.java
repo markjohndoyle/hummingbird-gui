@@ -6,9 +6,11 @@ import java.awt.Frame;
 import java.awt.Panel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JRootPane;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -19,8 +21,9 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.hbird.core.commons.tmtc.Parameter;
-import org.hbird.rcpgui.commons.model.ArchivedParametersModel;
-import org.hbird.rcpgui.commons.model.ParameterModel;
+import org.hbird.rcpgui.commons.model.ArchiveModel;
+import org.hbird.rcpgui.commons.model.ArchiveParameterFilterSettings;
+import org.hbird.rcpgui.telemetrychart.model.FilterFormModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -40,7 +43,7 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 
 	private LiveParameterChartEditorInput input;
 
-	private final ParameterModel model;
+	private ArchiveModel model;
 
 	private TimeSeriesCollection dataset;
 
@@ -51,7 +54,6 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 	private boolean urls;
 
 	public ArchivedChartEditorPart() {
-		this.model = new ArchivedParametersModel();
 	}
 
 	/**
@@ -90,11 +92,34 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 
 	private TimeSeriesCollection createDataset() {
 		final TimeSeriesCollection dataset = new TimeSeriesCollection();
-		for (final String name : input.getParameterNames()) {
-			System.out.println("Creating new series and adding to data set: " + name);
+
+		ArchivedParameterChartEditorInput input = (ArchivedParameterChartEditorInput) this.getEditorInput();
+		FilterFormModel inputFilterModel = input.getFilterModel();
+		ArchiveParameterFilterSettings newFilters = new ArchiveParameterFilterSettings();
+		newFilters.fromTime = inputFilterModel.getCalculatedFromDate();
+		newFilters.toTime = inputFilterModel.getCalculatedToDate();
+		newFilters.useTimefilter = true;
+
+		model.updateFilters(newFilters);
+		List<Parameter<?>> parameters = model.getParameters();
+
+		for (final String name : input.getShortParameterNames()) {
 			final TimeSeries series = new TimeSeries(name);
 			dataset.addSeries(series);
+
 		}
+
+		for (Parameter<?> p : parameters) {
+			for (final String name : input.getParameterNames()) {
+				if (StringUtils.equals(p.getQualifiedName(), name)) {
+					final TimeSeries series = dataset.getSeries(p.getName());
+					final DateTime time = new DateTime(p.getReceivedTime());
+					final Millisecond ms = new Millisecond(time.toDate());
+					series.addOrUpdate(ms, (Integer) p.getValue());
+				}
+			}
+		}
+
 		return dataset;
 	}
 
@@ -124,12 +149,11 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 
 	@Override
 	public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
-		if (!(input instanceof LiveParameterChartEditorInput)) {
+		if (!(input instanceof ArchivedParameterChartEditorInput)) {
 			throw new RuntimeException("Wrong input");
 		}
 
-		final LiveParameterChartEditorInput new_name = (LiveParameterChartEditorInput) input;
-		this.input = (LiveParameterChartEditorInput) input;
+		this.input = (ArchivedParameterChartEditorInput) input;
 		setSite(site);
 		setInput(input);
 		setPartName("Parameter plot");
@@ -153,13 +177,17 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 		if (newValue instanceof Parameter<?>) {
 			final Parameter<?> newParameter = (Parameter<?>) newValue;
 			if (dataset != null) {
-				//				XYSeries series = dataset.getSeries(newParameter.getQualifiedName());
+				// XYSeries series = dataset.getSeries(newParameter.getQualifiedName());
 				final TimeSeries series = dataset.getSeries(newParameter.getQualifiedName());
 				final DateTime time = new DateTime(newParameter.getReceivedTime());
 				final Millisecond ms = new Millisecond(time.toDate());
 				series.add(ms, (Integer) newParameter.getValue());
 			}
 		}
+	}
+
+	public void setModel(final ArchiveModel model) {
+		this.model = model;
 	}
 
 }

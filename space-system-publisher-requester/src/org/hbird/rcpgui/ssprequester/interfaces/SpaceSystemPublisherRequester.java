@@ -7,4 +7,7 @@ import org.hbird.core.commons.tmtc.ParameterGroup;
 public interface SpaceSystemPublisherRequester {
 	List<ParameterGroup> requestParameterGroups();
 	List<ParameterGroup> requestCommands();
+
+	void asyncRequestParameterGroups(AsyncPublisherRequestListener l);
+	void asyncRequestCommands(AsyncPublisherRequestListener l);
 }

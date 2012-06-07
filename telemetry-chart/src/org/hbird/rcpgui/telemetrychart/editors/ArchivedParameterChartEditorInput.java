@@ -8,8 +8,8 @@ public class ArchivedParameterChartEditorInput extends LiveParameterChartEditorI
 
 	FilterFormModel filterModel;
 
-	public ArchivedParameterChartEditorInput(final List<String> parameterNames, final FilterFormModel formModel) {
-		super(parameterNames);
+	public ArchivedParameterChartEditorInput(final List<String> parameterNames, final List<String> shortNames, final FilterFormModel formModel) {
+		super(parameterNames, shortNames);
 		this.filterModel = formModel;
 	}
 

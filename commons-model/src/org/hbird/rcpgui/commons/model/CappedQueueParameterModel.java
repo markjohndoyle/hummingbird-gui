@@ -1,4 +1,4 @@
-package org.hbird.rcpgui.parameterlistener.model;
+package org.hbird.rcpgui.commons.model;
 
 import java.util.ArrayList;
 import java.util.List;

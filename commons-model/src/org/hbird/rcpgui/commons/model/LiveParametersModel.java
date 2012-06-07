@@ -1,35 +1,29 @@
 package org.hbird.rcpgui.commons.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.Map;
 
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-public class LiveParametersModel extends PropertyChangeModel implements NewParameterListener, ParameterModel {
+public class LiveParametersModel extends PropertyChangeModel implements LiveParameterModel {
 
-	// TODO move to configuration
-	private final int defaultCapacity = 500;
+	private List<Parameter<?>> parameters = new ArrayList<Parameter<?>>();
 
-	private final Queue<Parameter<?>> parameterQueue = new ArrayBlockingQueue<Parameter<?>>(defaultCapacity);
+	private final Map<String, Parameter<?>> uniqueParameters = new HashMap<String, Parameter<?>>();
 
 	private volatile ServiceRegistration modelListenerServiceReg;
-
-	private List<Parameter<?>> parameters;
 
 	public LiveParametersModel(final BundleContext context) {
 		registerModelListenerService(context);
 	}
 
 	public void registerModelListenerService(final BundleContext context) {
-		final Properties metadata = new Properties();
-		metadata.setProperty("tmType", "Live");
-		modelListenerServiceReg = context.registerService(NewParameterListener.class.getName(), this, metadata);
+		modelListenerServiceReg = context.registerService(NewParameterListener.class.getName(), this, null);
 	}
 
 	public void unregisterModelListenerService() {
@@ -43,22 +37,19 @@ public class LiveParametersModel extends PropertyChangeModel implements NewParam
 
 	@Override
 	public synchronized void newParameter(final Parameter<?> newParameter) {
-		if (!parameterQueue.offer(newParameter)) {
-			parameterQueue.poll();
-		}
-		parameterQueue.add(newParameter);
-		parameters = new ArrayList<Parameter<?>>(parameterQueue);
+		uniqueParameters.put(newParameter.getQualifiedName(), newParameter);
+		parameters = new ArrayList<Parameter<?>>(uniqueParameters.values());
 		propChangeSupport.firePropertyChange("parameters", null, parameters);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.hbird.rcpgui.tvtable.model.ParameterModel#getParameters()
 	 */
 	@Override
 	public List<Parameter<?>> getParameters() {
 		return parameters;
 	}
-
 
 }

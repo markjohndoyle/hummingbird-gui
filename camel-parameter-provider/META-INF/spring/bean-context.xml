@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xmlns:camel="http://camel.apache.org/schema/spring"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd 
-						http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:osgi="http://www.springframework.org/schema/osgi"
+		xmlns:camel="http://camel.apache.org/schema/spring"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/osgi 
+							http://www.springframework.org/schema/osgi/spring-osgi.xsd 
+							http://camel.apache.org/schema/spring 
+							http://camel.apache.org/schema/spring/camel-spring.xsd">
 
 	<import resource="activemq.xml"/>
 	
 	<!-- Grabs all registered live TM listener services -->
 	<osgi:list id="newLiveParameterListenerServiceList"
 			   interface="org.hbird.rcpgui.parameterlistener.serviceinterfaces.NewParameterListener"
-			   cardinality="0..N"
-			   filter="(tmType='Live')">
+			   cardinality="0..N">
 	</osgi:list>
 	
 	<!-- Setup the Camel based live TM distributor. This sends parameters routed to it in the camel context
@@ -23,9 +25,9 @@
 		<property name="newParameterListenerServices" ref="newLiveParameterListenerServiceList"></property>
 	</bean>
 	
-	<camel:camelContext>
+	<camel:camelContext id="OSGiCamelBasedParameterProvision">
 		<camel:route id="liveTmIn">
-			<camel:from uri="activemq:parameterGroups"></camel:from>
+			<camel:from uri="activemq:topic:parameterGroups?concurrentConsumers=1&amp;maxConcurrentConsumers=1"></camel:from>
 			<camel:to uri="liveParameterDistributer"></camel:to>
 		</camel:route>
 	</camel:camelContext>

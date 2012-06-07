@@ -1,19 +1,19 @@
 package org.hbird.rcpgui.telemetrychart.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hbird.core.commons.tmtc.Parameter;
 import org.hbird.core.commons.tmtc.ParameterGroup;
+import org.hbird.rcpgui.commons.model.PropertyChangeModel;
+import org.hbird.rcpgui.ssprequester.interfaces.AsyncPublisherRequestListener;
 import org.hbird.rcpgui.ssprequester.interfaces.SpaceSystemPublisherRequester;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class SpaceSystemParameterModel {
+public class SpaceSystemParameterModel extends PropertyChangeModel implements AsyncPublisherRequestListener {
 
-	private final PropertyChangeSupport propChangeSupport = new PropertyChangeSupport(this);
-
+	@Autowired
 	private SpaceSystemPublisherRequester sspRequester;
 
 	private final Set<Parameter<?>> parameters = new HashSet<Parameter<?>>();
@@ -23,28 +23,25 @@ public class SpaceSystemParameterModel {
 	}
 
 	public void syncWithSpaceSystemPublisher() {
-		List<ParameterGroup> parameterGroups = sspRequester.requestParameterGroups();
-		for(ParameterGroup pg : parameterGroups) {
-			for(Parameter<?> parameter : pg.getAllParameters().values()) {
+		sspRequester.asyncRequestParameterGroups(this);
+	}
+
+	@Override
+	public void publisherRequestComplete(final Object requestResult) {
+		System.out.println("Request complete");
+		@SuppressWarnings("unchecked")
+		List<ParameterGroup> parameterGroups = (List<ParameterGroup>) requestResult;
+		for (ParameterGroup pg : parameterGroups) {
+			for (Parameter<?> parameter : pg.getAllParameters().values()) {
 				parameters.add(parameter);
 			}
 		}
+		this.propChangeSupport.firePropertyChange("parameters", null, parameters);
 	}
 
-	public void addPropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-		this.propChangeSupport.removePropertyChangeListener(propertyName, listener);
+	@Override
+	public void publisherRequestFailed() {
+		System.out.println("Request Failed - TODO set boolean and let gui act as required");
 	}
 
 	public void setSspRequester(final SpaceSystemPublisherRequester sspRequester) {

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
 						http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd">
 	
-	<bean id="parameterModel" class="org.hbird.rcpgui.parameterlistener.model.CappedQueueParameterModel">
+	<bean id="parameterModel" class="org.hbird.rcpgui.commons.model.PropertyFilterableSingleParameterModel">
 	</bean>
 	
 	<osgi:service id="parameterListenerService"

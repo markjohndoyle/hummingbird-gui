@@ -13,6 +13,6 @@ public class ArchiveParameterFilterSettings {
 
 	public boolean useQualifiedNamefilter = false;
 
-	public String QulaifiedName = null;
+	public String qualifiedName = null;
 
 }

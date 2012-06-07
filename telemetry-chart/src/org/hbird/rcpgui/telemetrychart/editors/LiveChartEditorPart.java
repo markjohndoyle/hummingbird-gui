@@ -19,7 +19,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.hbird.core.commons.tmtc.Parameter;
-import org.hbird.rcpgui.parameterlistener.model.PropertyFilterableSingleParameterModel;
+import org.hbird.rcpgui.commons.model.PropertyFilterableSingleParameterModel;
 import org.hbird.rcpgui.telemetrychart.Activator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -34,9 +34,9 @@ import org.joda.time.DateTime;
  * @author Mark Doyle
  *
  */
-public class ChartEditorPart extends EditorPart implements PropertyChangeListener {
+public class LiveChartEditorPart extends EditorPart implements PropertyChangeListener {
 
-	public static final String ID = "org.hbird.rcpgui.telemetrychart.editors.ChartEditorPart"; //$NON-NLS-1$
+	public static final String ID = "org.hbird.rcpgui.telemetrychart.editors.LiveChartEditorPart"; //$NON-NLS-1$
 
 	private LiveParameterChartEditorInput input;
 
@@ -51,7 +51,7 @@ public class ChartEditorPart extends EditorPart implements PropertyChangeListene
 
 	private boolean urls;
 
-	public ChartEditorPart() {
+	public LiveChartEditorPart() {
 		this.model = new PropertyFilterableSingleParameterModel(Activator.getDefault().getBundle().getBundleContext());
 		this.model.addPropertyChangeListener("latestParameter", this);
 	}

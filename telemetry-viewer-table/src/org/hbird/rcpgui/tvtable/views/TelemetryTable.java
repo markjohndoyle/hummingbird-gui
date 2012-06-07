@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -33,7 +34,7 @@ import org.hbird.rcpgui.commons.control.ViewPartObservable;
 import org.hbird.rcpgui.commons.control.ViewPartObserver;
 import org.hbird.rcpgui.commons.model.ArchiveParameterFilterSettings;
 import org.hbird.rcpgui.commons.model.LiveArchivedSwitchableModel.MODEL;
-import org.hbird.rcpgui.commons.model.ParameterModel;
+import org.hbird.rcpgui.commons.model.SwitchableLiveArchivedModel;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
@@ -51,7 +52,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 	 */
 	public static final String ID = "org.hbird.rcpgui.tvtable.views.TelemetryTable";
 
-	private ParameterModel model;
+	private SwitchableLiveArchivedModel model;
 	// private final ParameterModel liveModel = new LiveParametersModel(Activator.getContext());
 	// private ParameterModel archiveModel;
 
@@ -64,6 +65,8 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 	private Set<ViewPartObserver> observers;
 
 	private boolean liveMode = true;
+
+	private CLabel lblTmServiceStatus;
 
 	/**
 	 * The constructor.
@@ -83,7 +86,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		composite.setLayout(new GridLayout(1, false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
 
-		final CLabel lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
+		lblTmServiceStatus = new CLabel(composite, SWT.BORDER);
 		lblTmServiceStatus.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		lblTmServiceStatus.setForeground(SWTResourceManager.getColor(0, 153, 255));
 		lblTmServiceStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
@@ -139,6 +142,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		timeTo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 		final Button btnUseTimeFilter = new Button(composite, SWT.CHECK);
+		btnUseTimeFilter.setEnabled(false);
 		btnUseTimeFilter.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -149,37 +153,31 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		});
 		btnUseTimeFilter.setText("use time filter");
 
-		final Button btnFilterLive = new Button(composite, SWT.NONE);
-		btnFilterLive.setEnabled(false);
-		btnFilterLive.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				// toggleLiveArchive((Button)e.getSource());
-			}
-		});
-		btnFilterLive.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
-		btnFilterLive.setText("Filter");
-
-		final Composite scrolledComposite = new Composite(parent, SWT.BORDER);
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setLayout(new GridLayout(1, false));
 		scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		viewer = new TableViewer(scrolledComposite, SWT.VIRTUAL);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		viewer = new TableViewer(scrolledComposite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setComparator(comparator);
 		final Table table = viewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		scrolledComposite.setContent(table);
+		scrolledComposite.setContent(table);
+		scrolledComposite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		final TableViewerColumn tableViewerColumnName = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnName = tableViewerColumnName.getColumn();
 		tblclmnName.setMoveable(true);
-		// tblclmnName.addSelectionListener(getSelectionAdapter(tblclmnName, 0));
+		tblclmnName.addSelectionListener(getSelectionAdapter(tblclmnName, 0));
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
 		final TableViewerColumn tableViewerColumnValue = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
-		// tblclmnValue.addSelectionListener(getSelectionAdapter(tblclmnValue, 1));
+		tblclmnValue.addSelectionListener(getSelectionAdapter(tblclmnValue, 1));
 		tblclmnValue.setMoveable(true);
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
@@ -198,7 +196,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 			}
 		});
 		final TableColumn tblclmnReceived = tableViewerColumnReceived.getColumn();
-		// tblclmnReceived.addSelectionListener(getSelectionAdapter(tblclmnReceived, 2));
+		tblclmnReceived.addSelectionListener(getSelectionAdapter(tblclmnReceived, 2));
 		tblclmnReceived.setMoveable(true);
 		tblclmnReceived.setWidth(100);
 		tblclmnReceived.setText("Received");
@@ -215,31 +213,33 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 			liveMode = false;
 			for (final ViewPartObserver o : observers) {
 				o.switchModel(MODEL.ARCHIVE);
+				lblTmServiceStatus.setText("Archived");
+				lblTmServiceStatus.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 			}
-			// btn.setText("Go Live");
 		}
 		else {
 			liveMode = true;
 			for (final ViewPartObserver o : observers) {
 				o.switchModel(MODEL.LIVE);
+				lblTmServiceStatus.setText("Live");
+				lblTmServiceStatus.setForeground(SWTResourceManager.getColor(0, 153, 255));
 			}
-			// btn.setText("Filter");
 		}
 	}
 
-	// private SelectionAdapter getSelectionAdapter(final TableColumn column, final int index) {
-	// final SelectionAdapter selectionAdapter = new SelectionAdapter() {
-	// @Override
-	// public void widgetSelected(final SelectionEvent e) {
-	// comparator.setColumn(index);
-	// final int dir = comparator.getDirection();
-	// viewer.getTable().setSortDirection(dir);
-	// viewer.getTable().setSortColumn(column);
-	// viewer.refresh();
-	// }
-	// };
-	// return selectionAdapter;
-	// }
+	private SelectionAdapter getSelectionAdapter(final TableColumn column, final int index) {
+		final SelectionAdapter selectionAdapter = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				comparator.setColumn(index);
+				final int dir = comparator.getDirection();
+				viewer.getTable().setSortDirection(dir);
+				viewer.getTable().setSortColumn(column);
+				viewer.refresh();
+			}
+		};
+		return selectionAdapter;
+	}
 
 	private void fireFilterSettingsChanged() {
 		for (final ViewPartObserver o : observers) {
@@ -255,23 +255,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		viewer.getControl().setFocus();
 	}
 
-
-	protected DataBindingContext initDataBindings() {
-		final DataBindingContext bindingContext = new DataBindingContext();
-		//
-		final ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		final IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[] { "name",
-			"value", "receivedTime" });
-		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
-		viewer.setContentProvider(listContentProvider);
-		//
-		final IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters", Parameter.class);
-		viewer.setInput(modelParametersObserveList);
-		//
-		return bindingContext;
-	}
-
-	public void setModel(final ParameterModel model) {
+	public void setModel(final SwitchableLiveArchivedModel model) {
 		this.model = model;
 	}
 
@@ -280,7 +264,7 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		if (observers == null) {
 			observers = new HashSet<ViewPartObserver>(1);
 		}
-		final boolean addedOk = this.observers.add(o);
+		this.observers.add(o);
 	}
 
 	@Override
@@ -290,4 +274,17 @@ public class TelemetryTable extends ViewPart implements ViewPartObservable {
 		}
 	}
 
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), Parameter.class, new String[]{"name", "value", "receivedTime"});
+		viewer.setLabelProvider(new ParameterMapLabelProvider(observeMaps));
+		viewer.setContentProvider(listContentProvider);
+		//
+		IObservableList modelParametersObserveList = BeansObservables.observeList(Realm.getDefault(), model, "parameters");
+		viewer.setInput(modelParametersObserveList);
+		//
+		return bindingContext;
+	}
 }
