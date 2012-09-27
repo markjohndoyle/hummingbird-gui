@@ -12,13 +12,13 @@ import org.joda.time.DateTime;
 
 public class ConfigurableArchivedParameterProvider implements ArchivedParameterProvider {
 
-	@Produce(uri = "activemq:requestArchivedParametersByQualifiedName?exchangePattern=InOut&replyToDeliveryPersistent=false")
+	@Produce(uri = "activemq:requestArchivedParametersByQualifiedName?exchangePattern=InOut")
 	ProducerTemplate archivedParameterServiceByQualifiedName;
 
-	@Produce(uri = "activemq:requestArchivedParametersByReceivedTime?exchangePattern=InOut&replyToDeliveryPersistent=false")
+	@Produce(uri = "activemq:requestArchivedParametersByReceivedTime?exchangePattern=InOut")
 	ProducerTemplate archivedParameterServiceByReceivedTime;
 
-	@Produce(uri = "activemq:findByReceivedTimeBetween?exchangePattern=InOut&replyToDeliveryPersistent=false")
+	@Produce(uri = "activemq:findByReceivedTimeBetween?exchangePattern=InOut")
 	ProducerTemplate findByReceivedTimeBetweenService;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // Unavoidable type erasure issues.

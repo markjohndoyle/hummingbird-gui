@@ -101,6 +101,7 @@ public class CamelSpaceSystemPublisherRequester implements SpaceSystemPublisherR
 			this.args = args;
 		}
 
+		// TODO check if we can remove the thread.
 		@Override
 		public void run() {
 			requestStrategy.getProducer().asyncCallbackRequestBody(requestStrategy.getUri(), args, this);

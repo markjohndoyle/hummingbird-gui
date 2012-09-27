@@ -27,6 +27,8 @@ import org.hbird.rcpgui.telemetrychart.model.FilterFormModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.SlidingCategoryDataset;
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -46,6 +48,7 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 	private ArchiveModel model;
 
 	private TimeSeriesCollection dataset;
+	private SlidingCategoryDataset slidingDataset;
 
 	private boolean legend;
 
@@ -88,6 +91,11 @@ public class ArchivedChartEditorPart extends EditorPart implements PropertyChang
 		chart.setBackgroundPaint(Color.WHITE);
 
 		return chart;
+	}
+
+	private SlidingCategoryDataset createSlidingDataset(final CategoryDataset underSet) {
+		SlidingCategoryDataset slidingCategoryDataset = new SlidingCategoryDataset(underSet, 0, 100);
+		return slidingCategoryDataset;
 	}
 
 	private TimeSeriesCollection createDataset() {
